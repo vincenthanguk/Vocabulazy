@@ -7,38 +7,8 @@ import Form from '../form/form-component';
 class FlashcardsContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      deck: [
-        {
-          cardFront: 'Front Test 1',
-          cardBack: 'Back Test 1',
-        },
-        {
-          cardFront: 'Front Test 2',
-          cardBack: 'Back Test 2',
-        },
-        {
-          cardFront: 'Front Test 2',
-          cardBack: 'Back Test 2',
-        },
-        {
-          cardFront: 'Front Test 2',
-          cardBack: 'Back Test 2',
-        },
-        {
-          cardFront: 'Front Test 2',
-          cardBack: 'Back Test 2',
-        },
-        {
-          cardFront: 'Front Test 2',
-          cardBack: 'Back Test 2',
-        },
-        {
-          cardFront: 'Front Test 2',
-          cardBack: 'Back Test 2',
-        },
-      ],
-    };
+
+    this.state = { ...props };
   }
 
   handleSubmit = (card) => {
@@ -47,22 +17,24 @@ class FlashcardsContainer extends React.Component {
 
   removeCard = (index) => {
     const { deck } = this.state;
-    console.log(this.state);
-    console.log(deck);
 
     this.setState({
       deck: deck.filter((card, i) => {
         return i !== index;
-      }, console.log(this.state)),
+      }),
     });
   };
 
   render() {
+    const { deckNumber } = this.props;
+    const { deck } = this.state;
     return (
       <div className="container">
-        <h1>Deck</h1>
+        <h1>
+          Deck #{deckNumber} ({deck.length} Cards)
+        </h1>
         <ul>
-          {this.state.deck.map(({ cardFront, cardBack }, index) => {
+          {deck.map(({ cardFront, cardBack }, index) => {
             return (
               <li key={index}>
                 <Flashcard

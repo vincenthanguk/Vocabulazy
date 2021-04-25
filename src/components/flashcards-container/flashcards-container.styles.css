@@ -1,0 +1,11 @@
+ul {
+  display: flex;
+  list-style: none;
+}
+
+.container {
+  width: 90vw;
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+}

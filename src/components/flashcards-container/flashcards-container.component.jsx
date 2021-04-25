@@ -25,6 +25,18 @@ class FlashcardsContainer extends React.Component {
     this.setState({ deck: [...this.state.deck, card] });
   };
 
+  removeCard = (index) => {
+    const { deck } = this.state;
+    console.log(this.state);
+    console.log(deck);
+
+    this.setState({
+      deck: deck.filter((card, i) => {
+        return i !== index;
+      }, console.log(this.state)),
+    });
+  };
+
   render() {
     return (
       <div className="container">
@@ -34,9 +46,10 @@ class FlashcardsContainer extends React.Component {
             return (
               <li key={index}>
                 <Flashcard
-                  cardId={index + 1}
+                  cardId={index}
                   front={cardFront}
                   back={cardBack}
+                  removeCard={this.removeCard}
                 />
               </li>
             );

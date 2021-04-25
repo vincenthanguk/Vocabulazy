@@ -1,7 +1,6 @@
 .flashcard {
   width: 200px;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin: 15px;
   border: 2px solid green;
   padding: 10px;
   border-radius: 5px;

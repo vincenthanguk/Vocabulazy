@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './form-styles.css';
+
 class Form extends React.Component {
   initialState = {
     cardFront: '',
@@ -25,7 +27,7 @@ class Form extends React.Component {
 
     return (
       <form>
-        <label htmlFor="cardFront">Front</label>
+        <label htmlFor="cardFront">Front: </label>
         <input
           type="text"
           name="cardFront"
@@ -33,7 +35,7 @@ class Form extends React.Component {
           value={cardFront}
           onChange={this.handleChange}
         />
-        <label htmlFor="cardBack">Back</label>
+        <label htmlFor="cardBack">Back: </label>
         <input
           type="text"
           name="cardBack"

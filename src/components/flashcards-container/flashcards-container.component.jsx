@@ -17,6 +17,26 @@ class FlashcardsContainer extends React.Component {
           cardFront: 'Front Test 2',
           cardBack: 'Back Test 2',
         },
+        {
+          cardFront: 'Front Test 2',
+          cardBack: 'Back Test 2',
+        },
+        {
+          cardFront: 'Front Test 2',
+          cardBack: 'Back Test 2',
+        },
+        {
+          cardFront: 'Front Test 2',
+          cardBack: 'Back Test 2',
+        },
+        {
+          cardFront: 'Front Test 2',
+          cardBack: 'Back Test 2',
+        },
+        {
+          cardFront: 'Front Test 2',
+          cardBack: 'Back Test 2',
+        },
       ],
     };
   }

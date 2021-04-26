@@ -35,16 +35,30 @@ const decks = {
   ],
   deck4: [
     {
-      cardFront: 'deck3 1',
-      cardBack: 'deck3 1',
+      cardFront: 'deck4 1',
+      cardBack: 'deck4 1',
     },
     {
-      cardFront: 'deck3 2',
-      cardBack: 'deck3 2',
+      cardFront: 'deck4 2',
+      cardBack: 'deck4 2',
     },
     {
-      cardFront: 'deck3 3',
-      cardBack: 'deck3 3',
+      cardFront: 'deck4 3',
+      cardBack: 'deck4 3',
+    },
+  ],
+  deck5: [
+    {
+      cardFront: 'deck4 1',
+      cardBack: 'deck4 1',
+    },
+    {
+      cardFront: 'deck4 2',
+      cardBack: 'deck4 2',
+    },
+    {
+      cardFront: 'deck4 3',
+      cardBack: 'deck4 3',
     },
   ],
 };

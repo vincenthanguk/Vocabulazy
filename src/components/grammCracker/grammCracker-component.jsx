@@ -1,35 +1,42 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import FlashcardsContainer from '../flashcards-container/flashcards-container.component';
-import decks from '../../data/data';
+import deckData from '../../data/data';
 import './grammCracker-styles.css';
 
-class GrammCracker extends Component {
-  constructor(props) {
-    super(props);
-    this.state = decks;
-  }
-  render() {
+function GrammCracker() {
+  // deck data comes from data.js
+  // FIXME: change data format to sth. more JSON like
+  // this.state = { data: deckData };
+  const [deck, setDeck] = useState(deckData);
+
+  // const deckContainers = Object.entries(this.state.decks).map(
+  //   ([key, value], index) => {
+  //     return (
+  //       <li key={index}>
+  //         <FlashcardsContainer deck={(key, value)} deckNumber={index + 1} />
+  //       </li>
+  //     );
+  //   }
+  // );
+
+  const deckContainers = deck.map((deck, i) => {
+    console.log(Object.keys(deck.cards).length);
     return (
-      <div className="GrammCracker">
-        <h1>Gramm-Cracker</h1>
-        <h2>Number of Decks: {Object.keys(this.state).length}</h2>
-        <div className="mainContainer">
-          <ul>
-            {Object.entries(this.state).map(([key, value], index) => {
-              return (
-                <li key={index}>
-                  <FlashcardsContainer
-                    deck={(key, value)}
-                    deckNumber={index + 1}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
+      <li key={i}>
+        <FlashcardsContainer deck={deck.cards} />
+      </li>
     );
-  }
+  });
+
+  return (
+    <div className="GrammCracker">
+      <h1>Gramm-Cracker</h1>
+      <h2>Number of Decks: {deck.length}</h2>
+      <div className="mainContainer">
+        <ul>{deckContainers}</ul>
+      </div>
+    </div>
+  );
 }
 
 export default GrammCracker;

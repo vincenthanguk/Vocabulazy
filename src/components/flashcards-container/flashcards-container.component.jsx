@@ -27,26 +27,24 @@ class FlashcardsContainer extends React.Component {
 
   render() {
     const { deckNumber } = this.props;
-    const { deck } = this.state;
+    const deck = this.state.deck;
+    console.log(this.state);
+    console.log(deck);
+
+    const flashcards = deck.map((card, i) => {
+      return (
+        <li key={i}>
+          card #: {i + 1}, card front: {card.cardFront} | back: {card.cardBack}
+        </li>
+      );
+    });
+
     return (
       <div className="container">
         <h1>
           Deck #{deckNumber} ({deck.length} Cards)
         </h1>
-        <ul>
-          {deck.map(({ cardFront, cardBack }, index) => {
-            return (
-              <li key={index}>
-                <Flashcard
-                  cardId={index}
-                  front={cardFront}
-                  back={cardBack}
-                  removeCard={this.removeCard}
-                />
-              </li>
-            );
-          })}
-        </ul>
+        <ul>{flashcards}</ul>
         <Form handleSubmit={this.handleSubmit} />
       </div>
     );

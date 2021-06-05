@@ -20,10 +20,14 @@ function GrammCracker() {
   // );
 
   const deckContainers = deck.map((deck, i) => {
-    console.log(Object.keys(deck.cards).length);
     return (
       <li key={i}>
-        <FlashcardsContainer deck={deck.cards} />
+        <FlashcardsContainer
+          deck={deck.cards}
+          deckNumber={i}
+          deckName={deck.name}
+          showCards={deck.showCards}
+        />
       </li>
     );
   });

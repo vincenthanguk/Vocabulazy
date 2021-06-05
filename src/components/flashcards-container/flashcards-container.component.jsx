@@ -26,7 +26,7 @@ class FlashcardsContainer extends React.Component {
   };
 
   render() {
-    const { deckNumber } = this.props;
+    const { deckNumber, deckName, showCards, showForm } = this.props;
     const deck = this.state.deck;
     console.log(this.state);
     console.log(deck);
@@ -34,18 +34,20 @@ class FlashcardsContainer extends React.Component {
     const flashcards = deck.map((card, i) => {
       return (
         <li key={i}>
-          card #: {i + 1}, card front: {card.cardFront} | back: {card.cardBack}
+          <Flashcard cardId={i} front={card.cardFront} back={card.cardBack} />
         </li>
       );
     });
 
+    const form = <Form handleSubmit={this.handleSubmit} />;
+
     return (
       <div className="container">
         <h1>
-          Deck #{deckNumber} ({deck.length} Cards)
+          Deck #{deckNumber + 1} Deck Name: "{deckName}" ({deck.length} Cards)
         </h1>
-        <ul>{flashcards}</ul>
-        <Form handleSubmit={this.handleSubmit} />
+        <ul>{showCards && flashcards}</ul>
+        {showForm && form}
       </div>
     );
   }

@@ -1,56 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './flashcards-container.styles.css';
 
 import Flashcard from '../flashcard/flashcard.component';
 import Form from '../form/form-component';
 
-class FlashcardsContainer extends React.Component {
-  constructor(props) {
-    super(props);
+function FlashcardsContainer(props) {
+  const [state, setState] = useState({ ...props });
+  const [cardsToggled, setCardsToggled] = useState(false);
+  const [formToggled, setFormToggled] = useState(false);
 
-    this.state = { ...props };
-  }
+  const { deck, deckNumber, deckName } = state;
 
-  handleSubmit = (card) => {
-    this.setState({ deck: [...this.state.deck, card] });
-  };
-
-  removeCard = (index) => {
-    const { deck } = this.state;
-
-    this.setState({
-      deck: deck.filter((card, i) => {
-        return i !== index;
-      }),
-    });
-  };
-
-  render() {
-    const { deckNumber, deckName, showCards, showForm } = this.props;
-    const deck = this.state.deck;
-    console.log(this.state);
-    console.log(deck);
-
-    const flashcards = deck.map((card, i) => {
-      return (
-        <li key={i}>
-          <Flashcard cardId={i} front={card.cardFront} back={card.cardBack} />
-        </li>
-      );
-    });
-
-    const form = <Form handleSubmit={this.handleSubmit} />;
-
+  const flashcards = deck.map((card, i) => {
     return (
-      <div className="container">
-        <h1>
-          Deck #{deckNumber + 1} Deck Name: "{deckName}" ({deck.length} Cards)
-        </h1>
-        <ul>{showCards && flashcards}</ul>
-        {showForm && form}
-      </div>
+      <li key={i}>
+        <Flashcard cardId={i} front={card.cardFront} back={card.cardBack} />
+      </li>
     );
-  }
+  });
+  const form = <Form />;
+
+  const toggleCards = () => {
+    setCardsToggled(() => !cardsToggled);
+  };
+  const toggleForm = () => {
+    setFormToggled(() => !formToggled);
+  };
+
+  return (
+    <div className="container">
+      <h1>
+        Deck #{deckNumber + 1} Deck Name: "{deckName}" ({deck.length} Cards)
+      </h1>
+      <ul>{cardsToggled && flashcards}</ul>
+      {formToggled && form}
+      <div className="buttons">
+        <button onClick={toggleCards}>
+          {cardsToggled ? 'Hide' : 'Show'} Cards
+        </button>
+        <button onClick={toggleForm}>
+          {formToggled ? 'Hide' : 'Show'} Form
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default FlashcardsContainer;

@@ -4,20 +4,7 @@ import deckData from '../../data/data';
 import './grammCracker-styles.css';
 
 function GrammCracker() {
-  // deck data comes from data.js
-  // FIXME: change data format to sth. more JSON like
-  // this.state = { data: deckData };
   const [deck, setDeck] = useState(deckData);
-
-  // const deckContainers = Object.entries(this.state.decks).map(
-  //   ([key, value], index) => {
-  //     return (
-  //       <li key={index}>
-  //         <FlashcardsContainer deck={(key, value)} deckNumber={index + 1} />
-  //       </li>
-  //     );
-  //   }
-  // );
 
   const deckContainers = deck.map((deck, i) => {
     return (
@@ -26,7 +13,6 @@ function GrammCracker() {
           deck={deck.cards}
           deckNumber={i}
           deckName={deck.name}
-          showCards={deck.showCards}
         />
       </li>
     );

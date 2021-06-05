@@ -1,6 +1,9 @@
 .GrammCracker {
-  width: 90vw;
+  width: auto;
+  max-width: 85vw;
   border: 2px solid gray;
   border-radius: 15px;
-  background-color: cornsilk;
+  margin-top: 3rem;
+  background-color: rgb(207, 226, 245);
+  text-align: center;
 }

@@ -3,8 +3,6 @@
 const deckData = [
   {
     name: 'deck 1',
-    showCards: false,
-    showForm: false,
     cards: [
       { cardId: 1, cardFront: 'deck1 1', cardBack: 'deck1 1' },
       { cardId: 2, cardFront: 'deck1 2', cardBack: 'deck1 2' },
@@ -15,8 +13,6 @@ const deckData = [
   },
   {
     name: 'deck 2',
-    showCards: false,
-    showForm: false,
     cards: [
       { cardId: 1, cardFront: 'deck2 1', cardBack: 'deck2 1' },
       { cardId: 2, cardFront: 'deck2 2', cardBack: 'deck2 2' },

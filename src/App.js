@@ -1,36 +1,13 @@
-import './App.css';
 import React from 'react';
 
-import FlashcardsContainer from './components/flashcards-container/flashcards-container.component';
-import Data from './data';
+import GrammCracker from './components/grammCracker/grammCracker-component.jsx';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = Data;
-  }
-  render() {
-    return (
-      <div>
-        <h1>Gramm-Cracker</h1>
-        <h2>Number of Decks: {Object.keys(this.state).length}</h2>
-        <div className="mainContainer">
-          <ul>
-            {Object.entries(this.state).map(([key, value], index) => {
-              return (
-                <li key={index}>
-                  <FlashcardsContainer
-                    deck={(key, value)}
-                    deckNumber={index + 1}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div>
+      <GrammCracker />
+    </div>
+  );
 }
 
 export default App;

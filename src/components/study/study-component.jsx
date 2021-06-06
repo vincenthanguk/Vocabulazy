@@ -57,11 +57,19 @@ function Study(props) {
   return (
     <div className="Study">
       <h1>Studying Deck "{deckName}"</h1>
-      <p>Card 1/{studyDeck.length}</p>
-      <p>Cards left in Deck: {studyDeck.length}</p>
-      <p>Correct Cards: {correct.length}</p>
-      <p>Wrong Cards: {wrong.length}</p>
-      <ul>{generateRandomCard()}</ul>
+      <div className="overview">
+        <table>
+          <tbody>
+            <tr>
+              <td>#1/{studyDeck.length}</td>
+              <td>🗂: {studyDeck.length}</td>
+              <td>✅: {correct.length}</td>
+              <td>❌: {wrong.length}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="card">{generateRandomCard()}</div>
       <div className="buttons">
         <button onClick={() => cardCorrect(ranCard)}>
           <FontAwesomeIcon icon={faCheck} />

@@ -15,12 +15,30 @@ const deckData = [
     ],
   },
   {
-    name: 'deck 2',
+    name: '롤렘 입숨',
     cards: [
-      { cardId: 1, cardFront: 'deck2 1', cardBack: 'deck2 1' },
-      { cardId: 2, cardFront: 'deck2 2', cardBack: 'deck2 2' },
-      { cardId: 3, cardFront: 'deck2 3', cardBack: 'deck2 3' },
-      { cardId: 4, cardFront: 'deck2 4', cardBack: 'deck2 4' },
+      {
+        cardId: 1,
+        cardFront:
+          '쉬이 새워 아침이 책상을 토끼, 어머니 ____ 까닭이요, 봅니다.',
+        cardBack: '동경과',
+      },
+      {
+        cardId: 2,
+        cardFront:
+          '파란 별이 이름자를 가득 ____ 어머니 별을 가을로 까닭입니다.',
+        cardBack: '않은',
+      },
+      {
+        cardId: 3,
+        cardFront: '어머님, 하늘에는 라이너 하나에 ____ 흙으로 듯합니다.',
+        cardBack: '벌써',
+      },
+      {
+        cardId: 4,
+        cardFront: '하늘에는 차 ____ 없이 써 많은 가을로 별 봅니다.',
+        cardBack: '피어나듯이',
+      },
       { cardId: 5, cardFront: 'deck2 5', cardBack: 'deck2 5' },
     ],
   },

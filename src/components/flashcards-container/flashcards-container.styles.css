@@ -7,8 +7,6 @@ ul {
 }
 
 .container {
-  width: auto;
-
   border-radius: 15px;
   background-color: rgb(156, 233, 181);
   margin: 20px;

@@ -2,7 +2,7 @@ import React from 'react';
 import './flashcard.styles.css';
 
 function Flashcard(props) {
-  const { cardId, front, back, removeCard } = props;
+  const { cardId, front, back } = props;
 
   return (
     <div className="flashcard">

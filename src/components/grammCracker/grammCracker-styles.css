@@ -32,10 +32,18 @@ button:hover {
   cursor: pointer;
 }
 
+.backbtn {
+  margin: 10px;
+}
+
 ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   list-style: none;
   padding: 0;
+}
+
+.liContainer {
+  width: 100%;
 }

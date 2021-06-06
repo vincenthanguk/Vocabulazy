@@ -34,7 +34,7 @@ function FlashcardsContainer(props) {
       <h1>
         {deckNumber + 1}: {deckName} ({deck.length} Cards)
       </h1>
-      <ul>{cardsToggled && flashcards}</ul>
+      {cardsToggled && <ul>{flashcards}</ul>}
       {formToggled && form}
       <div className="buttons">
         <button onClick={props.toggleStudy}>Study</button>

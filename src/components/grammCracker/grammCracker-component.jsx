@@ -9,7 +9,7 @@ import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
 
 function GrammCracker() {
   const [deck, setDeck] = useState(deckData);
-  const [studyToggled, setStudyToggled] = useState(true);
+  const [studyToggled, setStudyToggled] = useState(false);
 
   const toggleStudy = () => {
     setStudyToggled(() => !studyToggled);
@@ -17,7 +17,7 @@ function GrammCracker() {
 
   const deckContainers = deck.map((deck, i) => {
     return (
-      <li key={i}>
+      <li className="liContainer" key={i}>
         <FlashcardsContainer
           deck={deck.cards}
           deckNumber={i}
@@ -28,18 +28,22 @@ function GrammCracker() {
     );
   });
 
-  // TODO: need to pass up deck number and put into Study component
+  // TODO: pass up deck number and put into Study component
 
   return (
     <div className="GrammCracker">
       <h1>
         Gramm-Cracker <FontAwesomeIcon icon={faCookieBite} />
       </h1>
-      <p>{studyToggled || `Number of Decks: ${deck.length}`}</p>
+      {studyToggled || <p>Number of Decks: {deck.length}</p>}
       <div className="mainContainer">
-        <ul>{studyToggled || deckContainers}</ul>
+        {studyToggled || <ul>{deckContainers}</ul>}
         {studyToggled && <Study deck={deck[0].cards} deckName={deck[0].name} />}
-        {studyToggled && <button onClick={toggleStudy}>Back to Decks</button>}
+        {studyToggled && (
+          <button className="backbtn" onClick={toggleStudy}>
+            Back to Decks
+          </button>
+        )}
       </div>
     </div>
   );

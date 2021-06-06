@@ -3,6 +3,9 @@ import './flashcards-container.styles.css';
 
 import Flashcard from '../flashcard/flashcard.component';
 import Form from '../form/form-component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckSquare } from '@fortawesome/fontawesome-free-regular';
+import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
 
 function FlashcardsContainer(props) {
   const [state, setState] = useState({ ...props });
@@ -30,16 +33,17 @@ function FlashcardsContainer(props) {
   return (
     <div className="container">
       <h1>
-        Deck #{deckNumber + 1} Deck Name: "{deckName}" ({deck.length} Cards)
+        Deck #{deckNumber + 1} "{deckName}" ({deck.length} Cards)
       </h1>
       <ul>{cardsToggled && flashcards}</ul>
       {formToggled && form}
       <div className="buttons">
+        <button>Study</button>
         <button onClick={toggleCards}>
           {cardsToggled ? 'Hide' : 'Show'} Cards
         </button>
         <button onClick={toggleForm}>
-          {formToggled ? 'Hide' : 'Show'} Form
+          {formToggled ? 'Hide' : 'Show'} Edit
         </button>
       </div>
     </div>

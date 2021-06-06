@@ -8,9 +8,9 @@ ul {
 
 .container {
   width: auto;
-  border: 2px solid black;
+
   border-radius: 15px;
-  background-color: rgb(103, 232, 255);
+  background-color: rgb(156, 233, 181);
   margin: 20px;
   padding: 10px;
   display: flex;

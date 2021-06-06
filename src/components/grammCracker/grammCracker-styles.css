@@ -1,9 +1,33 @@
 .GrammCracker {
   width: auto;
   max-width: 85vw;
-  border: 2px solid gray;
+  height: auto;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  /* border: 2px solid gray; */
+  padding: 1rem;
   border-radius: 15px;
   margin-top: 3rem;
   background-color: rgb(207, 226, 245);
   text-align: center;
+}
+
+.mainContainer {
+  background-color: rgb(239, 247, 255);
+  border-radius: 15px;
+  width: auto;
+  overflow: auto;
+}
+
+button {
+  border: none;
+  background-color: rgb(95, 95, 250);
+  color: whitesmoke;
+  border-radius: 4px;
+  margin: 0 5px;
+}
+
+button:hover {
+  cursor: pointer;
 }

@@ -9,9 +9,12 @@ function Flashcard(props) {
       <h3>Card #{cardId + 1}</h3>
       <h3>Front: {front}</h3>
       <h3>Back: {back}</h3>
-      <button onClick={() => removeCard(cardId)}>Delete Card</button>
+
+      {/* <button onClick={() => removeCard(cardId)}>Delete Card</button> */}
     </div>
   );
 }
+
+// NOTE: remove delete cards feature for now
 
 export default Flashcard;

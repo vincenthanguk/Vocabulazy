@@ -10,10 +10,17 @@ import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
 function GrammCracker() {
   const [deck, setDeck] = useState(deckData);
   const [studyToggled, setStudyToggled] = useState(false);
+  const [studyDeck, setStudyDeck] = useState(0);
 
-  const toggleStudy = () => {
+  const toggleStudy = (deckNum) => {
+    // toggles study mode on/off, sets deck to be studied so it can be rendered in study view
     setStudyToggled(() => !studyToggled);
+    setStudyDeck(deckNum);
   };
+
+  const studyView = (
+    <Study deck={deck[studyDeck].cards} deckName={deck[studyDeck].name} />
+  );
 
   const deckContainers = deck.map((deck, i) => {
     return (
@@ -28,19 +35,24 @@ function GrammCracker() {
     );
   });
 
-  // TODO: pass up deck number and put into Study component
-
-  return (
-    <div className="GrammCracker">
+  const heading = (
+    <>
       <h1>
         Gramm-Cracker <FontAwesomeIcon icon={faCookieBite} />
       </h1>
-      {studyToggled || <p>Number of Decks: {deck.length}</p>}
+      <span>Your Daily Bite of Grammar</span>
+      <span>Total Decks: {deck.length}</span>
+    </>
+  );
+
+  return (
+    <div className="GrammCracker">
+      {studyToggled || heading}
       <div className="mainContainer">
         {studyToggled || <ul>{deckContainers}</ul>}
-        {studyToggled && <Study deck={deck[0].cards} deckName={deck[0].name} />}
+        {studyToggled && studyView}
         {studyToggled && (
-          <button className="backbtn" onClick={toggleStudy}>
+          <button className="backbtn" onClick={() => toggleStudy(studyDeck)}>
             Back to Decks
           </button>
         )}
@@ -48,5 +60,7 @@ function GrammCracker() {
     </div>
   );
 }
+
+//  TODO: toggleStudy requires argument -> more elegant solution?
 
 export default GrammCracker;

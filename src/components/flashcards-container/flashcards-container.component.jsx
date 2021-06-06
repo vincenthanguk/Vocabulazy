@@ -37,7 +37,7 @@ function FlashcardsContainer(props) {
       {cardsToggled && <ul>{flashcards}</ul>}
       {formToggled && form}
       <div className="buttons">
-        <button onClick={props.toggleStudy}>Study</button>
+        <button onClick={() => props.toggleStudy(deckNumber)}>Study</button>
         <button onClick={toggleCards}>
           {cardsToggled ? 'Hide' : 'Show'} Cards
         </button>

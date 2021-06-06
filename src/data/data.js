@@ -2,16 +2,48 @@
 
 const deckData = [
   {
-    name: 'deck 1',
+    name: '청춘예찬',
     cards: [
-      { cardId: 1, cardFront: 'deck1 1', cardBack: 'deck1 1' },
-      { cardId: 2, cardFront: 'deck1 2', cardBack: 'deck1 2' },
-      { cardId: 3, cardFront: 'deck1 3', cardBack: 'deck1 3' },
-      { cardId: 4, cardFront: 'deck1 4', cardBack: 'deck1 4' },
-      { cardId: 5, cardFront: 'deck1 5', cardBack: 'deck1 5' },
-      { cardId: 6, cardFront: 'deck1 6', cardBack: 'deck1 6' },
-      { cardId: 7, cardFront: 'deck1 7', cardBack: 'deck1 7' },
-      { cardId: 8, cardFront: 'deck1 8', cardBack: 'deck1 8' },
+      {
+        cardId: 1,
+        cardFront: '수 인도하겠다는 피가 얼마나 위하여서.',
+        cardBack: 'deck1 1',
+      },
+      {
+        cardId: 2,
+        cardFront:
+          '바로 심장의 고행을 웅대한 생의 사라지지 가치를 얼마나 품었기 칼이다.',
+        cardBack: 'deck1 2',
+      },
+      {
+        cardId: 3,
+        cardFront:
+          '곧 얼마나 불러 사람은 가진 낙원을 대중을 인도하겠다는 것이다.',
+        cardBack: 'deck1 3',
+      },
+      {
+        cardId: 4,
+        cardFront:
+          '관현악이며, 용감하고 작고 그들을 그들은 곳이 얼음이 것이다.',
+        cardBack: 'deck1 4',
+      },
+      {
+        cardId: 5,
+        cardFront: '인간의 봄날의 생명을 천고에 듣는다.',
+        cardBack: 'deck1 5',
+      },
+      {
+        cardId: 6,
+        cardFront:
+          '피어나는 것은 가치를 불어 뜨고, 풀밭에 싸인 영락과 교향악이다.',
+        cardBack: 'deck1 6',
+      },
+      {
+        cardId: 7,
+        cardFront: '발휘하기 목숨을 내려온 것이다.',
+        cardBack: 'deck1 7',
+      },
+      { cardId: 8, cardFront: '보라, 청춘이 것이다.', cardBack: 'deck1 8' },
     ],
   },
   {

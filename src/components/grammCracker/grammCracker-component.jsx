@@ -9,7 +9,7 @@ import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
 
 function GrammCracker() {
   const [deck, setDeck] = useState(deckData);
-  const [studyToggled, setStudyToggled] = useState(false);
+  const [studyToggled, setStudyToggled] = useState(true);
 
   const toggleStudy = () => {
     setStudyToggled(() => !studyToggled);
@@ -28,12 +28,13 @@ function GrammCracker() {
     );
   });
 
+  // TODO: need to pass up deck number and put into Study component
+
   return (
     <div className="GrammCracker">
       <h1>
         Gramm-Cracker <FontAwesomeIcon icon={faCookieBite} />
       </h1>
-      <span>Your Daily Dose of Grammar</span>
       <p>{studyToggled || `Number of Decks: ${deck.length}`}</p>
       <div className="mainContainer">
         <ul>{studyToggled || deckContainers}</ul>

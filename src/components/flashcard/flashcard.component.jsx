@@ -6,7 +6,7 @@ function Flashcard(props) {
 
   return (
     <div className="flashcard">
-      <h3>Card #{cardId + 1}</h3>
+      <h3>Card #{cardId}</h3>
       <h3>Front: {front}</h3>
       <h3>Back: {back}</h3>
 

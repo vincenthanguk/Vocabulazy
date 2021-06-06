@@ -16,7 +16,7 @@ function FlashcardsContainer(props) {
   const flashcards = deck.map((card, i) => {
     return (
       <li key={i}>
-        <Flashcard cardId={i} front={card.cardFront} back={card.cardBack} />
+        <Flashcard cardId={i + 1} front={card.cardFront} back={card.cardBack} />
       </li>
     );
   });

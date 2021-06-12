@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FlashcardsContainer from '../flashcards-container/flashcards-container.component';
 import deckData from '../../data/data';
 import Study from '../study/study-component';
+import axios from 'axios';
 
 import './grammCracker-styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +10,7 @@ import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
 
 function GrammCracker() {
   const [deck, setDeck] = useState(deckData);
+  const [apiDeck, setApiDeck] = useState();
   const [studyToggled, setStudyToggled] = useState(false);
   const [studyDeck, setStudyDeck] = useState(0);
 
@@ -17,6 +19,14 @@ function GrammCracker() {
     setStudyToggled(() => !studyToggled);
     setStudyDeck(deckNum);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios('http://localhost:8000/api/v1/decks');
+      setApiDeck(result.data.data.decks);
+    };
+    fetchData();
+  }, []);
 
   const studyView = (
     <Study deck={deck[studyDeck].cards} deckName={deck[studyDeck].name} />

@@ -1,5 +1,3 @@
-// FIXME: Does this need to be an object? -> array containing objects
-
 const deckData = [
   {
     name: '청춘예찬',

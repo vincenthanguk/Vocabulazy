@@ -10,22 +10,32 @@ import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
 
 function GrammCracker() {
   const [deck, setDeck] = useState(deckData);
-  const [apiDeck, setApiDeck] = useState();
-  const [studyToggled, setStudyToggled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isStudying, setIsStudying] = useState(false);
   const [studyDeck, setStudyDeck] = useState(0);
 
   const toggleStudy = (deckNum) => {
     // toggles study mode on/off, sets deck to be studied so it can be rendered in study view
-    setStudyToggled(() => !studyToggled);
+    setIsStudying(() => !isStudying);
     setStudyDeck(deckNum);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios('http://localhost:8000/api/v1/decks');
-      setApiDeck(result.data.data.decks);
-    };
-    fetchData();
+    setIsError(false);
+    try {
+      const fetchData = async () => {
+        setIsLoading(true);
+        const result = await axios('http://localhost:8000/api/v1/decks');
+        // BUG: sets dummy deck from deckData to first deck, fixed?
+        setDeck(result.data.data.decks);
+        setIsLoading(false);
+      };
+      fetchData();
+    } catch (err) {
+      setIsError(true);
+      console.error('looks like something went wrong', err);
+    }
   }, []);
 
   const studyView = (
@@ -51,24 +61,37 @@ function GrammCracker() {
         Gramm-Cracker <FontAwesomeIcon icon={faCookieBite} />
       </h1>
       <span>Your Daily Bite of Grammar</span>
-      <span>Total Decks: {deck.length}</span>
+      <span>Total Decks: {isLoading ? ' ' : deck.length}</span>
     </>
   );
 
-  return (
-    <div className="GrammCracker">
-      {studyToggled || heading}
-      <div className="mainContainer">
-        {studyToggled || <ul>{deckContainers}</ul>}
-        {studyToggled && studyView}
-        {studyToggled && (
-          <button className="backbtn" onClick={() => toggleStudy(studyDeck)}>
-            Back to Decks
-          </button>
-        )}
-      </div>
-    </div>
-  );
+  let main;
+  if (!isLoading) {
+    main = (
+      <>
+        <div className="GrammCracker">
+          {isStudying || heading}
+          <div className="mainContainer">
+            {isStudying || <ul>{deckContainers}</ul>}
+            {isStudying && studyView}
+            {isStudying && (
+              <button
+                className="backbtn"
+                onClick={() => toggleStudy(studyDeck)}
+              >
+                Back to Decks
+              </button>
+            )}
+          </div>
+        </div>
+      </>
+    );
+  } else {
+    // loading spinner
+    main = <div>Loading Data...</div>;
+  }
+
+  return main;
 }
 
 //  TODO: toggleStudy requires argument -> more elegant solution?

@@ -95,7 +95,7 @@ function GrammCracker() {
             )}
           </div>
           <div>{isAddingDeck && <NewDeckForm />}</div>
-          {newDeckButton}
+          <div>{newDeckButton}</div>
         </div>
       </>
     );

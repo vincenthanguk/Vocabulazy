@@ -13,6 +13,7 @@ function GrammCracker() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isStudying, setIsStudying] = useState(false);
+  const [isAddingDeck, setIsAddingDeck] = useState(false);
   const [studyDeck, setStudyDeck] = useState(0);
 
   const toggleStudy = (deckNum) => {
@@ -21,6 +22,7 @@ function GrammCracker() {
     setStudyDeck(deckNum);
   };
 
+  // fetching data from API upon loading
   useEffect(() => {
     setIsError(false);
     try {
@@ -65,7 +67,18 @@ function GrammCracker() {
     </>
   );
 
+  const newDeckButton = (
+    <button onClick={() => setIsAddingDeck(!isAddingDeck)}>New Deck</button>
+  );
+  const newDeckForm = (
+    <>
+      <button>Adding Deck</button>
+      <button onClick={() => setIsAddingDeck(!isAddingDeck)}>X</button>
+    </>
+  );
+
   let main;
+
   if (!isLoading) {
     main = (
       <>
@@ -83,6 +96,7 @@ function GrammCracker() {
               </button>
             )}
           </div>
+          <div>{isAddingDeck ? newDeckForm : newDeckButton}</div>
         </div>
       </>
     );

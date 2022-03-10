@@ -1,17 +1,29 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import './flashcards-container.styles.css';
+import './deck-styles.css';
 
 import Flashcard from '../flashcard/flashcard-component';
 import NewCardForm from '../newCardForm/newCardForm-component';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/fontawesome-free-regular';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faEdit } from '@fortawesome/fontawesome-free-regular';
 
-function FlashcardsContainer(props) {
+function Deck(props) {
   const [state, setState] = useState({ ...props });
   const [cardsToggled, setCardsToggled] = useState(false);
   const [formToggled, setFormToggled] = useState(false);
 
-  const { deck, deckNumber, deckName } = state;
+  const { deck, deckId, deckNumber, deckName } = state;
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/api/v1/decks/${deckId}`
+      );
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const flashcards = deck.map((card, i) => {
     return (
@@ -41,12 +53,13 @@ function FlashcardsContainer(props) {
         <button onClick={toggleCards}>
           {cardsToggled ? 'Hide' : 'Show'} Cards
         </button>
-        <button onClick={toggleForm}>
-          <FontAwesomeIcon icon={faEdit} />
-        </button>
+        {cardsToggled && <button onClick={toggleForm}>Add Card</button>}
+        <form onSubmit={handleSubmit}>
+          <button type="submit">Delete Deck</button>
+        </form>
       </div>
     </div>
   );
 }
 
-export default FlashcardsContainer;
+export default Deck;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import FlashcardsContainer from '../flashcards-container/flashcards-container.component';
+import Deck from '../deck/deck-component';
 import deckData from '../../data/data';
 import Study from '../study/study-component';
 import NewDeckForm from '../newDeckForm/newDeckForm-component';
@@ -49,8 +49,9 @@ function GrammCracker() {
   const deckContainers = deck.map((deck, i) => {
     return (
       <li className="liContainer" key={i}>
-        <FlashcardsContainer
+        <Deck
           deck={deck.cards}
+          deckId={deck._id}
           deckNumber={i}
           deckName={deck.name}
           toggleStudy={toggleStudy}

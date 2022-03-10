@@ -4,12 +4,13 @@ import React, { useState } from 'react';
 function NewDeckForm() {
   const [deckName, setDeckName] = useState('');
 
-  const handleSubmit = async () => {
-    // const deckFormData = new FormData();
-    // deckFormData.append('name', deckName);
-    // console.log(deckFormData);
-
+  const handleSubmit = async (e) => {
+    // e.preventDefault();
     try {
+      // const deckFormData = new FormData();
+      // deckFormData.append('name', deckName);
+      // console.log(deckFormData);
+
       // make axios post request
       const response = await axios.post('http://localhost:8000/api/v1/decks', {
         name: deckName,

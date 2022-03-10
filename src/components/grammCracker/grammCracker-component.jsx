@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Deck from '../deck/deck-component';
-import deckData from '../../data/data';
+// import deckData from '../../data/data';
 import Study from '../study/study-component';
 import NewDeckForm from '../newDeckForm/newDeckForm-component';
 
@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
 
 function GrammCracker() {
-  const [deck, setDeck] = useState(deckData);
+  const [deck, setDeck] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isStudying, setIsStudying] = useState(false);
@@ -31,7 +31,6 @@ function GrammCracker() {
       const fetchData = async () => {
         setIsLoading(true);
         const result = await axios('http://localhost:8000/api/v1/decks');
-        // BUG: sets dummy deck from deckData to first deck, fixed?
         setDeck(result.data.data.decks);
         setIsLoading(false);
       };
@@ -42,9 +41,15 @@ function GrammCracker() {
     }
   }, []);
 
-  const studyView = (
-    <Study deck={deck[studyDeck].cards} deckName={deck[studyDeck].name} />
-  );
+  let studyView;
+  // conditional rendering in case no decks are loaded from DB
+  if (deck.length > 0) {
+    studyView = (
+      <Study deck={deck[studyDeck].cards} deckName={deck[studyDeck].name} />
+    );
+  }
+
+  const noDecks = <div>Try adding your first deck!</div>;
 
   const deckContainers = deck.map((deck, i) => {
     return (
@@ -86,6 +91,7 @@ function GrammCracker() {
           <div className="mainContainer">
             {isStudying || <ul>{deckContainers}</ul>}
             {isStudying && studyView}
+            {deck.length > 0 || noDecks}
             {isStudying && (
               <button
                 className="backbtn"

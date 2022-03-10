@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './flashcards-container.styles.css';
 
-import Flashcard from '../flashcard/flashcard.component';
-import Form from '../form/form-component';
+import Flashcard from '../flashcard/flashcard-component';
+import NewCardForm from '../newCardForm/newCardForm-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/fontawesome-free-regular';
 
@@ -20,7 +20,7 @@ function FlashcardsContainer(props) {
       </li>
     );
   });
-  const form = <Form />;
+  const form = <NewCardForm />;
 
   const toggleCards = () => {
     setCardsToggled(() => !cardsToggled);

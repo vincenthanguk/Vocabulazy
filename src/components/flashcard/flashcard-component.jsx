@@ -1,5 +1,5 @@
 import React from 'react';
-import './flashcard.styles.css';
+import './flashcard-styles.css';
 
 function Flashcard(props) {
   const { cardId, front, back } = props;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Flashcard from '../flashcard/flashcard.component';
+import Flashcard from '../flashcard/flashcard-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';

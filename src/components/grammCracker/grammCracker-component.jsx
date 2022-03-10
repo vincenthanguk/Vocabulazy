@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import FlashcardsContainer from '../flashcards-container/flashcards-container.component';
 import deckData from '../../data/data';
 import Study from '../study/study-component';
+import NewDeckForm from '../newDeckForm/newDeckForm-component';
+
 import axios from 'axios';
 
 import './grammCracker-styles.css';
@@ -68,13 +70,9 @@ function GrammCracker() {
   );
 
   const newDeckButton = (
-    <button onClick={() => setIsAddingDeck(!isAddingDeck)}>New Deck</button>
-  );
-  const newDeckForm = (
-    <>
-      <button>Adding Deck</button>
-      <button onClick={() => setIsAddingDeck(!isAddingDeck)}>X</button>
-    </>
+    <button onClick={() => setIsAddingDeck(!isAddingDeck)}>
+      {isAddingDeck ? 'X' : 'Add Deck'}
+    </button>
   );
 
   let main;
@@ -96,7 +94,8 @@ function GrammCracker() {
               </button>
             )}
           </div>
-          <div>{isAddingDeck ? newDeckForm : newDeckButton}</div>
+          <div>{isAddingDeck && <NewDeckForm />}</div>
+          {newDeckButton}
         </div>
       </>
     );

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import './form-styles.css';
+import './newCardForm-styles.css';
 
-class Form extends React.Component {
+class NewCardForm extends React.Component {
   initialState = {
     cardFront: '',
     cardBack: '',
@@ -49,4 +49,4 @@ class Form extends React.Component {
   }
 }
 
-export default Form;
+export default NewCardForm;

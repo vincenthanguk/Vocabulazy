@@ -1,52 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 import './newCardForm-styles.css';
 
-class NewCardForm extends React.Component {
-  initialState = {
+function NewCardForm() {
+  const [formValue, setFormValue] = useState({
     cardFront: '',
     cardBack: '',
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    //     {
+    //     "cardFront": "test 4",
+    //     "cardBack": "test 4 back",
+    //     "deck": "62296cdb2514c612549e8846"
+    // }
+    // store states in form data
+    const cardFormData = new FormData();
+    cardFormData.append('cardFront', formValue.cardFront);
+    cardFormData.append('cardBack', formValue.cardBack);
+
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'localhost:8000/api/v1/cards',
+        data: cardFormData,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  state = this.initialState;
-
-  handleChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
+  const handleChange = (e) => {
+    setFormValue({
+      ...formValue,
+      [e.target.name]: e.target.value,
     });
   };
 
-  submitForm = () => {
-    this.props.handleSubmit(this.state);
-    this.setState(this.initialState);
-  };
-
-  render() {
-    const { cardFront, cardBack } = this.state;
-
-    return (
-      <form>
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="cardFront">Front: </label>
         <input
           type="text"
           name="cardFront"
           id="cardFront"
-          value={cardFront}
-          onChange={this.handleChange}
+          value={formValue.cardFront}
+          onChange={handleChange}
         />
         <label htmlFor="cardBack">Back: </label>
         <input
           type="text"
           name="cardBack"
           id="cardBack"
-          value={cardBack}
-          onChange={this.handleChange}
+          value={formValue.cardBack}
+          onChange={handleChange}
         />
-        <input type="button" value="Submit" onClick={this.submitForm} />
+        <button type="submit">Submit</button>
       </form>
-    );
-  }
+    </>
+  );
 }
 
 export default NewCardForm;

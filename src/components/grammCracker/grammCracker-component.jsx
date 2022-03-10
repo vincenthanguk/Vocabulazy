@@ -89,7 +89,9 @@ function GrammCracker() {
         <div className="GrammCracker">
           {isStudying || heading}
           <div className="mainContainer">
+            {/* display deckcontainers when not in study mode */}
             {isStudying || <ul>{deckContainers}</ul>}
+            {/* display studyview when in study mode */}
             {isStudying && studyView}
             {deck.length > 0 || noDecks}
             {isStudying && (

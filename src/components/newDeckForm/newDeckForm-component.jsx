@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function NewDeckForm() {
   const [deckName, setDeckName] = useState('');
@@ -30,10 +30,11 @@ function NewDeckForm() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <label>Deck Name:</label>
+        <label htmlFor="deckName">Deck Name:</label>
         <input
           type="text"
           name="deckName"
+          id="deckName"
           required
           value={deckName}
           onChange={(e) => setDeckName(e.target.value)}

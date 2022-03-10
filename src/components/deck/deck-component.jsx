@@ -53,7 +53,7 @@ function Deck(props) {
         <button onClick={toggleCards}>
           {cardsToggled ? 'Hide' : 'Show'} Cards
         </button>
-        {cardsToggled && <button onClick={toggleForm}>Add Card</button>}
+        <button onClick={toggleForm}>Add Card</button>
         <form onSubmit={handleSubmit}>
           <button type="submit">Delete Deck</button>
         </form>

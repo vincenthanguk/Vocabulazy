@@ -32,7 +32,7 @@ function Deck(props) {
       </li>
     );
   });
-  const form = <NewCardForm />;
+  const form = <NewCardForm deckId={deckId} />;
 
   const toggleCards = () => {
     setCardsToggled(() => !cardsToggled);
@@ -54,6 +54,7 @@ function Deck(props) {
           {cardsToggled ? 'Hide' : 'Show'} Cards
         </button>
         <button onClick={toggleForm}>Add Card</button>
+        <button>Edit Deck</button>
         <form onSubmit={handleSubmit}>
           <button type="submit">Delete Deck</button>
         </form>

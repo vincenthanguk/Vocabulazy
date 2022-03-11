@@ -10,7 +10,8 @@ function Flashcard(props) {
       <h3>Front: {front}</h3>
       <h3>Back: {back}</h3>
 
-      {/* <button onClick={() => removeCard(cardId)}>Delete Card</button> */}
+      <button>Edit Card</button>
+      <button>Delete Card</button>
     </div>
   );
 }

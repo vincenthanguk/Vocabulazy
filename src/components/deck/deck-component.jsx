@@ -69,7 +69,11 @@ function Deck(props) {
         <button onClick={toggleAddCardForm}>Add Card</button>
         <button onClick={toggleEditDeckForm}>Edit Deck</button>
         {editDeckFormToggled && (
-          <EditDeckForm deckId={deckId} fetchData={fetchData} />
+          <EditDeckForm
+            deckId={deckId}
+            fetchData={fetchData}
+            toggle={toggleEditDeckForm}
+          />
         )}
         <form onSubmit={handleSubmit}>
           <button type="submit">Delete Deck</button>

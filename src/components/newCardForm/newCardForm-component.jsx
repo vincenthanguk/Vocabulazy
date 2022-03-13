@@ -17,17 +17,6 @@ function NewCardForm(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //     {
-    //     "cardFront": "test 4",
-    //     "cardBack": "test 4 back",
-    //     "deck": "62296cdb2514c612549e8846"
-    // }
-    // store states in form data
-    // API takes raw JSON, not form data
-    // const cardFormData = new FormData();
-    // cardFormData.append('cardFront', formValue.cardFront);
-    // cardFormData.append('cardBack', formValue.cardBack);
-    // cardFormData.append('deck', deckId);
 
     try {
       const response = await axios.post('http://localhost:8000/api/v1/cards', {
@@ -35,14 +24,12 @@ function NewCardForm(props) {
         cardBack: formValue.cardBack,
         deck: deckId,
       });
-      // const response = await axios({
-      //   method: 'post',
-      //   url: 'http://localhost:8000/api/v1/cards',
-      //   data: cardFormData,
-      //   headers: { 'Content-Type': 'multipart/form-data' },
-      // });
       console.log(response);
       fetchData();
+      setFormValue({
+        cardFront: '',
+        cardBack: '',
+      });
     } catch (err) {
       console.log(err);
     }

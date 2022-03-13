@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function NewDeckForm(props) {
+function EditDeckForm(props) {
   const [deckName, setDeckName] = useState('');
 
-  const { fetchData } = props;
+  const { fetchData, deckId } = props;
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       // make axios post request
-      const response = await axios.post('http://localhost:8000/api/v1/decks', {
-        name: deckName,
-      });
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/decks/${deckId}`,
+        {
+          name: deckName,
+        }
+      );
       console.log(response);
       fetchData();
     } catch (err) {
@@ -38,4 +41,4 @@ function NewDeckForm(props) {
   );
 }
 
-export default NewDeckForm;
+export default EditDeckForm;

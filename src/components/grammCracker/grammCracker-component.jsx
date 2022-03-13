@@ -12,7 +12,7 @@ import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
 
 function GrammCracker() {
   const [deck, setDeck] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [isStudying, setIsStudying] = useState(false);
   const [isAddingDeck, setIsAddingDeck] = useState(false);
@@ -25,7 +25,6 @@ function GrammCracker() {
   };
 
   const fetchData = async () => {
-    setIsLoading(true);
     const result = await axios('http://localhost:8000/api/v1/decks');
     setDeck(result.data.data.decks);
     setIsLoading(false);

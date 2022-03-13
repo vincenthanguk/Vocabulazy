@@ -35,11 +35,17 @@ function Flashcard(props) {
     <div className="flashcard">
       {!isEditingCard && flashcardContent}
       {isEditingCard && (
-        <EditCardForm cardId={cardDBId} fetchData={fetchData} />
+        <EditCardForm
+          cardId={cardDBId}
+          fetchData={fetchData}
+          toggle={toggleEditCard}
+        />
       )}
 
-      <button onClick={toggleEditCard}>Edit Card</button>
-      <button onClick={handleDelete}>Delete Card</button>
+      <button onClick={toggleEditCard}>
+        {isEditingCard ? 'X' : 'Edit Card'}
+      </button>
+      {isEditingCard || <button onClick={handleDelete}>Delete Card</button>}
     </div>
   );
 

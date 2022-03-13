@@ -13,7 +13,7 @@ function EditCardForm(props) {
     console.log(props);
   }, []);
 
-  const { cardId, fetchData } = props;
+  const { cardId, fetchData, toggle } = props;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +29,7 @@ function EditCardForm(props) {
 
       console.log(response);
       fetchData();
+      toggle();
     } catch (err) {
       console.log(err);
     }

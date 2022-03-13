@@ -8,18 +8,19 @@ import NewCardForm from '../newCardForm/newCardForm-component';
 // import { faEdit } from '@fortawesome/fontawesome-free-regular';
 
 function Deck(props) {
-  const [state, setState] = useState({ ...props });
   const [cardsToggled, setCardsToggled] = useState(false);
   const [formToggled, setFormToggled] = useState(false);
 
-  const { deck, deckId, deckNumber, deckName } = state;
+  const { deck, deckId, deckNumber, deckName, fetchData } = props;
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     try {
+      e.preventDefault();
       const response = await axios.delete(
         `http://localhost:8000/api/v1/decks/${deckId}`
       );
       console.log(response);
+      fetchData();
     } catch (err) {
       console.log(err);
     }
@@ -28,11 +29,17 @@ function Deck(props) {
   const flashcards = deck.map((card, i) => {
     return (
       <li key={i}>
-        <Flashcard cardId={i + 1} front={card.cardFront} back={card.cardBack} />
+        <Flashcard
+          cardId={i + 1}
+          cardDBId={card._id}
+          front={card.cardFront}
+          back={card.cardBack}
+          fetchData={fetchData}
+        />
       </li>
     );
   });
-  const form = <NewCardForm deckId={deckId} />;
+  const form = <NewCardForm deckId={deckId} fetchData={fetchData} />;
 
   const toggleCards = () => {
     setCardsToggled(() => !cardsToggled);

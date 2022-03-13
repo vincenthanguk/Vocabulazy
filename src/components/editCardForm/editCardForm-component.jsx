@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import './newCardForm-styles.css';
+import './editCardForm-styles.css';
 
-function NewCardForm(props) {
+function EditCardForm(props) {
   const [formValue, setFormValue] = useState({
     cardFront: '',
     cardBack: '',
@@ -13,34 +13,20 @@ function NewCardForm(props) {
     console.log(props);
   }, []);
 
-  const { deckId, fetchData } = props;
+  const { cardId, fetchData } = props;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //     {
-    //     "cardFront": "test 4",
-    //     "cardBack": "test 4 back",
-    //     "deck": "62296cdb2514c612549e8846"
-    // }
-    // store states in form data
-    // API takes raw JSON, not form data
-    // const cardFormData = new FormData();
-    // cardFormData.append('cardFront', formValue.cardFront);
-    // cardFormData.append('cardBack', formValue.cardBack);
-    // cardFormData.append('deck', deckId);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/cards', {
-        cardFront: formValue.cardFront,
-        cardBack: formValue.cardBack,
-        deck: deckId,
-      });
-      // const response = await axios({
-      //   method: 'post',
-      //   url: 'http://localhost:8000/api/v1/cards',
-      //   data: cardFormData,
-      //   headers: { 'Content-Type': 'multipart/form-data' },
-      // });
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/cards/${cardId}`,
+        {
+          cardFront: formValue.cardFront,
+          cardBack: formValue.cardBack,
+        }
+      );
+
       console.log(response);
       fetchData();
     } catch (err) {
@@ -80,4 +66,4 @@ function NewCardForm(props) {
   );
 }
 
-export default NewCardForm;
+export default EditCardForm;

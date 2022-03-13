@@ -24,16 +24,17 @@ function GrammCracker() {
     setStudyDeck(deckNum);
   };
 
+  const fetchData = async () => {
+    setIsLoading(true);
+    const result = await axios('http://localhost:8000/api/v1/decks');
+    setDeck(result.data.data.decks);
+    setIsLoading(false);
+  };
+
   // fetching data from API upon loading
   useEffect(() => {
     setIsError(false);
     try {
-      const fetchData = async () => {
-        setIsLoading(true);
-        const result = await axios('http://localhost:8000/api/v1/decks');
-        setDeck(result.data.data.decks);
-        setIsLoading(false);
-      };
       fetchData();
     } catch (err) {
       setIsError(true);
@@ -60,6 +61,7 @@ function GrammCracker() {
           deckNumber={i}
           deckName={deck.name}
           toggleStudy={toggleStudy}
+          fetchData={fetchData}
         />
       </li>
     );
@@ -71,7 +73,7 @@ function GrammCracker() {
         Gramm-Cracker <FontAwesomeIcon icon={faCookieBite} />
       </h1>
       <span>Your Daily Bite of Grammar</span>
-      <span>Total Decks: {isLoading ? ' ' : deck.length}</span>
+      <span>Total Decks: {isLoading ? 'loading...' : deck.length}</span>
     </>
   );
 
@@ -81,41 +83,35 @@ function GrammCracker() {
     </button>
   );
 
-  let main;
+  const mainContainer = (
+    <>
+      <div className="mainContainer">
+        {/* display deckcontainers when not in study mode */}
+        {isStudying || <ul>{deckContainers}</ul>}
+        {/* display studyview when in study mode */}
+        {isStudying && studyView}
+        {deck.length > 0 || noDecks}
+        {isStudying && (
+          <button className="backbtn" onClick={() => toggleStudy(studyDeck)}>
+            Back to Decks
+          </button>
+        )}
+      </div>
+      <div>{isAddingDeck && <NewDeckForm fetchData={fetchData} />}</div>
+      <div>{newDeckButton}</div>
+    </>
+  );
 
-  if (!isLoading) {
-    main = (
-      <>
-        <div className="GrammCracker">
-          {isStudying || heading}
-          <div className="mainContainer">
-            {/* display deckcontainers when not in study mode */}
-            {isStudying || <ul>{deckContainers}</ul>}
-            {/* display studyview when in study mode */}
-            {isStudying && studyView}
-            {deck.length > 0 || noDecks}
-            {isStudying && (
-              <button
-                className="backbtn"
-                onClick={() => toggleStudy(studyDeck)}
-              >
-                Back to Decks
-              </button>
-            )}
-          </div>
-          <div>{isAddingDeck && <NewDeckForm />}</div>
-          <div>{newDeckButton}</div>
-        </div>
-      </>
-    );
-  } else {
-    // loading spinner
-    main = <div>Loading Data...</div>;
-  }
+  const loading = <div>Loading Decks...</div>;
 
-  return main;
+  return (
+    <>
+      <div className="GrammCracker">
+        {isStudying || heading}
+        {isLoading ? loading : mainContainer}
+      </div>
+    </>
+  );
 }
-
-//  TODO: toggleStudy requires argument -> more elegant solution?
 
 export default GrammCracker;

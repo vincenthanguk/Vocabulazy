@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function NewDeckForm() {
+function NewDeckForm(props) {
   const [deckName, setDeckName] = useState('');
 
+  const { fetchData } = props;
+
   const handleSubmit = async (e) => {
-    // e.preventDefault();
     try {
+      e.preventDefault();
       // const deckFormData = new FormData();
       // deckFormData.append('name', deckName);
       // console.log(deckFormData);
@@ -22,6 +24,7 @@ function NewDeckForm() {
       //   headers: { 'Content-Type': 'multipart/form-data' },
       // });
       console.log(response);
+      fetchData();
     } catch (err) {
       console.log(err);
     }

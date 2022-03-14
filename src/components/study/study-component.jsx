@@ -112,7 +112,9 @@ function Study(props) {
         )}
       </div>
       <div className="buttons">
-        {cardIsRevealed || <button onClick={() => revealCard()}>Show!</button>}
+        {!cardIsRevealed && currentCard && (
+          <button onClick={() => revealCard()}>Show!</button>
+        )}
         {cardIsRevealed && (
           <>
             <button onClick={() => cardCorrect(currentCard)}>

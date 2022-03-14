@@ -96,8 +96,12 @@ function GrammCracker() {
           </button>
         )}
       </div>
-      <div>{isAddingDeck && <NewDeckForm fetchData={fetchData} />}</div>
-      <div>{newDeckButton}</div>
+      <div>
+        {isAddingDeck && (
+          <NewDeckForm fetchData={fetchData} toggle={setIsAddingDeck} />
+        )}
+      </div>
+      <div>{isStudying || newDeckButton}</div>
     </>
   );
 
@@ -106,7 +110,8 @@ function GrammCracker() {
   return (
     <>
       <div className="GrammCracker">
-        {isStudying || heading}
+        {/* {isStudying || heading} */}
+        {heading}
         {isLoading ? loading : mainContainer}
       </div>
     </>

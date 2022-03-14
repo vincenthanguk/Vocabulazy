@@ -4,7 +4,7 @@ import EditCardForm from '../editCardForm/editCardForm-component';
 import './flashcard-styles.css';
 
 function Flashcard(props) {
-  const { cardId, cardDBId, front, back, fetchData } = props;
+  const { cardId, cardDBId, front, back, fetchData, mode } = props;
   const [isEditingCard, setIsEditingCard] = useState(false);
 
   const toggleEditCard = () => {
@@ -41,11 +41,16 @@ function Flashcard(props) {
           toggle={toggleEditCard}
         />
       )}
+      {mode === 'show' && (
+        <button onClick={toggleEditCard}>
+          {isEditingCard ? 'X' : 'Edit Card'}
+        </button>
+      )}
 
-      <button onClick={toggleEditCard}>
-        {isEditingCard ? 'X' : 'Edit Card'}
-      </button>
-      {isEditingCard || <button onClick={handleDelete}>Delete Card</button>}
+      {isEditingCard ||
+        (mode === 'show' && (
+          <button onClick={handleDelete}>Delete Card</button>
+        ))}
     </div>
   );
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 function NewDeckForm(props) {
   const [deckName, setDeckName] = useState('');
 
-  const { fetchData } = props;
+  const { fetchData, toggle } = props;
 
   const handleSubmit = async (e) => {
     try {
@@ -15,6 +15,7 @@ function NewDeckForm(props) {
       });
       console.log(response);
       fetchData();
+      toggle();
     } catch (err) {
       console.log(err);
     }

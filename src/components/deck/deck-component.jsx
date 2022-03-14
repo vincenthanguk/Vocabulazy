@@ -37,6 +37,7 @@ function Deck(props) {
           front={card.cardFront}
           back={card.cardBack}
           fetchData={fetchData}
+          mode="show"
         />
       </li>
     );

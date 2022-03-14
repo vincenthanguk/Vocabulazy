@@ -105,16 +105,14 @@ function Study(props) {
             cardId={currentCard.cardId}
             front={currentCard.cardFront}
             back={currentCard.cardBack}
-            reveal={currentCard.cardIsRevealed}
+            reveal={cardIsRevealed}
           />
         ) : (
           'Finished Deck!'
         )}
       </div>
       <div className="buttons">
-        {cardIsRevealed || (
-          <button onClick={() => revealCard()}>Show Back!</button>
-        )}
+        {cardIsRevealed || <button onClick={() => revealCard()}>Show!</button>}
         {cardIsRevealed && (
           <>
             <button onClick={() => cardCorrect(currentCard)}>

@@ -25,7 +25,7 @@ function Flashcard(props) {
 
   const flashcardContent = (
     <>
-      <h3>Card #{cardId}</h3>
+      {mode === 'show' && <h3>Card #{cardId}</h3>}
       <h3>Front: {front}</h3>
       <h3>Back: {back}</h3>
     </>

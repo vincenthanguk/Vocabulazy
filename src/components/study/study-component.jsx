@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Flashcard from '../flashcard/flashcard-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -18,13 +18,15 @@ function Study(props) {
     setCorrect((oldState) => [...oldState, card]);
     removeCard(card);
   };
+
   const cardWrong = (card) => {
     setWrong((oldState) => [...oldState, card]);
     removeCard(card);
   };
 
   const removeCard = (card) => {
-    setStudyDeck(studyDeck.filter((item) => item.cardId !== card.cardId));
+    setStudyDeck(studyDeck.filter((item) => item._id !== card._id));
+    console.log(studyDeck, card);
   };
 
   const resetDecks = () => {
@@ -61,7 +63,6 @@ function Study(props) {
         <table>
           <tbody>
             <tr>
-              <td>#1/{studyDeck.length}</td>
               <td>🗂: {studyDeck.length}</td>
               <td>✅: {correct.length}</td>
               <td>❌: {wrong.length}</td>

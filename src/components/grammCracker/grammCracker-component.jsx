@@ -3,6 +3,7 @@ import Deck from '../deck/deck-component';
 // import deckData from '../../data/data';
 import Study from '../study/study-component';
 import NewDeckForm from '../newDeckForm/newDeckForm-component';
+import FlashMessage from '../flashMessage/flashMessage-component';
 
 import axios from 'axios';
 
@@ -17,9 +18,11 @@ function GrammCracker() {
   const [isStudying, setIsStudying] = useState(false);
   const [isAddingDeck, setIsAddingDeck] = useState(false);
   const [studyDeck, setStudyDeck] = useState(0);
+  const [isShowingFlash, setIsShowingFlash] = useState(false);
+  const [flash, setFlash] = useState({ message: '', style: '' });
 
+  // toggle study mode on/off, sets deck to be studied so it can be rendered in study view
   const toggleStudy = (deckNum) => {
-    // toggles study mode on/off, sets deck to be studied so it can be rendered in study view
     setIsStudying(() => !isStudying);
     setStudyDeck(deckNum);
   };
@@ -40,6 +43,27 @@ function GrammCracker() {
       console.error('looks like something went wrong', err);
     }
   }, []);
+
+  const checkFlash = (status, message) => {
+    const flash = {};
+    flash.message = message;
+
+    if (status === 'success') flash.style = 'flashMessage green';
+    if (status === 'error') flash.style = 'flashMessage red';
+
+    return flash;
+  };
+
+  // flash message
+  const handleFlash = (status, message, flashTime) => {
+    console.log('triggered');
+    setIsShowingFlash(true);
+    setFlash(checkFlash(status, message));
+    setTimeout(() => {
+      setIsShowingFlash(false);
+      setIsAddingDeck(!isAddingDeck);
+    }, flashTime);
+  };
 
   let studyView;
   // conditional rendering in case no decks are loaded from DB
@@ -84,6 +108,7 @@ function GrammCracker() {
 
   const mainContainer = (
     <>
+      {isShowingFlash && <FlashMessage flash={flash} />}
       <div className="mainContainer">
         {/* display deckcontainers when not in study mode */}
         {isStudying || <ul>{deckContainers}</ul>}
@@ -98,7 +123,7 @@ function GrammCracker() {
       </div>
       <div>
         {isAddingDeck && (
-          <NewDeckForm fetchData={fetchData} toggle={setIsAddingDeck} />
+          <NewDeckForm fetchData={fetchData} handleFlash={handleFlash} />
         )}
       </div>
       <div>{isStudying || newDeckButton}</div>

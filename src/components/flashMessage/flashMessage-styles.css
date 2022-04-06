@@ -1,0 +1,16 @@
+.flashMessage {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: 800;
+  padding: 0.2rem;
+}
+
+.green {
+  background-color: greenyellow;
+}
+
+.red {
+  background-color: indianred;
+}

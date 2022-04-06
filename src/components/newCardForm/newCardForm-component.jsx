@@ -13,7 +13,7 @@ function NewCardForm(props) {
     console.log(props);
   }, []);
 
-  const { deckId, fetchData } = props;
+  const { deckId, fetchData, handleFlash } = props;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +25,7 @@ function NewCardForm(props) {
         deck: deckId,
       });
       console.log(response);
+      handleFlash('success', 'Card created!', 2000);
       fetchData();
       setFormValue({
         cardFront: '',
@@ -32,6 +33,7 @@ function NewCardForm(props) {
       });
     } catch (err) {
       console.log(err);
+      handleFlash('error', 'Oops, something went wrong!', 2000);
     }
   };
 
@@ -52,6 +54,7 @@ function NewCardForm(props) {
           id="cardFront"
           value={formValue.cardFront}
           onChange={handleChange}
+          required
         />
         <label htmlFor="cardBack">Back: </label>
         <input
@@ -60,6 +63,7 @@ function NewCardForm(props) {
           id="cardBack"
           value={formValue.cardBack}
           onChange={handleChange}
+          required
         />
         <button type="submit">Submit</button>
       </form>

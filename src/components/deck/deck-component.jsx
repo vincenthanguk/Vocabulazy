@@ -13,7 +13,7 @@ function Deck(props) {
   const [addCardFormToggled, setAddCardFormToggled] = useState(false);
   const [editDeckFormToggled, setEditDeckFormToggled] = useState(false);
 
-  const { deck, deckId, deckNumber, deckName, fetchData } = props;
+  const { deck, deckId, deckNumber, deckName, fetchData, handleFlash } = props;
 
   const handleSubmit = async (e) => {
     try {
@@ -22,9 +22,11 @@ function Deck(props) {
         `http://localhost:8000/api/v1/decks/${deckId}`
       );
       console.log(response);
+      handleFlash('success', 'Deck deleted!', 2000);
       fetchData();
     } catch (err) {
       console.log(err);
+      handleFlash('error', 'Oops, something went wrong!', 2000);
     }
   };
 
@@ -37,11 +39,18 @@ function Deck(props) {
           front={card.cardFront}
           back={card.cardBack}
           fetchData={fetchData}
+          handleFlash={handleFlash}
         />
       </li>
     );
   });
-  const form = <NewCardForm deckId={deckId} fetchData={fetchData} />;
+  const form = (
+    <NewCardForm
+      deckId={deckId}
+      fetchData={fetchData}
+      handleFlash={handleFlash}
+    />
+  );
 
   const toggleCards = () => {
     setCardsToggled(() => !cardsToggled);
@@ -73,6 +82,7 @@ function Deck(props) {
             deckId={deckId}
             fetchData={fetchData}
             toggle={toggleEditDeckForm}
+            handleFlash={handleFlash}
           />
         )}
         <form onSubmit={handleSubmit}>

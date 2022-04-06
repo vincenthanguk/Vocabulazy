@@ -4,7 +4,7 @@ import EditCardForm from '../editCardForm/editCardForm-component';
 import './flashcard-styles.css';
 
 function Flashcard(props) {
-  const { cardId, cardDBId, front, back, fetchData, mode } = props;
+  const { cardId, cardDBId, front, back, fetchData, handleFlash } = props;
   const [isEditingCard, setIsEditingCard] = useState(false);
 
   const toggleEditCard = () => {
@@ -17,9 +17,11 @@ function Flashcard(props) {
         `http://localhost:8000/api/v1/cards/${cardDBId}`
       );
       console.log(response);
+      handleFlash('success', 'Card deleted!', 2000);
       fetchData();
     } catch (err) {
       console.log(err);
+      handleFlash('error', 'Oops, something went wrong!', 2000);
     }
   };
 
@@ -39,6 +41,7 @@ function Flashcard(props) {
           cardId={cardDBId}
           fetchData={fetchData}
           toggle={toggleEditCard}
+          handleFlash={handleFlash}
         />
       )}
       <button onClick={toggleEditCard}>

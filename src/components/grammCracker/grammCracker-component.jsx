@@ -56,7 +56,6 @@ function GrammCracker() {
 
   // flash message
   const handleFlash = (status, message, flashTime) => {
-    console.log('triggered');
     setIsShowingFlash(true);
     setFlash(checkFlash(status, message));
     setTimeout(() => {
@@ -85,6 +84,7 @@ function GrammCracker() {
           deckName={deck.name}
           toggleStudy={toggleStudy}
           fetchData={fetchData}
+          handleFlash={handleFlash}
         />
       </li>
     );
@@ -108,7 +108,6 @@ function GrammCracker() {
 
   const mainContainer = (
     <>
-      {isShowingFlash && <FlashMessage flash={flash} />}
       <div className="mainContainer">
         {/* display deckcontainers when not in study mode */}
         {isStudying || <ul>{deckContainers}</ul>}
@@ -134,6 +133,7 @@ function GrammCracker() {
 
   return (
     <>
+      {isShowingFlash && <FlashMessage flash={flash} />}
       <div className="GrammCracker">
         {/* {isStudying || heading} */}
         {heading}

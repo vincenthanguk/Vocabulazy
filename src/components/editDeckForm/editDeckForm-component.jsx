@@ -4,7 +4,7 @@ import axios from 'axios';
 function EditDeckForm(props) {
   const [deckName, setDeckName] = useState('');
 
-  const { fetchData, deckId, toggle } = props;
+  const { fetchData, deckId, toggle, handleFlash } = props;
 
   const handleSubmit = async (e) => {
     try {
@@ -17,10 +17,12 @@ function EditDeckForm(props) {
         }
       );
       console.log(response);
+      handleFlash('success', 'Deck edited!', 2000);
       fetchData();
       toggle();
     } catch (err) {
       console.log(err);
+      handleFlash('error', 'Oops, something went wrong!', 2000);
     }
   };
 

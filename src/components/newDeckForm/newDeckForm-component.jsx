@@ -13,8 +13,8 @@ function NewDeckForm(props) {
         name: deckName,
       });
       console.log(response);
-      fetchData();
       handleFlash('success', 'Deck created!', 2000);
+      fetchData();
     } catch (err) {
       console.log(err);
       handleFlash('error', 'Oops, something went wrong!', 2000);

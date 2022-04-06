@@ -13,12 +13,11 @@ function EditCardForm(props) {
     console.log(props);
   }, []);
 
-  const { cardId, fetchData, toggle } = props;
+  const { cardId, fetchData, toggle, handleFlash } = props;
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
     try {
+      e.preventDefault();
       const response = await axios.patch(
         `http://localhost:8000/api/v1/cards/${cardId}`,
         {
@@ -28,10 +27,12 @@ function EditCardForm(props) {
       );
 
       console.log(response);
+      handleFlash('success', 'Card edited!', 2000);
       fetchData();
       toggle();
     } catch (err) {
       console.log(err);
+      handleFlash('error', 'Oops, something went wrong!', 2000);
     }
   };
 
@@ -52,6 +53,7 @@ function EditCardForm(props) {
           id="cardFront"
           value={formValue.cardFront}
           onChange={handleChange}
+          required
         />
         <label htmlFor="cardBack">Back: </label>
         <input
@@ -60,6 +62,7 @@ function EditCardForm(props) {
           id="cardBack"
           value={formValue.cardBack}
           onChange={handleChange}
+          required
         />
         <button type="submit">Submit</button>
       </form>

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function NewDeckForm(props) {
   const [deckName, setDeckName] = useState('');
-  const { fetchData, handleFlash } = props;
+  const { fetchData, handleFlash, toggle } = props;
 
   const handleSubmit = async (e) => {
     try {
@@ -13,6 +13,7 @@ function NewDeckForm(props) {
         name: deckName,
       });
       console.log(response);
+      toggle();
       handleFlash('success', 'Deck created!', 2000);
       fetchData();
     } catch (err) {

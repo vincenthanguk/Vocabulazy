@@ -60,8 +60,11 @@ function GrammCracker() {
     setFlash(checkFlash(status, message));
     setTimeout(() => {
       setIsShowingFlash(false);
-      setIsAddingDeck(!isAddingDeck);
     }, flashTime);
+  };
+
+  const toggleNewDeckForm = () => {
+    setIsAddingDeck(!isAddingDeck);
   };
 
   let studyView;
@@ -122,7 +125,11 @@ function GrammCracker() {
       </div>
       <div>
         {isAddingDeck && (
-          <NewDeckForm fetchData={fetchData} handleFlash={handleFlash} />
+          <NewDeckForm
+            fetchData={fetchData}
+            handleFlash={handleFlash}
+            toggle={toggleNewDeckForm}
+          />
         )}
       </div>
       <div>{isStudying || newDeckButton}</div>

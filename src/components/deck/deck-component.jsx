@@ -9,6 +9,7 @@ import EditDeckForm from '../editDeckForm/editDeckForm-component';
 // import { faEdit } from '@fortawesome/fontawesome-free-regular';
 
 function Deck(props) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardsToggled, setCardsToggled] = useState(false);
   const [addCardFormToggled, setAddCardFormToggled] = useState(false);
   const [editDeckFormToggled, setEditDeckFormToggled] = useState(false);
@@ -18,15 +19,18 @@ function Deck(props) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setIsSubmitting(true);
       const response = await axios.delete(
         `http://localhost:8000/api/v1/decks/${deckId}`
       );
       console.log(response);
       handleFlash('success', 'Deck deleted!', 2000);
       fetchData();
+      setIsSubmitting(false);
     } catch (err) {
       console.log(err);
       handleFlash('error', 'Oops, something went wrong!', 2000);
+      setIsSubmitting(false);
     }
   };
 
@@ -86,7 +90,9 @@ function Deck(props) {
           />
         )}
         <form onSubmit={handleSubmit}>
-          <button type="submit">Delete Deck</button>
+          <button disabled={isSubmitting}>
+            {isSubmitting ? 'Deleting...' : 'Delete Deck'}
+          </button>
         </form>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function EditDeckForm(props) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [deckName, setDeckName] = useState('');
 
   const { fetchData, deckId, toggle, handleFlash } = props;
@@ -9,6 +10,7 @@ function EditDeckForm(props) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setIsSubmitting(true);
       // make axios post request
       const response = await axios.patch(
         `http://localhost:8000/api/v1/decks/${deckId}`,
@@ -17,11 +19,13 @@ function EditDeckForm(props) {
         }
       );
       console.log(response);
+      setIsSubmitting(false);
       handleFlash('success', 'Deck edited!', 2000);
       fetchData();
       toggle();
     } catch (err) {
       console.log(err);
+      setIsSubmitting(false);
       handleFlash('error', 'Oops, something went wrong!', 2000);
     }
   };
@@ -38,7 +42,9 @@ function EditDeckForm(props) {
           value={deckName}
           onChange={(e) => setDeckName(e.target.value)}
         ></input>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </button>
       </form>
     </>
   );

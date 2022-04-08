@@ -4,6 +4,7 @@ import EditCardForm from '../editCardForm/editCardForm-component';
 import './flashcard-styles.css';
 
 function Flashcard(props) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { cardId, cardDBId, front, back, fetchData, handleFlash } = props;
   const [isEditingCard, setIsEditingCard] = useState(false);
 
@@ -11,16 +12,20 @@ function Flashcard(props) {
     setIsEditingCard(() => !isEditingCard);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
     try {
+      e.preventDefault();
+      setIsSubmitting(true);
       const response = await axios.delete(
         `http://localhost:8000/api/v1/cards/${cardDBId}`
       );
       console.log(response);
+      setIsSubmitting(false);
       handleFlash('success', 'Card deleted!', 2000);
       fetchData();
     } catch (err) {
       console.log(err);
+      setIsSubmitting(false);
       handleFlash('error', 'Oops, something went wrong!', 2000);
     }
   };
@@ -47,8 +52,11 @@ function Flashcard(props) {
       <button onClick={toggleEditCard}>
         {isEditingCard ? 'X' : 'Edit Card'}
       </button>
-
-      {isEditingCard || <button onClick={handleDelete}>Delete Card</button>}
+      {isEditingCard || (
+        <button onClick={handleDelete} disabled={isSubmitting}>
+          {isSubmitting ? 'Deleting...' : 'Delete Card'}
+        </button>
+      )}
     </div>
   );
 

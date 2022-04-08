@@ -4,6 +4,7 @@ import axios from 'axios';
 import './editCardForm-styles.css';
 
 function EditCardForm(props) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValue, setFormValue] = useState({
     cardFront: '',
     cardBack: '',
@@ -18,6 +19,7 @@ function EditCardForm(props) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setIsSubmitting(true);
       const response = await axios.patch(
         `http://localhost:8000/api/v1/cards/${cardId}`,
         {
@@ -25,13 +27,14 @@ function EditCardForm(props) {
           cardBack: formValue.cardBack,
         }
       );
-
       console.log(response);
+      setIsSubmitting(false);
       handleFlash('success', 'Card edited!', 2000);
       fetchData();
       toggle();
     } catch (err) {
       console.log(err);
+      setIsSubmitting(false);
       handleFlash('error', 'Oops, something went wrong!', 2000);
     }
   };
@@ -64,7 +67,9 @@ function EditCardForm(props) {
           onChange={handleChange}
           required
         />
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </button>
       </form>
     </>
   );

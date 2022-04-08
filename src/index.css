@@ -14,3 +14,8 @@ body {
 h1 {
   text-align: center;
 }
+
+button:disabled {
+  background-color: rgb(183, 188, 194);
+  color: rgb(121, 123, 124);
+}

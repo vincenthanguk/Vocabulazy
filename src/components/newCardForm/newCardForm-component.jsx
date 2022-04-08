@@ -4,6 +4,7 @@ import axios from 'axios';
 import './newCardForm-styles.css';
 
 function NewCardForm(props) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValue, setFormValue] = useState({
     cardFront: '',
     cardBack: '',
@@ -16,15 +17,16 @@ function NewCardForm(props) {
   const { deckId, fetchData, handleFlash } = props;
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
     try {
+      e.preventDefault();
+      setIsSubmitting(true);
       const response = await axios.post('http://localhost:8000/api/v1/cards', {
         cardFront: formValue.cardFront,
         cardBack: formValue.cardBack,
         deck: deckId,
       });
       console.log(response);
+      setIsSubmitting(false);
       handleFlash('success', 'Card created!', 2000);
       fetchData();
       setFormValue({
@@ -33,6 +35,7 @@ function NewCardForm(props) {
       });
     } catch (err) {
       console.log(err);
+      setIsSubmitting(false);
       handleFlash('error', 'Oops, something went wrong!', 2000);
     }
   };
@@ -65,7 +68,9 @@ function NewCardForm(props) {
           onChange={handleChange}
           required
         />
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </button>
       </form>
     </>
   );

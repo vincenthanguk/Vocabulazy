@@ -20,13 +20,13 @@ function Flashcard(props) {
         `http://localhost:8000/api/v1/cards/${cardDBId}`
       );
       console.log(response);
-      setIsSubmitting(false);
+      await fetchData();
       handleFlash('success', 'Card deleted!', 2000);
-      fetchData();
+      setIsSubmitting(false);
     } catch (err) {
       console.log(err);
-      setIsSubmitting(false);
       handleFlash('error', 'Oops, something went wrong!', 2000);
+      setIsSubmitting(false);
     }
   };
 

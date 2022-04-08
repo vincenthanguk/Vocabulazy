@@ -15,14 +15,15 @@ function NewDeckForm(props) {
         name: deckName,
       });
       console.log(response);
-      setIsSubmitting(false);
+      await fetchData();
       toggle();
       handleFlash('success', 'Deck created!', 2000);
-      fetchData();
+      setIsSubmitting(false);
     } catch (err) {
       console.log(err);
-      setIsSubmitting(false);
       handleFlash('error', 'Oops, something went wrong!', 2000);
+      setIsSubmitting(false);
+      setDeckName('');
     }
   };
 

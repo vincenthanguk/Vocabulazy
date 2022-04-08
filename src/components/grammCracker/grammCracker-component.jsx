@@ -142,7 +142,6 @@ function GrammCracker() {
     <>
       {isShowingFlash && <FlashMessage flash={flash} />}
       <div className="GrammCracker">
-        {/* {isStudying || heading} */}
         {heading}
         {isLoading ? loading : mainContainer}
       </div>

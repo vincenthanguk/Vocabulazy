@@ -28,14 +28,14 @@ function EditCardForm(props) {
         }
       );
       console.log(response);
-      setIsSubmitting(false);
-      handleFlash('success', 'Card edited!', 2000);
-      fetchData();
+      await fetchData();
       toggle();
+      handleFlash('success', 'Card edited!', 2000);
+      setIsSubmitting(false);
     } catch (err) {
       console.log(err);
-      setIsSubmitting(false);
       handleFlash('error', 'Oops, something went wrong!', 2000);
+      setIsSubmitting(false);
     }
   };
 

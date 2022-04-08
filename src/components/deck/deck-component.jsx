@@ -24,8 +24,8 @@ function Deck(props) {
         `http://localhost:8000/api/v1/decks/${deckId}`
       );
       console.log(response);
+      await fetchData();
       handleFlash('success', 'Deck deleted!', 2000);
-      fetchData();
       setIsSubmitting(false);
     } catch (err) {
       console.log(err);

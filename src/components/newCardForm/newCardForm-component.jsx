@@ -26,17 +26,17 @@ function NewCardForm(props) {
         deck: deckId,
       });
       console.log(response);
-      setIsSubmitting(false);
+      await fetchData();
       handleFlash('success', 'Card created!', 2000);
-      fetchData();
+      setIsSubmitting(false);
       setFormValue({
         cardFront: '',
         cardBack: '',
       });
     } catch (err) {
       console.log(err);
-      setIsSubmitting(false);
       handleFlash('error', 'Oops, something went wrong!', 2000);
+      setIsSubmitting(false);
     }
   };
 

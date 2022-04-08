@@ -22,3 +22,7 @@ button:disabled {
 button:disabled:hover {
   cursor: not-allowed;
 }
+
+.active {
+  background-color: rgb(255, 175, 100);
+}

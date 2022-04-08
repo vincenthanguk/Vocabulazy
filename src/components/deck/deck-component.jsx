@@ -76,11 +76,24 @@ function Deck(props) {
       {addCardFormToggled && form}
       <div className="buttons">
         <button onClick={() => props.toggleStudy(deckNumber)}>Study</button>
-        <button onClick={toggleCards}>
+        <button
+          onClick={toggleCards}
+          className={cardsToggled ? 'active' : undefined}
+        >
           {cardsToggled ? 'Hide' : 'Show'} Cards
         </button>
-        <button onClick={toggleAddCardForm}>Add Card</button>
-        <button onClick={toggleEditDeckForm}>Edit Deck</button>
+        <button
+          onClick={toggleAddCardForm}
+          className={addCardFormToggled ? 'active' : undefined}
+        >
+          Add Card
+        </button>
+        <button
+          onClick={toggleEditDeckForm}
+          className={editDeckFormToggled ? 'active' : undefined}
+        >
+          Edit Deck
+        </button>
         {editDeckFormToggled && (
           <EditDeckForm
             deckId={deckId}

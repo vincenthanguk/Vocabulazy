@@ -16,8 +16,6 @@ function Study(props) {
   const [cardIsRevealed, setCardIsRevealed] = useState(false);
 
   // everytime the studydeck is changed, a new random card is selected as currentCard
-  useEffect(() => setCurrentCard(generateRandomCard()), [studyDeck]);
-
   const generateRandomCard = () => {
     console.log('generating random card');
     console.log(studyDeck.length);
@@ -26,6 +24,8 @@ function Study(props) {
 
     return card;
   };
+
+  useEffect(() => setCurrentCard(generateRandomCard()), [studyDeck]);
 
   const cardCorrect = (card) => {
     setCorrect((oldState) => [...oldState, card]);

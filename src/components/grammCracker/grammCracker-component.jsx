@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Deck from '../deck/deck-component';
 // import deckData from '../../data/data';
+import Login from '../login/login';
 import Study from '../study/study-component';
 import NewDeckForm from '../newDeckForm/newDeckForm-component';
 import FlashMessage from '../flashMessage/flashMessage-component';
@@ -14,6 +15,7 @@ import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
 function GrammCracker() {
   const [deck, setDeck] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isStudying, setIsStudying] = useState(false);
   const [isAddingDeck, setIsAddingDeck] = useState(false);
@@ -25,9 +27,11 @@ function GrammCracker() {
   const toggleStudy = (deckNum) => {
     setIsStudying(() => !isStudying);
     setStudyDeck(deckNum);
+    setIsAddingDeck(false);
   };
 
   const fetchData = async () => {
+    console.log('fetching data...');
     const result = await axios('http://localhost:8000/api/v1/decks');
     setDeck(result.data.data.decks);
     setIsLoading(false);
@@ -35,13 +39,22 @@ function GrammCracker() {
 
   // fetching data from API upon loading
   useEffect(() => {
+    let controller = new AbortController();
     setIsError(false);
-    try {
-      fetchData();
-    } catch (err) {
-      setIsError(true);
-      console.error('looks like something went wrong', err);
-    }
+    (async () => {
+      try {
+        // fetchData();
+        const result = await axios('http://localhost:8000/api/v1/decks', {
+          signal: controller.signal,
+        });
+        setDeck(result.data.data.decks);
+        setIsLoading(false);
+      } catch (err) {
+        setIsError(true);
+        console.error('looks like something went wrong', err);
+      }
+    })();
+    return () => controller?.abort();
   }, []);
 
   const checkFlash = (status, message) => {
@@ -99,7 +112,9 @@ function GrammCracker() {
         Gramm-Cracker <FontAwesomeIcon icon={faCookieBite} />
       </h1>
       <span>Your Daily Bite of Grammar</span>
-      <span>Total Decks: {isLoading ? 'loading...' : deck.length}</span>
+      {isLoggedIn && (
+        <span>Total Decks: {isLoading ? 'loading...' : deck.length}</span>
+      )}
     </>
   );
 
@@ -124,13 +139,14 @@ function GrammCracker() {
         )}
       </div>
       <div>
-        {isAddingDeck && (
-          <NewDeckForm
-            fetchData={fetchData}
-            handleFlash={handleFlash}
-            toggle={toggleNewDeckForm}
-          />
-        )}
+        {isStudying ||
+          (isAddingDeck && (
+            <NewDeckForm
+              fetchData={fetchData}
+              handleFlash={handleFlash}
+              toggle={toggleNewDeckForm}
+            />
+          ))}
       </div>
       <div>{isStudying || newDeckButton}</div>
     </>
@@ -143,7 +159,15 @@ function GrammCracker() {
       {isShowingFlash && <FlashMessage flash={flash} />}
       <div className="GrammCracker">
         {heading}
-        {isLoading ? loading : mainContainer}
+        {isLoggedIn ? (
+          <>{isLoading ? loading : mainContainer}</>
+        ) : (
+          <>
+            <div className="mainContainer">
+              <Login />
+            </div>
+          </>
+        )}
       </div>
     </>
   );

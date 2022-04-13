@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 import './newCardForm-styles.css';
@@ -9,10 +9,6 @@ function NewCardForm(props) {
     cardFront: '',
     cardBack: '',
   });
-
-  useEffect(() => {
-    console.log(props);
-  }, []);
 
   const { deckId, fetchData, handleFlash } = props;
 

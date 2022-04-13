@@ -15,10 +15,11 @@ function NewDeckForm(props) {
         name: deckName,
       });
       console.log(response);
+      // change of state most come before toggle (toggle unmounts the component)
       await fetchData();
-      toggle();
       handleFlash('success', 'Deck created!', 2000);
       setIsSubmitting(false);
+      toggle();
     } catch (err) {
       console.log(err);
       handleFlash('error', 'Oops, something went wrong!', 2000);

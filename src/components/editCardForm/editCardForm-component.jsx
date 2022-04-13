@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 import './editCardForm-styles.css';
@@ -9,10 +9,6 @@ function EditCardForm(props) {
     cardFront: '',
     cardBack: '',
   });
-
-  useEffect(() => {
-    console.log(props);
-  }, []);
 
   const { cardId, fetchData, toggle, handleFlash } = props;
 
@@ -29,9 +25,9 @@ function EditCardForm(props) {
       );
       console.log(response);
       await fetchData();
-      toggle();
       handleFlash('success', 'Card edited!', 2000);
       setIsSubmitting(false);
+      toggle();
     } catch (err) {
       console.log(err);
       handleFlash('error', 'Oops, something went wrong!', 2000);

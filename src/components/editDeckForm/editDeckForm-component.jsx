@@ -20,9 +20,9 @@ function EditDeckForm(props) {
       );
       console.log(response);
       await fetchData();
-      toggle();
       handleFlash('success', 'Deck edited!', 2000);
       setIsSubmitting(false);
+      toggle();
     } catch (err) {
       console.log(err);
       handleFlash('error', 'Oops, something went wrong!', 2000);

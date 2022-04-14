@@ -29,9 +29,9 @@ function GrammCracker() {
     fetch(process.env.REACT_APP_API_ENDPOINT + 'users/refreshToken', {
       method: 'POST',
       credentials: 'include',
+      SameSite: 'none',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userContext.token}`,
       },
     }).then(async (response) => {
       if (response.ok) {
@@ -45,14 +45,29 @@ function GrammCracker() {
         });
       }
       // call refreshToken every 5 minutes to renew the authentication token.
-      // setTimeout(verifyUser, 5 * 60 * 1000);
-      setTimeout(verifyUser, 100000);
+      setTimeout(verifyUser, 5 * 60 * 1000);
     });
   }, [setUserContext]);
 
   useEffect(() => {
     verifyUser();
   }, [verifyUser]);
+
+  const logoutHandler = () => {
+    fetch(process.env.REACT_APP_API_ENDPOINT + 'users/logout', {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userContext.token}`,
+      },
+    }).then(async (response) => {
+      setUserContext((oldValues) => {
+        return { ...oldValues, details: undefined, token: null };
+      });
+      window.localStorage.setItem('logout', Date.now());
+    });
+    handleFlash('success', 'You are now logged out', 2000);
+  };
 
   const fetchData = async () => {
     console.log('fetching data...');
@@ -180,7 +195,10 @@ function GrammCracker() {
             />
           ))}
       </div>
-      <div>{isStudying || newDeckButton}</div>
+      <div>
+        {isStudying || newDeckButton}
+        <button onClick={logoutHandler}>Logout</button>
+      </div>
     </>
   );
 

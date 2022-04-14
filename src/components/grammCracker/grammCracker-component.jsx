@@ -164,7 +164,7 @@ function GrammCracker() {
         ) : (
           <>
             <div className="mainContainer">
-              <Login />
+              <Login handleFlash={handleFlash} />
             </div>
           </>
         )}

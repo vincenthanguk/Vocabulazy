@@ -1,16 +1,62 @@
-import { React, useState } from 'react';
+import { React, useContext, useState } from 'react';
+import { UserContext } from '../../context/UserContext';
 
 function Register(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [userContext, setUserContext] = useContext(UserContext);
 
-  const { toggle } = props;
+  const { toggle, handleFlash } = props;
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(`${email}, ${password}`);
+    setIsSubmitting(true);
+    setError('');
+
+    const genericErrorMessage = 'Something went wrong! Please try again later.';
+
+    fetch(process.env.REACT_APP_API_ENDPOINT + 'users/signup', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firstName, lastName, username: email, password }),
+    })
+      .then(async (response) => {
+        setIsSubmitting(false);
+        if (!response.ok) {
+          if (response.status === 400) {
+            setError('Please fill all the fields correctly!');
+            handleFlash('error', error, 2000);
+          } else if (response.status === 401) {
+            setError('Invalid email and password combination.');
+            handleFlash('error', error, 2000);
+          } else if (response.status === 500) {
+            // const data = await response.json();
+            // if (data.message) setError(data.message || genericErrorMessage);
+            // setError(data.message || genericErrorMessage);
+            setError(genericErrorMessage);
+            handleFlash('error', genericErrorMessage, 2000);
+          } else {
+            setError(genericErrorMessage);
+            handleFlash('error', error, 2000);
+          }
+        } else {
+          const data = await response.json();
+          setUserContext((oldValues) => {
+            return { ...oldValues, token: data.token };
+          });
+          handleFlash('success', 'Welcome to Gramm-Cracker!', 2000);
+        }
+      })
+      .catch((err) => {
+        setIsSubmitting(false);
+        setError(genericErrorMessage);
+        handleFlash('error', error, 2000);
+      });
   };
 
   return (
@@ -57,7 +103,9 @@ function Register(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Registering...' : 'Register'}
+        </button>
       </form>
       <button onClick={toggle}>Back to Login</button>
     </>

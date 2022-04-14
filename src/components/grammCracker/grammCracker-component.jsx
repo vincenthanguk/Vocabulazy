@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
+import { UserContext } from '../../context/UserContext';
 import Deck from '../deck/deck-component';
 // import deckData from '../../data/data';
 import Login from '../login/login';
 import Study from '../study/study-component';
 import NewDeckForm from '../newDeckForm/newDeckForm-component';
 import FlashMessage from '../flashMessage/flashMessage-component';
+import Welcome from '../welcome/welcome';
 
 import axios from 'axios';
 
@@ -13,9 +15,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
 
 function GrammCracker() {
+  const [userContext, setUserContext] = useContext(UserContext);
   const [deck, setDeck] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isStudying, setIsStudying] = useState(false);
   const [isAddingDeck, setIsAddingDeck] = useState(false);
@@ -23,12 +25,34 @@ function GrammCracker() {
   const [isShowingFlash, setIsShowingFlash] = useState(false);
   const [flash, setFlash] = useState({ message: '', style: '' });
 
-  // toggle study mode on/off, sets deck to be studied so it can be rendered in study view
-  const toggleStudy = (deckNum) => {
-    setIsStudying(() => !isStudying);
-    setStudyDeck(deckNum);
-    setIsAddingDeck(false);
-  };
+  const verifyUser = useCallback(() => {
+    fetch(process.env.REACT_APP_API_ENDPOINT + 'users/refreshToken', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userContext.token}`,
+      },
+    }).then(async (response) => {
+      if (response.ok) {
+        const data = await response.json();
+        setUserContext((oldValues) => {
+          return { ...oldValues, token: data.token };
+        });
+      } else {
+        setUserContext((oldValues) => {
+          return { ...oldValues, token: null };
+        });
+      }
+      // call refreshToken every 5 minutes to renew the authentication token.
+      // setTimeout(verifyUser, 5 * 60 * 1000);
+      setTimeout(verifyUser, 100000);
+    });
+  }, [setUserContext]);
+
+  useEffect(() => {
+    verifyUser();
+  }, [verifyUser]);
 
   const fetchData = async () => {
     console.log('fetching data...');
@@ -56,6 +80,13 @@ function GrammCracker() {
     })();
     return () => controller?.abort();
   }, []);
+
+  // toggle study mode on/off, sets deck to be studied so it can be rendered in study view
+  const toggleStudy = (deckNum) => {
+    setIsStudying(() => !isStudying);
+    setStudyDeck(deckNum);
+    setIsAddingDeck(false);
+  };
 
   const checkFlash = (status, message) => {
     const flash = {};
@@ -112,9 +143,10 @@ function GrammCracker() {
         Gramm-Cracker <FontAwesomeIcon icon={faCookieBite} />
       </h1>
       <span>Your Daily Bite of Grammar</span>
-      {isLoggedIn && (
+      {userContext.token && (
         <span>Total Decks: {isLoading ? 'loading...' : deck.length}</span>
       )}
+      {userContext.token && <Welcome />}
     </>
   );
 
@@ -154,14 +186,30 @@ function GrammCracker() {
 
   const loading = <div>Loading Decks...</div>;
 
+  // return (
+  //   <>
+  //     {isShowingFlash && <FlashMessage flash={flash} />}
+  //     <div className="GrammCracker">
+  //       {heading}
+  //       {!userContext.token ? (
+  //         <>{isLoading ? loading : mainContainer}</>
+  //       ) : (
+  //         <>
+  //           <div className="mainContainer">
+  //             <Login handleFlash={handleFlash} />
+  //           </div>
+  //         </>
+  //       )}
+  //     </div>
+  //   </>
+  // );
   return (
     <>
       {isShowingFlash && <FlashMessage flash={flash} />}
       <div className="GrammCracker">
         {heading}
-        {isLoggedIn ? (
-          <>{isLoading ? loading : mainContainer}</>
-        ) : (
+        {isLoading ? loading : mainContainer}
+        {userContext.token === null && (
           <>
             <div className="mainContainer">
               <Login handleFlash={handleFlash} />

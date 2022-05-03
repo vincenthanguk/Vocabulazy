@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
+
 import './deck-styles.css';
 
 import Flashcard from '../flashcard/flashcard-component';
@@ -9,6 +10,7 @@ import EditDeckForm from '../editDeckForm/editDeckForm-component';
 // import { faEdit } from '@fortawesome/fontawesome-free-regular';
 
 function Deck(props) {
+  const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardsToggled, setCardsToggled] = useState(false);
   const [addCardFormToggled, setAddCardFormToggled] = useState(false);
@@ -20,10 +22,17 @@ function Deck(props) {
     try {
       e.preventDefault();
       setIsSubmitting(true);
-      const response = await axios.delete(
-        `http://localhost:8000/api/v1/decks/${deckId}`
-      );
-      console.log(response);
+
+      await fetch(process.env.REACT_APP_API_ENDPOINT + `decks/${deckId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        // SameSite: 'none',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+      });
+
       await fetchData();
       handleFlash('success', 'Deck deleted!', 2000);
       setIsSubmitting(false);

@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import { UserContext } from '../../context/UserContext';
 
 function NewDeckForm(props) {
@@ -13,11 +12,27 @@ function NewDeckForm(props) {
       e.preventDefault();
       setIsSubmitting(true);
       // make axios post request
-      const response = await axios.post('http://localhost:8000/api/v1/decks', {
-        name: deckName,
-        user: userContext.details._id,
+      await fetch(process.env.REACT_APP_API_ENDPOINT + 'decks', {
+        method: 'POST',
+        credentials: 'include',
+        // SameSite: 'none',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+        body: JSON.stringify({
+          name: deckName,
+          user: userContext.details._id,
+        }),
       });
-      console.log(response);
+      // const deckData = await result.json();
+      // setDeck(deckData.data.decks);
+      // setIsLoading(false);
+
+      // const response = await axios.post('http://localhost:8000/api/v1/decks', {
+      //   name: deckName,
+      //   user: userContext.details._id,
+      // });
       // change of state most come before toggle (toggle unmounts the component)
       await fetchData();
       handleFlash('success', 'Deck created!', 2000);

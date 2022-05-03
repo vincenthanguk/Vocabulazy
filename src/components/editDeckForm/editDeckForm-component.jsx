@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
 
 function EditDeckForm(props) {
+  const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deckName, setDeckName] = useState('');
 
@@ -11,14 +12,19 @@ function EditDeckForm(props) {
     try {
       e.preventDefault();
       setIsSubmitting(true);
-      // make axios post request
-      const response = await axios.patch(
-        `http://localhost:8000/api/v1/decks/${deckId}`,
-        {
+      // make  post request
+      await fetch(process.env.REACT_APP_API_ENDPOINT + `decks/${deckId}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        // SameSite: 'none',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+        body: JSON.stringify({
           name: deckName,
-        }
-      );
-      console.log(response);
+        }),
+      });
       await fetchData();
       handleFlash('success', 'Deck edited!', 2000);
       setIsSubmitting(false);

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
 
 import './newCardForm-styles.css';
 
 function NewCardForm(props) {
+  const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValue, setFormValue] = useState({
     cardFront: '',
@@ -16,12 +17,27 @@ function NewCardForm(props) {
     try {
       e.preventDefault();
       setIsSubmitting(true);
-      const response = await axios.post('http://localhost:8000/api/v1/cards', {
-        cardFront: formValue.cardFront,
-        cardBack: formValue.cardBack,
-        deck: deckId,
+      await fetch(process.env.REACT_APP_API_ENDPOINT + 'cards', {
+        method: 'POST',
+        credentials: 'include',
+        // SameSite: 'none',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+        body: JSON.stringify({
+          cardFront: formValue.cardFront,
+          cardBack: formValue.cardBack,
+          deck: deckId,
+        }),
       });
-      console.log(response);
+
+      // const response = await axios.post('http://localhost:8000/api/v1/cards', {
+      //   cardFront: formValue.cardFront,
+      //   cardBack: formValue.cardBack,
+      //   deck: deckId,
+      // });
+
       await fetchData();
       handleFlash('success', 'Card created!', 2000);
       setIsSubmitting(false);

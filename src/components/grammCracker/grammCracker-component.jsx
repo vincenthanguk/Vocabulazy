@@ -70,31 +70,45 @@ function GrammCracker() {
   };
 
   const fetchData = async () => {
-    console.log(userContext.details._id);
     console.log('fetching data...');
-    const result = await axios(
-      `http://localhost:8000/api/v1/decks/${userContext.details._id}`
+    const result = await fetch(
+      process.env.REACT_APP_API_ENDPOINT + `decks/${userContext.details._id}`,
+      {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+      }
     );
-    console.log(result);
-    setDeck(result.data.data.decks);
+
+    const deckData = await result.json();
+    setDeck(deckData.data.decks);
     setIsLoading(false);
   };
 
   // fetching data from API upon loading
   useEffect(() => {
-    console.log(userContext);
+    // console.log(userContext);
     let controller = new AbortController();
     setIsError(false);
     (async () => {
       try {
         // fetchData();
-        const result = await axios(
-          `http://localhost:8000/api/v1/decks/${userContext.details._id}`,
+        const result = await fetch(
+          process.env.REACT_APP_API_ENDPOINT +
+            `decks/${userContext.details._id}`,
           {
             signal: controller.signal,
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userContext.token}`,
+            },
           }
         );
-        setDeck(result.data.data.decks);
+        const deckData = await result.json();
+        setDeck(deckData.data.decks);
         setIsLoading(false);
       } catch (err) {
         setIsError(true);

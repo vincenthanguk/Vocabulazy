@@ -70,22 +70,30 @@ function GrammCracker() {
   };
 
   const fetchData = async () => {
+    console.log(userContext.details._id);
     console.log('fetching data...');
-    const result = await axios('http://localhost:8000/api/v1/decks');
+    const result = await axios(
+      `http://localhost:8000/api/v1/decks/${userContext.details._id}`
+    );
+    console.log(result);
     setDeck(result.data.data.decks);
     setIsLoading(false);
   };
 
   // fetching data from API upon loading
   useEffect(() => {
+    console.log(userContext);
     let controller = new AbortController();
     setIsError(false);
     (async () => {
       try {
         // fetchData();
-        const result = await axios('http://localhost:8000/api/v1/decks', {
-          signal: controller.signal,
-        });
+        const result = await axios(
+          `http://localhost:8000/api/v1/decks/${userContext.details._id}`,
+          {
+            signal: controller.signal,
+          }
+        );
         setDeck(result.data.data.decks);
         setIsLoading(false);
       } catch (err) {
@@ -94,7 +102,7 @@ function GrammCracker() {
       }
     })();
     return () => controller?.abort();
-  }, []);
+  }, [userContext]);
 
   // toggle study mode on/off, sets deck to be studied so it can be rendered in study view
   const toggleStudy = (deckNum) => {
@@ -226,7 +234,7 @@ function GrammCracker() {
       {isShowingFlash && <FlashMessage flash={flash} />}
       <div className="GrammCracker">
         {heading}
-        {isLoading ? loading : mainContainer}
+        {isLoading ? loading : userContext.token && mainContainer}
         {userContext.token === null && (
           <>
             <div className="mainContainer">

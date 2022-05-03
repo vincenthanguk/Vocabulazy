@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from '../../context/UserContext';
 
 function NewDeckForm(props) {
+  const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deckName, setDeckName] = useState('');
   const { fetchData, handleFlash, toggle } = props;
@@ -13,6 +15,7 @@ function NewDeckForm(props) {
       // make axios post request
       const response = await axios.post('http://localhost:8000/api/v1/decks', {
         name: deckName,
+        user: userContext.details._id,
       });
       console.log(response);
       // change of state most come before toggle (toggle unmounts the component)

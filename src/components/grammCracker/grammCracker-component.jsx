@@ -7,8 +7,7 @@ import Study from '../study/study-component';
 import NewDeckForm from '../newDeckForm/newDeckForm-component';
 import FlashMessage from '../flashMessage/flashMessage-component';
 import Welcome from '../welcome/welcome';
-
-import axios from 'axios';
+import MyAccount from '../myAccount/myAccount-component';
 
 import './grammCracker-styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,6 +22,7 @@ function GrammCracker() {
   const [isAddingDeck, setIsAddingDeck] = useState(false);
   const [studyDeck, setStudyDeck] = useState(0);
   const [isShowingFlash, setIsShowingFlash] = useState(false);
+  const [isShowingAccountPage, setIsShowingAccountPage] = useState(false);
   const [flash, setFlash] = useState({ message: '', style: '' });
 
   const verifyUser = useCallback(() => {
@@ -148,6 +148,10 @@ function GrammCracker() {
     setIsAddingDeck(!isAddingDeck);
   };
 
+  const toggleAccountPage = () => {
+    setIsShowingAccountPage(!isShowingAccountPage);
+  };
+
   let studyView;
   // conditional rendering in case no decks are loaded from DB
   if (deck.length > 0) {
@@ -183,7 +187,7 @@ function GrammCracker() {
       {userContext.token && (
         <span>Total Decks: {isLoading ? 'loading...' : deck.length}</span>
       )}
-      {userContext.token && <Welcome />}
+      {userContext.token && <Welcome toggle={toggleAccountPage} />}
     </>
   );
 
@@ -245,6 +249,7 @@ function GrammCracker() {
   // );
   return (
     <>
+      {isShowingAccountPage && <MyAccount toggle={toggleAccountPage} />}
       {isShowingFlash && <FlashMessage flash={flash} />}
       <div className="GrammCracker">
         {heading}

@@ -1,8 +1,10 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
-const Welcome = () => {
+const Welcome = (props) => {
   const [userContext, setUserContext] = useContext(UserContext);
+
+  const { toggle } = props;
 
   const fetchUserDetails = useCallback(() => {
     fetch(process.env.REACT_APP_API_ENDPOINT + 'users/me', {
@@ -47,10 +49,10 @@ const Welcome = () => {
     <div>
       <p>
         Welcome&nbsp;
-        <strong>
+        <button onClick={toggle}>
           {userContext.details.firstName}
           {userContext.details.lastName && ' ' + userContext.details.lastName}
-        </strong>
+        </button>
         !
       </p>
     </div>

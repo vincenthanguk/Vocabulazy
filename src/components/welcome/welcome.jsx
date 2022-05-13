@@ -1,6 +1,8 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
+// NOTE: fetch auslagern, damit die myAccount Seite auch UserContext erhält
+
 const Welcome = (props) => {
   const [userContext, setUserContext] = useContext(UserContext);
 

@@ -1,7 +1,8 @@
 import { React, useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 
-import Register from '../register/register';
+import './login-styles.css';
+import Register from '../register/register-component';
 
 function Login(props) {
   const { handleFlash } = props;
@@ -59,8 +60,8 @@ function Login(props) {
   };
 
   return !isRegistering ? (
-    <>
-      <div>Login</div>
+    <div className="Login">
+      <h3>Login</h3>
       <form onSubmit={formSubmitHandler}>
         <div>
           <label htmlFor="email">Email: </label>
@@ -92,7 +93,7 @@ function Login(props) {
         New to Gramm-Cracker? Please{' '}
         <button onClick={toggleIsRegistering}>register</button>!
       </span>
-    </>
+    </div>
   ) : (
     <Register toggle={toggleIsRegistering} handleFlash={handleFlash} />
   );

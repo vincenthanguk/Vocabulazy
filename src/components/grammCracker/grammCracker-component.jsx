@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Deck from '../deck/deck-component';
 // import deckData from '../../data/data';
-import Login from '../login/login';
+import Login from '../login/login-component';
 import Study from '../study/study-component';
 import NewDeckForm from '../newDeckForm/newDeckForm-component';
 import FlashMessage from '../flashMessage/flashMessage-component';
@@ -95,6 +95,7 @@ function GrammCracker() {
     (async () => {
       try {
         // fetchData();
+        console.log('Inside useEffect!');
         const result = await fetch(
           process.env.REACT_APP_API_ENDPOINT +
             `decks/${userContext.details._id}`,
@@ -112,7 +113,9 @@ function GrammCracker() {
         setIsLoading(false);
       } catch (err) {
         setIsError(true);
-        console.error('looks like something went wrong', err);
+        console.error('Looks like something went wrong! 💥', err);
+        // set loading to false if no user is fetched (prevent loading... prompt)
+        setIsLoading(false);
       }
     })();
     return () => controller?.abort();
@@ -183,11 +186,13 @@ function GrammCracker() {
       <h1>
         Gramm-Cracker <FontAwesomeIcon icon={faCookieBite} />
       </h1>
-      <span>Your Daily Bite of Grammar</span>
+      <span className="span-title">Your Daily Bite of Grammar</span>
       {userContext.token && (
         <span>Total Decks: {isLoading ? 'loading...' : deck.length}</span>
       )}
-      {userContext.token && <Welcome toggle={toggleAccountPage} />}
+      {!isStudying && userContext.token ? (
+        <Welcome toggle={toggleAccountPage} />
+      ) : null}
     </>
   );
 

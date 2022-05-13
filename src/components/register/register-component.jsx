@@ -1,6 +1,8 @@
 import { React, useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 
+import './register-styles.css';
+
 function Register(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -60,8 +62,8 @@ function Register(props) {
   };
 
   return (
-    <>
-      <div>Register</div>
+    <div className="Register">
+      <h3>Register</h3>
       <form onSubmit={formSubmitHandler}>
         <div>
           <label htmlFor="firstName">First Name: </label>
@@ -97,7 +99,7 @@ function Register(props) {
           <label htmlFor="password">Password: </label>
           <input
             id="password"
-            placeholder="password"
+            placeholder="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -108,7 +110,7 @@ function Register(props) {
         </button>
       </form>
       <button onClick={toggle}>Back to Login</button>
-    </>
+    </div>
   );
 }
 

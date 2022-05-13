@@ -83,8 +83,6 @@ function Study(props) {
     setCardIsRevealed(false);
   };
 
-  //   NOTE: need card counter, stack for correct, wrong cards. show only front of card, back upon button press
-
   return (
     <div className="Study">
       <h1>Studying Deck "{deckName}"</h1>

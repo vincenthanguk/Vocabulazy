@@ -6,7 +6,7 @@ import Login from '../login/login-component';
 import Study from '../study/study-component';
 import NewDeckForm from '../newDeckForm/newDeckForm-component';
 import FlashMessage from '../flashMessage/flashMessage-component';
-import Welcome from '../welcome/welcome';
+import Welcome from '../welcome/welcome-component';
 import MyAccount from '../myAccount/myAccount-component';
 
 import './grammCracker-styles.css';
@@ -187,9 +187,7 @@ function GrammCracker() {
         Gramm-Cracker <FontAwesomeIcon icon={faCookieBite} />
       </h1>
       <span className="span-title">Your Daily Bite of Grammar</span>
-      {userContext.token && (
-        <span>Total Decks: {isLoading ? 'loading...' : deck.length}</span>
-      )}
+
       {!isStudying && userContext.token ? (
         <Welcome toggle={toggleAccountPage} />
       ) : null}
@@ -254,7 +252,13 @@ function GrammCracker() {
   // );
   return (
     <>
-      {isShowingAccountPage && <MyAccount toggle={toggleAccountPage} />}
+      {isShowingAccountPage && (
+        <MyAccount
+          toggle={toggleAccountPage}
+          deckData={deck}
+          userDetails={userContext.details}
+        />
+      )}
       {isShowingFlash && <FlashMessage flash={flash} />}
       <div className="GrammCracker">
         {heading}

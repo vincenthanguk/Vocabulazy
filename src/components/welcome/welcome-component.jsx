@@ -46,7 +46,7 @@ const Welcome = (props) => {
   }, [userContext.details, fetchUserDetails]);
 
   return !userContext.details ? (
-    'Error loading user details'
+    'Loading user details...'
   ) : (
     <div>
       <p>

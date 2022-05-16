@@ -29,6 +29,7 @@ function NewCardForm(props) {
           cardFront: formValue.cardFront,
           cardBack: formValue.cardBack,
           deck: deckId,
+          user: userContext.details._id,
         }),
       });
 

@@ -1,8 +1,13 @@
-import React from 'react';
+import { React, useState, useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
+
 import './myAccount-styles.css';
 
 const MyAccount = (props) => {
-  const { toggle, deckData, userDetails } = props;
+  const [userContext, setUserContext] = useContext(UserContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { toggle, deckData, userDetails, handleFlash } = props;
 
   const calculateTotalCards = (decks) => {
     let cardSum = 0;
@@ -15,6 +20,39 @@ const MyAccount = (props) => {
   const convertDateString = (date) => {
     const newDate = new Date(date);
     return newDate.toLocaleDateString();
+  };
+
+  const handleDelete = async (e) => {
+    try {
+      e.preventDefault();
+      setIsSubmitting(true);
+
+      await fetch(process.env.REACT_APP_API_ENDPOINT + `users/me`, {
+        method: 'DELETE',
+        credentials: 'include',
+        // SameSite: 'none',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+      }).then(async (response) => {
+        setUserContext((oldValues) => {
+          return { ...oldValues, details: undefined, token: null };
+        });
+        window.localStorage.setItem('logout', Date.now());
+      });
+      // await fetchData();
+      handleFlash(
+        'success',
+        'User deleted! Thank you for using Gramm-Cracker',
+        2000
+      );
+      setIsSubmitting(false);
+    } catch (err) {
+      console.log(err);
+      handleFlash('error', 'Oops, something went wrong!', 2000);
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -31,7 +69,9 @@ const MyAccount = (props) => {
         <p>Total Decks: {deckData.length}</p>
         <p>Total Cards: {calculateTotalCards(deckData)}</p>
         <p>Study Sessions: {userDetails.studySessions} </p>
-        <button>Delete Account</button>
+        <button onClick={handleDelete} disabled={isSubmitting}>
+          {isSubmitting ? 'Deleting Account...' : 'Delete Account'}
+        </button>
       </div>
     </div>
   );

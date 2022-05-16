@@ -257,6 +257,7 @@ function GrammCracker() {
           toggle={toggleAccountPage}
           deckData={deck}
           userDetails={userContext.details}
+          handleFlash={handleFlash}
         />
       )}
       {isShowingFlash && <FlashMessage flash={flash} />}

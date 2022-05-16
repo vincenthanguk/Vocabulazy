@@ -84,10 +84,16 @@ function Deck(props) {
       {cardsToggled && <ul>{flashcards}</ul>}
       {addCardFormToggled && form}
       <div className="buttons">
-        <button onClick={() => props.toggleStudy(deckNumber)}>Study</button>
+        <button
+          onClick={() => props.toggleStudy(deckNumber)}
+          disabled={deck.length === 0}
+        >
+          Study
+        </button>
         <button
           onClick={toggleCards}
           className={cardsToggled ? 'active' : undefined}
+          disabled={deck.length === 0}
         >
           {cardsToggled ? 'Hide' : 'Show'} Cards
         </button>

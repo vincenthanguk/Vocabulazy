@@ -9,11 +9,14 @@ import './study-styles.css';
 
 function Study(props) {
   const { deck, deckName } = props;
+
   const [studyDeck, setStudyDeck] = useState(deck);
   const [currentCard, setCurrentCard] = useState([]);
   const [correct, setCorrect] = useState([]);
   const [wrong, setWrong] = useState([]);
   const [cardIsRevealed, setCardIsRevealed] = useState(false);
+  const [timerSeconds, setTimerSeconds] = useState(0);
+  const [timerIsActive, setTimerIsActive] = useState(true);
 
   // everytime the studydeck is changed, a new random card is selected as currentCard
   const generateRandomCard = () => {
@@ -27,18 +30,39 @@ function Study(props) {
 
   useEffect(() => setCurrentCard(generateRandomCard()), [studyDeck]);
 
+  useEffect(() => {
+    let interval = null;
+    if (timerIsActive) {
+      interval = setInterval(() => {
+        setTimerSeconds((seconds) => seconds + 1);
+      }, 1000);
+    } else if (!timerIsActive && timerSeconds !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [timerIsActive, timerSeconds]);
+
+  const checkFinish = () => {
+    if (studyDeck.length > 1) {
+      console.log(studyDeck.length);
+    } else {
+      console.log('deactivating timer');
+      setTimerIsActive(false);
+    }
+  };
+
   const cardCorrect = (card) => {
     setCorrect((oldState) => [...oldState, card]);
     removeCard(card);
-    // setCurrentCard(generateRandomCard());
     hideCard();
+    checkFinish();
   };
 
   const cardWrong = (card) => {
     setWrong((oldState) => [...oldState, card]);
     removeCard(card);
-    // setCurrentCard(generateRandomCard());
     hideCard();
+    checkFinish();
   };
 
   const removeCard = (card) => {
@@ -52,33 +76,14 @@ function Study(props) {
     setCorrect([]);
     setWrong([]);
     hideCard();
-    // if (studyDeck.length > 0) setCurrentCard(generateRandomCard());
+    setTimerSeconds(0);
+    setTimerIsActive(true);
   };
-
-  // let ranCard;
-
-  // const generateRandomCard = () => {
-  //   console.log('generating random card');
-  //   if (studyDeck.length > 0) {
-  //     const ranNum = Math.floor(Math.random() * studyDeck.length);
-  //     ranCard = studyDeck[ranNum];
-  //     const card = (
-  //       <StudyFlashcard
-  //         cardId={ranCard.cardId}
-  //         front={ranCard.cardFront}
-  //         back={ranCard.cardBack}
-  //         reveal={cardIsRevealed}
-  //       />
-  //     );
-  //     return card;
-  //   } else {
-  //     return <h1>No Cards left in Deck!</h1>;
-  //   }
-  // };
 
   const revealCard = () => {
     setCardIsRevealed(true);
   };
+
   const hideCard = () => {
     setCardIsRevealed(false);
   };
@@ -90,6 +95,7 @@ function Study(props) {
         <table>
           <tbody>
             <tr>
+              <td>⏱: {timerSeconds}</td>
               <td>🗂: {studyDeck.length}</td>
               <td>✅: {correct.length}</td>
               <td>❌: {wrong.length}</td>
@@ -98,7 +104,7 @@ function Study(props) {
         </table>
       </div>
       <div className="card">
-        {currentCard ? (
+        {currentCard && timerIsActive ? (
           <StudyFlashcard
             cardId={currentCard.cardId}
             front={currentCard.cardFront}

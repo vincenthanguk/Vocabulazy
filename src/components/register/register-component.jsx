@@ -7,7 +7,6 @@ function Register(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userContext, setUserContext] = useContext(UserContext);
@@ -25,7 +24,7 @@ function Register(props) {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ firstName, lastName, username: email, password }),
+      body: JSON.stringify({ firstName, username: email, password }),
     })
       .then(async (response) => {
         setIsSubmitting(false);
@@ -66,23 +65,13 @@ function Register(props) {
       <h3>Register</h3>
       <form onSubmit={formSubmitHandler}>
         <div>
-          <label htmlFor="firstName">First Name: </label>
+          <label htmlFor="firstName">Username: </label>
           <input
             id="firstName"
-            placeholder="First Name"
+            placeholder="Username"
             type="firstName"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="lastName">Last Name: </label>
-          <input
-            id="lastName"
-            placeholder="Last Name"
-            type="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
           />
         </div>
         <div>

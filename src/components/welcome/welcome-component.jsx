@@ -51,11 +51,7 @@ const Welcome = (props) => {
     <div>
       <p>
         Welcome,&nbsp;
-        <button onClick={toggle}>
-          {userContext.details.firstName}
-          {userContext.details.lastName && ' ' + userContext.details.lastName}
-        </button>
-        !
+        <button onClick={toggle}>{userContext.details.firstName}</button>!
       </p>
     </div>
   );

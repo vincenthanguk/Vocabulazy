@@ -59,9 +59,7 @@ const MyAccount = (props) => {
     <div className="modal" onClick={toggle}>
       <div className="modal-main">
         <button onClick={toggle}>X</button>
-        <h1>
-          {userDetails.firstName} {userDetails.lastName}
-        </h1>
+        <h1>{userDetails.firstName}</h1>
         <span>
           (Crackin' Gramms since {convertDateString(userDetails.createdAt)}){' '}
         </span>
@@ -69,6 +67,7 @@ const MyAccount = (props) => {
         <p>Total Decks: {deckData.length}</p>
         <p>Total Cards: {calculateTotalCards(deckData)}</p>
         <p>Study Sessions: {userDetails.studySessions} </p>
+        <button>Change Password</button>
         <button onClick={handleDelete} disabled={isSubmitting}>
           {isSubmitting ? 'Deleting Account...' : 'Delete Account'}
         </button>

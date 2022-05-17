@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
 import StudyFlashcard from '../studyFlashcard/studyFlashcard-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -8,8 +9,9 @@ import { faSync } from '@fortawesome/free-solid-svg-icons';
 import './study-styles.css';
 
 function Study(props) {
-  const { deck, deckName } = props;
+  const { deck, deckName, deckId } = props;
 
+  const [userContext, setUserContext] = useContext(UserContext);
   const [studyDeck, setStudyDeck] = useState(deck);
   const [currentCard, setCurrentCard] = useState([]);
   const [correct, setCorrect] = useState([]);
@@ -17,16 +19,6 @@ function Study(props) {
   const [cardIsRevealed, setCardIsRevealed] = useState(false);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [timerIsActive, setTimerIsActive] = useState(true);
-
-  // everytime the studydeck is changed, a new random card is selected as currentCard
-  const generateRandomCard = () => {
-    console.log('generating random card');
-    console.log(studyDeck.length);
-    const ranNum = Math.floor(Math.random() * studyDeck.length);
-    const card = studyDeck[ranNum];
-
-    return card;
-  };
 
   useEffect(() => setCurrentCard(generateRandomCard()), [studyDeck]);
 
@@ -42,33 +34,60 @@ function Study(props) {
     return () => clearInterval(interval);
   }, [timerIsActive, timerSeconds]);
 
-  const checkFinish = () => {
-    if (studyDeck.length > 1) {
-      console.log(studyDeck.length);
-    } else {
+  useEffect(() => {
+    if (studyDeck.length === 0) {
+      console.log(`Total Cards Studied: ${correct.length} + ${wrong.length}`);
+      console.log(`Total Time Elapsed: ${timerSeconds}`);
       console.log('deactivating timer');
       setTimerIsActive(false);
+      submitSession();
+      return;
+    } else {
+      return;
     }
+  }, [studyDeck]);
+
+  // everytime the studydeck is changed, a new random card is selected as currentCard
+  const generateRandomCard = () => {
+    const ranNum = Math.floor(Math.random() * studyDeck.length);
+    const card = studyDeck[ranNum];
+    return card;
+  };
+
+  const submitSession = async () => {
+    await fetch(process.env.REACT_APP_API_ENDPOINT + 'studysession', {
+      method: 'POST',
+      credentials: 'include',
+      // SameSite: 'none',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userContext.token}`,
+      },
+      body: JSON.stringify({
+        totalCards: correct.length + wrong.length,
+        correctCards: correct.length,
+        wrongCards: wrong.length,
+        totalTime: timerSeconds,
+        user: userContext.details._id,
+        deck: deckId,
+      }),
+    });
   };
 
   const cardCorrect = (card) => {
     setCorrect((oldState) => [...oldState, card]);
     removeCard(card);
     hideCard();
-    checkFinish();
   };
 
   const cardWrong = (card) => {
     setWrong((oldState) => [...oldState, card]);
     removeCard(card);
     hideCard();
-    checkFinish();
   };
 
   const removeCard = (card) => {
     setStudyDeck(studyDeck.filter((item) => item._id !== card._id));
-    console.log('removing card from deck');
-    // console.log(studyDeck, card);
   };
 
   const resetDecks = () => {

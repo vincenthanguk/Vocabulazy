@@ -95,7 +95,6 @@ function GrammCracker() {
     (async () => {
       try {
         // fetchData();
-        console.log('Inside useEffect!');
         const result = await fetch(
           process.env.REACT_APP_API_ENDPOINT +
             `decks/${userContext.details._id}`,
@@ -159,7 +158,11 @@ function GrammCracker() {
   // conditional rendering in case no decks are loaded from DB
   if (deck.length > 0) {
     studyView = (
-      <Study deck={deck[studyDeck].cards} deckName={deck[studyDeck].name} />
+      <Study
+        deck={deck[studyDeck].cards}
+        deckName={deck[studyDeck].name}
+        deckId={deck[studyDeck]._id}
+      />
     );
   }
 

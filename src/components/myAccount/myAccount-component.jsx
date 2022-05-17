@@ -1,4 +1,4 @@
-import { React, useState, useContext } from 'react';
+import { React, useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 import './myAccount-styles.css';
@@ -6,8 +6,29 @@ import './myAccount-styles.css';
 const MyAccount = (props) => {
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [studysessions, setStudysessions] = useState([]);
 
   const { toggle, deckData, userDetails, handleFlash } = props;
+
+  useEffect(() => {
+    fetchStudysessionData();
+  }, []);
+
+  // load statistic data when component mounts
+  const fetchStudysessionData = async () => {
+    const result = await fetch(
+      process.env.REACT_APP_API_ENDPOINT + 'studysession',
+      {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+      }
+    );
+    const studysessionData = await result.json();
+    setStudysessions(studysessionData.data.studysessions);
+  };
 
   const calculateTotalCards = (decks) => {
     let cardSum = 0;
@@ -15,6 +36,29 @@ const MyAccount = (props) => {
       cardSum += deck.cards.length;
     });
     return cardSum;
+  };
+
+  const calculateCorrectCardsPercentage = (sessions) => {
+    let cardSum = 0;
+    let correctCardSum = 0;
+    sessions.forEach((studysession) => {
+      cardSum += studysession.totalCards;
+      correctCardSum += studysession.correctCards;
+    });
+    console.log('cardSum: ', cardSum);
+    console.log('correctCardSum: ', correctCardSum);
+    // inaccurate rounding with toFixed. not important for this use case.
+    return (correctCardSum / cardSum).toFixed(2);
+  };
+
+  const calculateAverageTime = (sessions) => {
+    let totalTime = 0;
+    sessions.forEach((studysession) => {
+      totalTime += studysession.totalTime;
+    });
+    console.log('total time: ', totalTime);
+    console.log('# of sessions: ', sessions.length);
+    return (totalTime / sessions.length).toFixed(2);
   };
 
   const convertDateString = (date) => {
@@ -61,12 +105,14 @@ const MyAccount = (props) => {
         <button onClick={toggle}>X</button>
         <h1>{userDetails.firstName}</h1>
         <span>
-          (Crackin' Gramms since {convertDateString(userDetails.createdAt)}){' '}
+          (Crackin' Gramms since {convertDateString(userDetails.createdAt)})
         </span>
         <h2>Statistics</h2>
         <p>Total Decks: {deckData.length}</p>
         <p>Total Cards: {calculateTotalCards(deckData)}</p>
-        <p>Study Sessions: {userDetails.studySessions} </p>
+        <p>Total Study Sessions: {studysessions.length} </p>
+        <p>✅: {calculateCorrectCardsPercentage(studysessions)}%</p>
+        <p>Average ⏱: {calculateAverageTime(studysessions)}s</p>
         <button>Change Password</button>
         <button onClick={handleDelete} disabled={isSubmitting}>
           {isSubmitting ? 'Deleting Account...' : 'Delete Account'}

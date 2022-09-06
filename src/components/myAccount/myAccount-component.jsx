@@ -142,10 +142,15 @@ const MyAccount = (props) => {
         <p>Total Decks: {deckData.length}</p>
         <p>Total Cards: {calculateTotalCards(deckData)}</p>
         <p>Total Study Sessions: {studysessions.length} </p>
-        <p>✅: {calculateCorrectCardsPercentage(studysessions)}%</p>
-        <p>Average ⏱: {calculateAverageTime(studysessions)}s</p>
+        {isNaN(calculateAverageTime(studysessions)) || (
+          <>
+            <p>✅: {calculateCorrectCardsPercentage(studysessions)}%</p>
+            <p>Average ⏱: {calculateAverageTime(studysessions)}s</p>
+          </>
+        )}
+
         <button onClick={handleResetStatistics}>Reset Statistics</button>
-        <button>Change Password</button>
+        {/* <button>Change Password</button> */}
         <button onClick={handleDelete} disabled={isSubmitting}>
           {isSubmitting ? 'Deleting Account...' : 'Delete Account'}
         </button>

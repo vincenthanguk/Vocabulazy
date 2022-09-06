@@ -131,7 +131,7 @@ function Study(props) {
             reveal={cardIsRevealed}
           />
         ) : (
-          'Finished Deck!'
+          `Finished deck in ${timerSeconds} seconds!`
         )}
       </div>
       <div className="buttons">

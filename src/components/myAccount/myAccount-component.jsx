@@ -47,8 +47,8 @@ const MyAccount = (props) => {
     });
     console.log('cardSum: ', cardSum);
     console.log('correctCardSum: ', correctCardSum);
-    // inaccurate rounding with toFixed. not important for this use case.
-    return (correctCardSum / cardSum).toFixed(2);
+    // inaccurate rounding with toFixed. not relevant for this use case.
+    return (correctCardSum / cardSum).toFixed(2) * 100;
   };
 
   const calculateAverageTime = (sessions) => {
@@ -68,6 +68,8 @@ const MyAccount = (props) => {
 
   const handleDelete = async (e) => {
     try {
+      // FIXME: toggle to prevent crash
+      toggle();
       e.preventDefault();
       setIsSubmitting(true);
 
@@ -99,8 +101,37 @@ const MyAccount = (props) => {
     }
   };
 
+  const handleResetStatistics = async (e) => {
+    try {
+      toggle();
+      e.preventDefault();
+      console.log('resetting stats');
+      setIsSubmitting(true);
+
+      await fetch(process.env.REACT_APP_API_ENDPOINT + 'studysession/', {
+        method: 'DELETE',
+        credentials: 'include',
+        // SameSite: 'none',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+      });
+
+      handleFlash('success', 'Studysessions deleted!', 2000);
+      // await fetchData();
+      setIsSubmitting(false);
+    } catch (err) {
+      console.log(err);
+      handleFlash('error', 'Oops, something went wrong!', 2000);
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <div className="modal" onClick={toggle}>
+    // FIXME: implement closing modal on click anywhere except buttons
+    // <div className="modal" onClick={toggle}>
+    <div className="modal">
       <div className="modal-main">
         <button onClick={toggle}>X</button>
         <h1>{userDetails.firstName}</h1>
@@ -113,6 +144,7 @@ const MyAccount = (props) => {
         <p>Total Study Sessions: {studysessions.length} </p>
         <p>✅: {calculateCorrectCardsPercentage(studysessions)}%</p>
         <p>Average ⏱: {calculateAverageTime(studysessions)}s</p>
+        <button onClick={handleResetStatistics}>Reset Statistics</button>
         <button>Change Password</button>
         <button onClick={handleDelete} disabled={isSubmitting}>
           {isSubmitting ? 'Deleting Account...' : 'Delete Account'}

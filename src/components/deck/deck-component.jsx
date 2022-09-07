@@ -77,7 +77,7 @@ function Deck(props) {
   };
 
   return (
-    <div className="container">
+    <div className="container-deck">
       <h1>
         {deckNumber + 1}: {deckName} ({deck.length} Cards)
       </h1>

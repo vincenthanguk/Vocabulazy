@@ -48,7 +48,7 @@ const Welcome = (props) => {
   return !userContext.details ? (
     'Loading user details...'
   ) : (
-    <div>
+    <div className="heading-welcome">
       <p>
         Welcome,&nbsp;
         <button onClick={toggle}>{userContext.details.firstName}</button>!

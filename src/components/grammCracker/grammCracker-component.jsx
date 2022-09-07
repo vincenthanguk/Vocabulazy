@@ -227,7 +227,7 @@ function GrammCracker() {
             />
           ))}
       </div>
-      <div>
+      <div className="footer">
         {isStudying || newDeckButton}
         <button onClick={logoutHandler}>Logout</button>
       </div>
@@ -265,7 +265,7 @@ function GrammCracker() {
       )}
       {isShowingFlash && <FlashMessage flash={flash} />}
       <div className="GrammCracker">
-        {heading}
+        <div className="header-main">{heading}</div>
         {isLoading ? loading : userContext.token && mainContainer}
         {userContext.token === null && (
           <>

@@ -1,3 +1,13 @@
+/* Type Scale
+
+- Font sizes (px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+
+font weight: 400
+
+whitespace: multiples of 16px
+*/
+
 .GrammCracker {
   width: auto;
   max-width: 85vw;
@@ -5,25 +15,26 @@
   max-height: 85vh;
   display: flex;
   flex-direction: column;
-  /* border: 2px solid gray; */
   padding: 1rem;
-  border-radius: 15px;
+  border-radius: 8px;
   margin-top: 2rem;
-  background-color: rgb(207, 226, 245);
+  background-color: #35423f;
+  color: whitesmoke;
   text-align: center;
 }
 
 .mainContainer {
-  background-color: rgb(239, 247, 255);
-  border-radius: 15px;
+  background-color: #6a847e;
+  border-radius: 8px;
   width: auto;
   overflow: auto;
 }
 
 button {
   border: none;
-  background-color: rgb(95, 95, 250);
-  color: whitesmoke;
+  background-color: #f28482;
+  color: black;
+  font-size: 1.6rem;
   border-radius: 4px;
   margin: 0 5px;
 }
@@ -48,6 +59,18 @@ ul {
   width: 100%;
 }
 
+h1 {
+  font-size: 3.6rem;
+}
+
+.heading-title {
+  letter-spacing: 1.4px;
+  margin-bottom: 0;
+  margin-top: 0.8rem;
+}
+
 .span-title {
   margin-bottom: 0.6rem;
+  font-size: 1.6rem;
+  color: #ccc;
 }

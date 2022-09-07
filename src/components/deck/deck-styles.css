@@ -7,9 +7,10 @@ ul {
 }
 
 .container {
-  border-radius: 15px;
-  background-color: rgb(156, 233, 181);
-  margin: 20px;
+  border-radius: 8px;
+  background-color: #e6e6e6;
+  color: #000;
+  margin: 1.6rem;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -17,5 +18,5 @@ ul {
 }
 
 .container h1 {
-  font-size: 1.2rem;
+  font-size: 2rem;
 }

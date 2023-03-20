@@ -4,9 +4,18 @@ import { UserContext } from '../../context/UserContext';
 import './editCardForm-styles.css';
 
 function EditCardForm(props) {
-  const { cardId, cardFront, cardBack, fetchData, toggle, handleFlash } = props;
+  const {
+    cardId,
+    cardNumber,
+    cardFront,
+    cardBack,
+    fetchData,
+    toggle,
+    handleFlash,
+    setSubmitInParent,
+    isSubmitting,
+  } = props;
   const [userContext, setUserContext] = useContext(UserContext);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formValue, setFormValue] = useState({
     cardFront: cardFront || '',
@@ -16,7 +25,7 @@ function EditCardForm(props) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      setIsSubmitting(true);
+      setSubmitInParent(true);
 
       await fetch(process.env.REACT_APP_API_ENDPOINT + `cards/${cardId}`, {
         method: 'PATCH',
@@ -42,12 +51,12 @@ function EditCardForm(props) {
       // console.log(response);
       await fetchData();
       handleFlash('success', 'Card edited!', 2000);
-      setIsSubmitting(false);
+      setSubmitInParent(false);
       toggle();
     } catch (err) {
       console.log(err);
       handleFlash('error', 'Oops, something went wrong!', 2000);
-      setIsSubmitting(false);
+      setSubmitInParent(false);
     }
   };
 
@@ -61,8 +70,12 @@ function EditCardForm(props) {
   return (
     <>
       <form className="editForm" onSubmit={handleSubmit}>
-        <label htmlFor="cardFront">Front: </label>
+        <div className="cardNumber">{cardNumber}</div>
+        <label className="label labelFront" htmlFor="cardFront">
+          Front:{' '}
+        </label>
         <input
+          className="input inputFront"
           type="text"
           name="cardFront"
           id="cardFront"
@@ -70,8 +83,11 @@ function EditCardForm(props) {
           onChange={handleChange}
           required
         />
-        <label htmlFor="cardBack">Back: </label>
+        <label className="label labelBack" htmlFor="cardBack">
+          Back:{' '}
+        </label>
         <input
+          className="input inputBack"
           type="text"
           name="cardBack"
           id="cardBack"
@@ -79,9 +95,21 @@ function EditCardForm(props) {
           onChange={handleChange}
           required
         />
-        <div type="submit" disabled={isSubmitting}>
-          {isSubmitting ? '' : '✅'}
-        </div>
+        <button
+          className="emojiBtn formSubmitBtn"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          ✅
+        </button>
+
+        <button
+          className="emojiBtn formCancelEditBtn"
+          onClick={toggle}
+          disabled={isSubmitting}
+        >
+          ❌
+        </button>
       </form>
     </>
   );

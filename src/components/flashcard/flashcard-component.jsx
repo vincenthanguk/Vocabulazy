@@ -42,17 +42,21 @@ function Flashcard(props) {
       <div className="cardNumber">{cardId}</div>
       <div className="cardFront">{front}</div>
       <div className="cardBack">{back}</div>
-      <div className="cardBtn editCardBtn" onClick={toggleEditCard}>
-        {isSubmitting ? '' : '✏️'}
-      </div>
+      <button
+        className="emojiBtn cardBtn editCardBtn"
+        onClick={toggleEditCard}
+        disabled={isSubmitting}
+      >
+        ✏️
+      </button>
 
-      <div
-        className="cardBtn deleteCardBtn"
+      <button
+        className="emojiBtn cardBtn deleteCardBtn"
         onClick={handleDelete}
         disabled={isSubmitting}
       >
-        {isSubmitting ? '' : '🗑'}
-      </div>
+        🗑
+      </button>
     </>
   );
 
@@ -61,11 +65,15 @@ function Flashcard(props) {
       {isEditingCard ? (
         <EditCardForm
           cardId={cardDBId}
+          cardNumber={cardId}
           cardFront={front}
           cardBack={back}
           fetchData={fetchData}
           toggle={toggleEditCard}
+          setSubmitInParent={setIsSubmitting}
+          isSubmitting={isSubmitting}
           handleFlash={handleFlash}
+          isEditingCard={isEditingCard}
         />
       ) : (
         flashcardContent

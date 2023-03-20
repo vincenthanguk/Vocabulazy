@@ -37,6 +37,13 @@
 
 .cardBtn {
   font-size: 1.2rem;
+  height: fit-content;
+  width: fit-content;
+  align-self: center;
+  justify-self: center;
+}
+.cardBtn:hover {
+  cursor: pointer;
 }
 
 .editCardBtn {

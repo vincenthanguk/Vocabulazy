@@ -186,11 +186,8 @@ function GrammCracker() {
 
   const heading = (
     <>
-      <h1 className="heading-title">
-        Gramm-Cracker <FontAwesomeIcon icon={faCookieBite} />
-      </h1>
-      <span className="span-title">Your Daily Bite of Grammar</span>
-
+      <h1 className="heading-title">Vocabulazy 🤓</h1>
+      <span className="span-title">Your Daily Study Helper</span>
       {!isStudying && userContext.token ? (
         <Welcome toggle={toggleAccountPage} />
       ) : null}

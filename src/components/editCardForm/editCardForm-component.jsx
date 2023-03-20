@@ -4,14 +4,14 @@ import { UserContext } from '../../context/UserContext';
 import './editCardForm-styles.css';
 
 function EditCardForm(props) {
+  const { cardId, cardFront, cardBack, fetchData, toggle, handleFlash } = props;
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formValue, setFormValue] = useState({
-    cardFront: '',
-    cardBack: '',
-  });
 
-  const { cardId, fetchData, toggle, handleFlash } = props;
+  const [formValue, setFormValue] = useState({
+    cardFront: cardFront || '',
+    cardBack: cardBack || '',
+  });
 
   const handleSubmit = async (e) => {
     try {
@@ -60,7 +60,7 @@ function EditCardForm(props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form className="editForm" onSubmit={handleSubmit}>
         <label htmlFor="cardFront">Front: </label>
         <input
           type="text"
@@ -79,9 +79,9 @@ function EditCardForm(props) {
           onChange={handleChange}
           required
         />
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Submit'}
-        </button>
+        <div type="submit" disabled={isSubmitting}>
+          {isSubmitting ? '' : '✅'}
+        </div>
       </form>
     </>
   );

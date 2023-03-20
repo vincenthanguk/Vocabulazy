@@ -90,7 +90,7 @@ const MyAccount = (props) => {
       // await fetchData();
       handleFlash(
         'success',
-        'User deleted! Thank you for using Gramm-Cracker',
+        'User deleted! Thank you for using Vocabulazy',
         2000
       );
       setIsSubmitting(false);
@@ -136,7 +136,7 @@ const MyAccount = (props) => {
         <button onClick={toggle}>X</button>
         <h1>{userDetails.firstName}</h1>
         <span>
-          (Crackin' Gramms since {convertDateString(userDetails.createdAt)})
+          (Hardly studying since {convertDateString(userDetails.createdAt)})
         </span>
         <h2>Statistics</h2>
         <p>Total Decks: {deckData.length}</p>

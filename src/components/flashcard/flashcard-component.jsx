@@ -39,30 +39,36 @@ function Flashcard(props) {
 
   const flashcardContent = (
     <>
-      <h3>Card #{cardId}</h3>
-      <h3>Front: {front}</h3>
-      <h3>Back: {back}</h3>
+      <div className="cardNumber">{cardId}</div>
+      <div className="cardFront">{front}</div>
+      <div className="cardBack">{back}</div>
+      <div className="cardBtn editCardBtn" onClick={toggleEditCard}>
+        {isSubmitting ? '' : '✏️'}
+      </div>
+
+      <div
+        className="cardBtn deleteCardBtn"
+        onClick={handleDelete}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? '' : '🗑'}
+      </div>
     </>
   );
 
   const flashcard = (
-    <div className="flashcard">
-      {!isEditingCard && flashcardContent}
-      {isEditingCard && (
+    <div className={`flashcard ${isSubmitting ? 'deleting' : ''}`}>
+      {isEditingCard ? (
         <EditCardForm
           cardId={cardDBId}
+          cardFront={front}
+          cardBack={back}
           fetchData={fetchData}
           toggle={toggleEditCard}
           handleFlash={handleFlash}
         />
-      )}
-      <button onClick={toggleEditCard}>
-        {isEditingCard ? 'X' : 'Edit Card'}
-      </button>
-      {isEditingCard || (
-        <button onClick={handleDelete} disabled={isSubmitting}>
-          {isSubmitting ? 'Deleting...' : 'Delete Card'}
-        </button>
+      ) : (
+        flashcardContent
       )}
     </div>
   );

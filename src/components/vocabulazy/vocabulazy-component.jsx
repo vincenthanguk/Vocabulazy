@@ -9,11 +9,9 @@ import FlashMessage from '../flashMessage/flashMessage-component';
 import Welcome from '../welcome/welcome-component';
 import MyAccount from '../myAccount/myAccount-component';
 
-import './grammCracker-styles.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCookieBite } from '@fortawesome/free-solid-svg-icons';
+import './vocabulazy-styles.css';
 
-function GrammCracker() {
+function Vocabulazy() {
   const [userContext, setUserContext] = useContext(UserContext);
   const [deck, setDeck] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -236,7 +234,7 @@ function GrammCracker() {
   // return (
   //   <>
   //     {isShowingFlash && <FlashMessage flash={flash} />}
-  //     <div className="GrammCracker">
+  //     <div className="Vocabulazy">
   //       {heading}
   //       {!userContext.token ? (
   //         <>{isLoading ? loading : mainContainer}</>
@@ -261,7 +259,7 @@ function GrammCracker() {
         />
       )}
       {isShowingFlash && <FlashMessage flash={flash} />}
-      <div className="GrammCracker">
+      <div className="Vocabulazy">
         <div className="header-main">{heading}</div>
         {isLoading ? loading : userContext.token && mainContainer}
         {userContext.token === null && (
@@ -276,4 +274,4 @@ function GrammCracker() {
   );
 }
 
-export default GrammCracker;
+export default Vocabulazy;

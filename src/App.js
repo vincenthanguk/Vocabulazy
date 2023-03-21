@@ -1,11 +1,11 @@
 import React from 'react';
 
-import GrammCracker from './components/grammCracker/grammCracker-component.jsx';
+import Vocabulazy from './components/vocabulazy/vocabulazy-component.jsx';
 
 function App() {
   return (
     <div>
-      <GrammCracker />
+      <Vocabulazy />
     </div>
   );
 }

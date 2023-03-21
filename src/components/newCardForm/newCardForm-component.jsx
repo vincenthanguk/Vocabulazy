@@ -33,12 +33,6 @@ function NewCardForm(props) {
         }),
       });
 
-      // const response = await axios.post('http://localhost:8000/api/v1/cards', {
-      //   cardFront: formValue.cardFront,
-      //   cardBack: formValue.cardBack,
-      //   deck: deckId,
-      // });
-
       await fetchData();
       handleFlash('success', 'Card created!', 2000);
       setIsSubmitting(false);
@@ -62,9 +56,12 @@ function NewCardForm(props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="cardFront">Front: </label>
+      <form className="editForm" onSubmit={handleSubmit}>
+        <label className="label labelFront" htmlFor="cardFront">
+          Front:{' '}
+        </label>
         <input
+          className="input inputFront"
           type="text"
           name="cardFront"
           id="cardFront"
@@ -72,8 +69,11 @@ function NewCardForm(props) {
           onChange={handleChange}
           required
         />
-        <label htmlFor="cardBack">Back: </label>
+        <label className="label labelBack" htmlFor="cardBack">
+          Back:{' '}
+        </label>
         <input
+          className="input inputBack"
           type="text"
           name="cardBack"
           id="cardBack"
@@ -81,8 +81,12 @@ function NewCardForm(props) {
           onChange={handleChange}
           required
         />
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Submit'}
+        <button
+          className="emojiBtn formSubmitBtn"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Submitting...' : '✅'}
         </button>
       </form>
     </>

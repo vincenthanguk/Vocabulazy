@@ -16,6 +16,7 @@ function EditCardForm(props) {
     setSubmitInParent,
     isSubmitting,
     initialValue,
+    toggleAddCardForm,
   } = props;
   const [userContext, setUserContext] = useContext(UserContext);
 
@@ -56,6 +57,7 @@ function EditCardForm(props) {
           cardFront: '',
           cardBack: '',
         });
+        toggleAddCardForm();
       } catch (err) {
         console.log(err);
         handleFlash('error', 'Oops, something went wrong!', 2000);

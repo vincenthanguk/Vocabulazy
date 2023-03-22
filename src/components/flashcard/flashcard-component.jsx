@@ -7,6 +7,7 @@ import './flashcard-styles.css';
 function Flashcard(props) {
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hidden, setHidden] = useState(true);
   const {
     cardId,
     cardDBId,
@@ -16,6 +17,7 @@ function Flashcard(props) {
     fetchData,
     handleFlash,
     initialValue,
+    toggleAddCardForm,
   } = props;
   const [isEditingCard, setIsEditingCard] = useState(false);
 
@@ -58,7 +60,7 @@ function Flashcard(props) {
       <div className="cardFront">{front}</div>
       <div className="cardBack">{back}</div>
       <button
-        className="emojiBtn cardBtn editCardBtn"
+        className={`emojiBtn cardBtn editCardBtn ${hidden && 'hidden'}`}
         onClick={toggleEditCard}
         disabled={isSubmitting}
       >
@@ -66,7 +68,7 @@ function Flashcard(props) {
       </button>
 
       <button
-        className="emojiBtn cardBtn deleteCardBtn"
+        className={`emojiBtn cardBtn deleteCardBtn ${hidden && 'hidden'}`}
         onClick={handleDelete}
         disabled={isSubmitting}
       >
@@ -78,7 +80,13 @@ function Flashcard(props) {
   const flashcard = (
     <div
       className={`flashcard ${isSubmitting ? 'deleting' : ''}
-    ${initialValue === 'newCard' ? 'newCard' : ''}`}
+    ${initialValue === 'newCard' || !hidden ? 'glow' : ''}`}
+      onMouseEnter={(e) => {
+        setHidden(false);
+      }}
+      onMouseLeave={(e) => {
+        setHidden(true);
+      }}
     >
       {isEditingCard ? (
         <EditCardForm
@@ -94,6 +102,7 @@ function Flashcard(props) {
           handleFlash={handleFlash}
           isEditingCard={isEditingCard}
           initialValue={initialValue}
+          toggleAddCardForm={toggleAddCardForm}
         />
       ) : (
         flashcardContent

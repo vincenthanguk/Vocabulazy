@@ -1,9 +1,12 @@
-ul {
+.flashcardUl {
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  list-style: none;
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
   padding: 0;
+  gap: 1rem;
 }
 
 .container-deck {
@@ -15,7 +18,16 @@ ul {
   padding: 10px;
   display: flex;
   flex-direction: column;
+}
+
+.addCardBtn {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
   align-items: center;
+  width: 14rem;
+  height: 14rem;
 }
 
 /* .container-deck:hover {

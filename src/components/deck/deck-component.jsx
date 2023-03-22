@@ -41,6 +41,21 @@ function Deck(props) {
     }
   };
 
+  // shows and hides cards in deck view
+  const toggleCards = () => {
+    setCardsToggled(() => !cardsToggled);
+  };
+
+  // shows and hides add new card
+  const toggleAddCardForm = () => {
+    setAddCardFormToggled(() => !addCardFormToggled);
+  };
+
+  // FIXME: shows edit deck form, -> edit deck right up in deck view 1: _________ ✅ delete button in top right corner
+  const toggleEditDeckForm = () => {
+    setEditDeckFormToggled(() => !editDeckFormToggled);
+  };
+
   // iterate over decks to generate flashcard components
   const flashcards = deck.map((card, i) => {
     return (
@@ -60,28 +75,16 @@ function Deck(props) {
 
   // FIXME: this should not be an extra component, but a flashcard w/ edit mode within deck view that gets toggled by toggleAddCardForm()
   const form = (
-    <Flashcard
-      initialValue="newCard"
-      deckId={deckId}
-      fetchData={fetchData}
-      handleFlash={handleFlash}
-    />
+    <li>
+      <Flashcard
+        initialValue="newCard"
+        deckId={deckId}
+        fetchData={fetchData}
+        handleFlash={handleFlash}
+        toggleAddCardForm={toggleAddCardForm}
+      />
+    </li>
   );
-
-  // shows and hides cards in deck view
-  const toggleCards = () => {
-    setCardsToggled(() => !cardsToggled);
-  };
-
-  // shows and hides add new card
-  const toggleAddCardForm = () => {
-    setAddCardFormToggled(() => !addCardFormToggled);
-  };
-
-  // FIXME: shows edit deck form, -> edit deck right up in deck view 1: _________ ✅ delete button in top right corner
-  const toggleEditDeckForm = () => {
-    setEditDeckFormToggled(() => !editDeckFormToggled);
-  };
 
   return (
     <div className="container-deck">
@@ -89,14 +92,22 @@ function Deck(props) {
         {deckNumber + 1}: {deckName} ({deck.length} Cards)
       </h1>
       {cardsToggled && (
-        <ul>
+        <ul className="flashcardUl">
           {flashcards}
-
           {/* show/hide add card */}
-          <li>{form}</li>
+          {addCardFormToggled && form}
+          <li>
+            <div className="addCardBtn">
+              <button
+                onClick={toggleAddCardForm}
+                className={addCardFormToggled ? 'hidden' : ''}
+              >
+                ⊕
+              </button>
+            </div>
+          </li>
         </ul>
       )}
-      {addCardFormToggled && form}
       <div className="buttons">
         <button
           onClick={() => props.toggleStudy(deckNumber)}
@@ -111,12 +122,7 @@ function Deck(props) {
         >
           {cardsToggled ? 'Hide' : 'Show'} Cards
         </button>
-        <button
-          onClick={toggleAddCardForm}
-          className={addCardFormToggled ? 'active' : undefined}
-        >
-          Add Card
-        </button>
+
         <button
           onClick={toggleEditDeckForm}
           className={editDeckFormToggled ? 'active' : undefined}

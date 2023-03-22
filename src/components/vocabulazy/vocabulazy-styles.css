@@ -50,7 +50,7 @@ button:hover {
   margin: 10px;
 }
 
-ul {
+.deckUl {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -103,4 +103,14 @@ h1 {
   justify-self: center;
   height: fit-content;
   width: fit-content;
+}
+
+/* universal effects */
+
+.glow {
+  box-shadow: 0 0 20px 2px #9fdeff;
+}
+
+.hidden {
+  visibility: hidden;
 }

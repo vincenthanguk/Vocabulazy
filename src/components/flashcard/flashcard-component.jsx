@@ -70,13 +70,16 @@ function Flashcard(props) {
         onClick={handleDelete}
         disabled={isSubmitting}
       >
-        🗑
+        ❌
       </button>
     </>
   );
 
   const flashcard = (
-    <div className={`flashcard ${isSubmitting ? 'deleting' : ''}`}>
+    <div
+      className={`flashcard ${isSubmitting ? 'deleting' : ''}
+    ${initialValue === 'newCard' ? 'newCard' : ''}`}
+    >
       {isEditingCard ? (
         <EditCardForm
           cardId={cardDBId}

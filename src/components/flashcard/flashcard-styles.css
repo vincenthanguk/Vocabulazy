@@ -17,6 +17,10 @@
   background-color: lightslategray;
 }
 
+.newCard {
+  box-shadow: 0 0 20px 2px #9fdeff;
+}
+
 .cardNumber {
   font-size: 1rem;
   justify-self: start;
@@ -48,12 +52,22 @@
 
 .editCardBtn {
   grid-row: 4;
-  grid-column: 1/4;
+  grid-column: 1;
+  margin: 0;
+  /* HACK: better solution than negative margins? */
+  margin-left: -1rem;
+  margin-bottom: -1rem;
+  padding: 0;
 }
 
 .deleteCardBtn {
-  grid-row: 4;
-  grid-column: 4/-1;
+  grid-row: 1;
+  grid-column: 6/7;
+  justify-self: start;
+  font-size: 1rem;
+  margin: 0;
+  margin-right: -1rem;
+  padding: 0;
 }
 
 /* .input {

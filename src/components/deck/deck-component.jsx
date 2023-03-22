@@ -60,11 +60,6 @@ function Deck(props) {
 
   // FIXME: this should not be an extra component, but a flashcard w/ edit mode within deck view that gets toggled by toggleAddCardForm()
   const form = (
-    // <NewCardForm
-    //   deckId={deckId}
-    //   fetchData={fetchData}
-    //   handleFlash={handleFlash}
-    // />
     <Flashcard
       initialValue="newCard"
       deckId={deckId}
@@ -93,8 +88,14 @@ function Deck(props) {
       <h1>
         {deckNumber + 1}: {deckName} ({deck.length} Cards)
       </h1>
-      {cardsToggled && <ul>{flashcards}</ul>}
-      {/* show/hide add card */}
+      {cardsToggled && (
+        <ul>
+          {flashcards}
+
+          {/* show/hide add card */}
+          <li>{form}</li>
+        </ul>
+      )}
       {addCardFormToggled && form}
       <div className="buttons">
         <button

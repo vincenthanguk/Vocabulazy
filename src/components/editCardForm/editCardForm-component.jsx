@@ -142,14 +142,16 @@ function EditCardForm(props) {
         >
           ✅
         </button>
-
-        <button
-          className="emojiBtn formCancelEditBtn"
-          onClick={toggle}
-          disabled={isSubmitting}
-        >
-          ❌
-        </button>
+        {/* don't show button on new cards */}
+        {initialValue === 'newCard' || (
+          <button
+            className="emojiBtn formCancelEditBtn"
+            onClick={toggle}
+            disabled={isSubmitting}
+          >
+            ❌
+          </button>
+        )}
       </form>
     </>
   );

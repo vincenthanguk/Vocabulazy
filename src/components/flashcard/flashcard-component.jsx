@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 import EditCardForm from '../editCardForm/editCardForm-component';
@@ -7,8 +7,23 @@ import './flashcard-styles.css';
 function Flashcard(props) {
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { cardId, cardDBId, front, back, fetchData, handleFlash } = props;
+  const {
+    cardId,
+    cardDBId,
+    deckId,
+    front,
+    back,
+    fetchData,
+    handleFlash,
+    initialValue,
+  } = props;
   const [isEditingCard, setIsEditingCard] = useState(false);
+
+  useEffect(() => {
+    if (initialValue === 'newCard') {
+      setIsEditingCard(true);
+    }
+  }, [initialValue]);
 
   const toggleEditCard = () => {
     setIsEditingCard(() => !isEditingCard);
@@ -68,12 +83,14 @@ function Flashcard(props) {
           cardNumber={cardId}
           cardFront={front}
           cardBack={back}
+          deckId={deckId}
           fetchData={fetchData}
           toggle={toggleEditCard}
           setSubmitInParent={setIsSubmitting}
           isSubmitting={isSubmitting}
           handleFlash={handleFlash}
           isEditingCard={isEditingCard}
+          initialValue={initialValue}
         />
       ) : (
         flashcardContent

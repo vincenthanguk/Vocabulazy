@@ -9,11 +9,13 @@ function EditCardForm(props) {
     cardNumber,
     cardFront,
     cardBack,
+    deckId,
     fetchData,
     toggle,
     handleFlash,
     setSubmitInParent,
     isSubmitting,
+    initialValue,
   } = props;
   const [userContext, setUserContext] = useContext(UserContext);
 
@@ -22,41 +24,79 @@ function EditCardForm(props) {
     cardBack: cardBack || '',
   });
 
+  // set up two scenarios:
+  // 1) without 'initialValue' -> edit the card (PATCH)
+  // 2) with 'initialValue' of newCard -> add new card to deck
+
   const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      setSubmitInParent(true);
+    if (initialValue === 'newCard') {
+      try {
+        e.preventDefault();
+        setSubmitInParent(true);
+        await fetch(process.env.REACT_APP_API_ENDPOINT + 'cards', {
+          method: 'POST',
+          credentials: 'include',
+          // SameSite: 'none',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userContext.token}`,
+          },
+          body: JSON.stringify({
+            cardFront: formValue.cardFront,
+            cardBack: formValue.cardBack,
+            deck: deckId,
+            user: userContext.details._id,
+          }),
+        });
 
-      await fetch(process.env.REACT_APP_API_ENDPOINT + `cards/${cardId}`, {
-        method: 'PATCH',
-        credentials: 'include',
-        // SameSite: 'none',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userContext.token}`,
-        },
-        body: JSON.stringify({
-          cardFront: formValue.cardFront,
-          cardBack: formValue.cardBack,
-        }),
-      });
+        await fetchData();
+        handleFlash('success', 'Card created!', 2000);
+        setSubmitInParent(false);
+        setFormValue({
+          cardFront: '',
+          cardBack: '',
+        });
+      } catch (err) {
+        console.log(err);
+        handleFlash('error', 'Oops, something went wrong!', 2000);
+        setSubmitInParent(false);
+      }
+    } else {
+      try {
+        e.preventDefault();
+        setSubmitInParent(true);
 
-      // const response = await axios.patch(
-      //   `http://localhost:8000/api/v1/cards/${cardId}`,
-      //   {
-      //     cardFront: formValue.cardFront,
-      //     cardBack: formValue.cardBack,
-      //   }
-      // );
-      // console.log(response);
-      await fetchData();
-      handleFlash('success', 'Card edited!', 2000);
-      setSubmitInParent(false);
-      toggle();
-    } catch (err) {
-      console.log(err);
-      handleFlash('error', 'Oops, something went wrong!', 2000);
-      setSubmitInParent(false);
+        await fetch(process.env.REACT_APP_API_ENDPOINT + `cards/${cardId}`, {
+          method: 'PATCH',
+          credentials: 'include',
+          // SameSite: 'none',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userContext.token}`,
+          },
+          body: JSON.stringify({
+            cardFront: formValue.cardFront,
+            cardBack: formValue.cardBack,
+          }),
+        });
+
+        // const response = await axios.patch(
+        //   `http://localhost:8000/api/v1/cards/${cardId}`,
+        //   {
+        //     cardFront: formValue.cardFront,
+        //     cardBack: formValue.cardBack,
+        //   }
+        // );
+        // console.log(response);
+        await fetchData();
+        handleFlash('success', 'Card edited!', 2000);
+        setSubmitInParent(false);
+        toggle();
+      } catch (err) {
+        console.log(err);
+        handleFlash('error', 'Oops, something went wrong!', 2000);
+        setSubmitInParent(false);
+      }
     }
   };
 

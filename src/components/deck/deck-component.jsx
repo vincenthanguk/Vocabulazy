@@ -4,10 +4,7 @@ import { UserContext } from '../../context/UserContext';
 import './deck-styles.css';
 
 import Flashcard from '../flashcard/flashcard-component';
-import NewCardForm from '../newCardForm/newCardForm-component';
 import EditDeckForm from '../editDeckForm/editDeckForm-component';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faEdit } from '@fortawesome/fontawesome-free-regular';
 
 function Deck(props) {
   const [userContext, setUserContext] = useContext(UserContext);
@@ -18,6 +15,7 @@ function Deck(props) {
 
   const { deck, deckId, deckNumber, deckName, fetchData, handleFlash } = props;
 
+  // deletes decks from database
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -43,6 +41,7 @@ function Deck(props) {
     }
   };
 
+  // iterate over decks to generate flashcard components
   const flashcards = deck.map((card, i) => {
     return (
       <li key={i}>
@@ -51,27 +50,40 @@ function Deck(props) {
           cardDBId={card._id}
           front={card.cardFront}
           back={card.cardBack}
+          deckId={deckId}
           fetchData={fetchData}
           handleFlash={handleFlash}
         />
       </li>
     );
   });
+
+  // FIXME: this should not be an extra component, but a flashcard w/ edit mode within deck view that gets toggled by toggleAddCardForm()
   const form = (
-    <NewCardForm
+    // <NewCardForm
+    //   deckId={deckId}
+    //   fetchData={fetchData}
+    //   handleFlash={handleFlash}
+    // />
+    <Flashcard
+      initialValue="newCard"
       deckId={deckId}
       fetchData={fetchData}
       handleFlash={handleFlash}
     />
   );
 
+  // shows and hides cards in deck view
   const toggleCards = () => {
     setCardsToggled(() => !cardsToggled);
   };
+
+  // shows and hides add new card
   const toggleAddCardForm = () => {
     setAddCardFormToggled(() => !addCardFormToggled);
   };
 
+  // FIXME: shows edit deck form, -> edit deck right up in deck view 1: _________ ✅ delete button in top right corner
   const toggleEditDeckForm = () => {
     setEditDeckFormToggled(() => !editDeckFormToggled);
   };
@@ -82,6 +94,7 @@ function Deck(props) {
         {deckNumber + 1}: {deckName} ({deck.length} Cards)
       </h1>
       {cardsToggled && <ul>{flashcards}</ul>}
+      {/* show/hide add card */}
       {addCardFormToggled && form}
       <div className="buttons">
         <button

@@ -17,6 +17,7 @@ function EditCardForm(props) {
     isSubmitting,
     initialValue,
     toggleAddCardForm,
+    onEditClick,
   } = props;
   const [userContext, setUserContext] = useContext(UserContext);
 
@@ -30,6 +31,7 @@ function EditCardForm(props) {
   // 2) with 'initialValue' of newCard -> add new card to deck
 
   const handleSubmit = async (e) => {
+    console.log('inside handle submit');
     if (initialValue === 'newCard') {
       try {
         e.preventDefault();
@@ -65,6 +67,7 @@ function EditCardForm(props) {
       }
     } else {
       try {
+        console.log('inside handle submit 2');
         e.preventDefault();
         setSubmitInParent(true);
 
@@ -81,19 +84,10 @@ function EditCardForm(props) {
             cardBack: formValue.cardBack,
           }),
         });
-
-        // const response = await axios.patch(
-        //   `http://localhost:8000/api/v1/cards/${cardId}`,
-        //   {
-        //     cardFront: formValue.cardFront,
-        //     cardBack: formValue.cardBack,
-        //   }
-        // );
-        // console.log(response);
         await fetchData();
         handleFlash('success', 'Card edited!', 2000);
         setSubmitInParent(false);
-        toggle();
+        onEditClick();
       } catch (err) {
         console.log(err);
         handleFlash('error', 'Oops, something went wrong!', 2000);
@@ -145,15 +139,14 @@ function EditCardForm(props) {
           ✅
         </button>
         {/* don't show button on new cards */}
-        {initialValue === 'newCard' || (
-          <button
-            className="emojiBtn formCancelEditBtn"
-            onClick={toggle}
-            disabled={isSubmitting}
-          >
-            ❌
-          </button>
-        )}
+
+        <button
+          className="emojiBtn formCancelEditBtn"
+          onClick={onEditClick}
+          disabled={isSubmitting}
+        >
+          🚫
+        </button>
       </form>
     </>
   );

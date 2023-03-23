@@ -8,6 +8,7 @@ function Flashcard(props) {
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hidden, setHidden] = useState(true);
+  const [isEditingCard, setIsEditingCard] = useState(false);
   const {
     cardId,
     cardDBId,
@@ -18,8 +19,10 @@ function Flashcard(props) {
     handleFlash,
     initialValue,
     toggleAddCardForm,
+    closeAddCardForm,
+    onEditClick,
+    isEditing,
   } = props;
-  const [isEditingCard, setIsEditingCard] = useState(false);
 
   useEffect(() => {
     if (initialValue === 'newCard') {
@@ -27,8 +30,11 @@ function Flashcard(props) {
     }
   }, [initialValue]);
 
+  // should only toggle for existing cards, new cards should return to + state on click
   const toggleEditCard = () => {
+    console.log('inside toggleEditCard');
     setIsEditingCard(() => !isEditingCard);
+    closeAddCardForm();
   };
 
   const handleDelete = async (e) => {
@@ -61,7 +67,7 @@ function Flashcard(props) {
       <div className="cardBack">{back}</div>
       <button
         className={`emojiBtn cardBtn editCardBtn ${hidden && 'hidden'}`}
-        onClick={toggleEditCard}
+        onClick={onEditClick}
         disabled={isSubmitting}
       >
         ✏️
@@ -88,7 +94,7 @@ function Flashcard(props) {
         setHidden(true);
       }}
     >
-      {isEditingCard ? (
+      {isEditing ? (
         <EditCardForm
           cardId={cardDBId}
           cardNumber={cardId}
@@ -103,6 +109,7 @@ function Flashcard(props) {
           isEditingCard={isEditingCard}
           initialValue={initialValue}
           toggleAddCardForm={toggleAddCardForm}
+          onEditClick={onEditClick}
         />
       ) : (
         flashcardContent

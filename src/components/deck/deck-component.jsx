@@ -10,6 +10,8 @@ function Deck(props) {
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardsToggled, setCardsToggled] = useState(false);
+  const [currentlyEditingIndex, setCurrentlyEditingIndex] = useState(null);
+
   const [addCardFormToggled, setAddCardFormToggled] = useState(false);
   const [editDeckFormToggled, setEditDeckFormToggled] = useState(false);
 
@@ -41,6 +43,17 @@ function Deck(props) {
     }
   };
 
+  const handleEditClick = (i) => {
+    console.log('inside handleEditClick', i);
+    if (currentlyEditingIndex === i || currentlyEditingIndex === 'addNewCard') {
+      // Clicked flashcard is already being edited or new card is being cancelled, switch back to normal view
+      setCurrentlyEditingIndex(null);
+    } else {
+      // Clicked flashcard is not being edited, switch to edit view
+      setCurrentlyEditingIndex(i);
+    }
+  };
+
   // shows and hides cards in deck view
   const toggleCards = () => {
     setCardsToggled(() => !cardsToggled);
@@ -48,7 +61,14 @@ function Deck(props) {
 
   // shows and hides add new card
   const toggleAddCardForm = () => {
-    setAddCardFormToggled(() => !addCardFormToggled);
+    console.log('inside toggleAddCardForm');
+    if (currentlyEditingIndex === 'addNewCard') setCurrentlyEditingIndex(null);
+    else setCurrentlyEditingIndex('addNewCard');
+  };
+
+  const closeAddCardForm = () => {
+    console.log('inside closeAddCardForm');
+    setAddCardFormToggled(false);
   };
 
   // FIXME: shows edit deck form, -> edit deck right up in deck view 1: _________ ✅ delete button in top right corner
@@ -68,12 +88,14 @@ function Deck(props) {
           deckId={deckId}
           fetchData={fetchData}
           handleFlash={handleFlash}
+          closeAddCardForm={closeAddCardForm}
+          onEditClick={() => handleEditClick(i)}
+          isEditing={currentlyEditingIndex === i}
         />
       </li>
     );
   });
 
-  // FIXME: this should not be an extra component, but a flashcard w/ edit mode within deck view that gets toggled by toggleAddCardForm()
   const form = (
     <li>
       <Flashcard
@@ -82,6 +104,7 @@ function Deck(props) {
         fetchData={fetchData}
         handleFlash={handleFlash}
         toggleAddCardForm={toggleAddCardForm}
+        isEditing={currentlyEditingIndex === 'addNewCard'}
       />
     </li>
   );
@@ -95,12 +118,15 @@ function Deck(props) {
         <ul className="flashcardUl">
           {flashcards}
           {/* show/hide add card */}
-          {addCardFormToggled && form}
+          {currentlyEditingIndex === 'addNewCard' && form}
+          {/* add card btn */}
           <li>
             <div className="addCardBtn">
               <button
                 onClick={toggleAddCardForm}
-                className={addCardFormToggled ? 'hidden' : ''}
+                className={
+                  currentlyEditingIndex === 'addNewCard' ? 'hidden' : ''
+                }
               >
                 ⊕
               </button>
@@ -108,6 +134,7 @@ function Deck(props) {
           </li>
         </ul>
       )}
+
       <div className="buttons">
         <button
           onClick={() => props.toggleStudy(deckNumber)}

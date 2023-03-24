@@ -12,7 +12,6 @@ function Deck(props) {
   const [cardsToggled, setCardsToggled] = useState(false);
   const [currentlyEditingIndex, setCurrentlyEditingIndex] = useState(null);
 
-  const [addCardFormToggled, setAddCardFormToggled] = useState(false);
   const [editDeckFormToggled, setEditDeckFormToggled] = useState(false);
 
   const { deck, deckId, deckNumber, deckName, fetchData, handleFlash } = props;
@@ -48,6 +47,10 @@ function Deck(props) {
     if (currentlyEditingIndex === i || currentlyEditingIndex === 'addNewCard') {
       // Clicked flashcard is already being edited or new card is being cancelled, switch back to normal view
       setCurrentlyEditingIndex(null);
+      // Click on + button activates new card view
+      if (i === 'addNewCard') {
+        setCurrentlyEditingIndex('addNewCard');
+      }
     } else {
       // Clicked flashcard is not being edited, switch to edit view
       setCurrentlyEditingIndex(i);
@@ -59,19 +62,6 @@ function Deck(props) {
     setCardsToggled(() => !cardsToggled);
   };
 
-  // shows and hides add new card
-  const toggleAddCardForm = () => {
-    console.log('inside toggleAddCardForm');
-    if (currentlyEditingIndex === 'addNewCard') setCurrentlyEditingIndex(null);
-    else setCurrentlyEditingIndex('addNewCard');
-  };
-
-  const closeAddCardForm = () => {
-    console.log('inside closeAddCardForm');
-    setAddCardFormToggled(false);
-  };
-
-  // FIXME: shows edit deck form, -> edit deck right up in deck view 1: _________ ✅ delete button in top right corner
   const toggleEditDeckForm = () => {
     setEditDeckFormToggled(() => !editDeckFormToggled);
   };
@@ -88,7 +78,6 @@ function Deck(props) {
           deckId={deckId}
           fetchData={fetchData}
           handleFlash={handleFlash}
-          closeAddCardForm={closeAddCardForm}
           onEditClick={() => handleEditClick(i)}
           isEditing={currentlyEditingIndex === i}
         />
@@ -103,9 +92,17 @@ function Deck(props) {
         deckId={deckId}
         fetchData={fetchData}
         handleFlash={handleFlash}
-        toggleAddCardForm={toggleAddCardForm}
+        onEditClick={() => handleEditClick()}
         isEditing={currentlyEditingIndex === 'addNewCard'}
       />
+    </li>
+  );
+
+  const addCardBtn = (
+    <li>
+      <div className="addCardBtn">
+        <button onClick={() => handleEditClick('addNewCard')}>⊕</button>
+      </div>
     </li>
   );
 
@@ -120,18 +117,7 @@ function Deck(props) {
           {/* show/hide add card */}
           {currentlyEditingIndex === 'addNewCard' && form}
           {/* add card btn */}
-          <li>
-            <div className="addCardBtn">
-              <button
-                onClick={toggleAddCardForm}
-                className={
-                  currentlyEditingIndex === 'addNewCard' ? 'hidden' : ''
-                }
-              >
-                ⊕
-              </button>
-            </div>
-          </li>
+          {currentlyEditingIndex === 'addNewCard' || addCardBtn}
         </ul>
       )}
 

@@ -18,8 +18,6 @@ function Flashcard(props) {
     fetchData,
     handleFlash,
     initialValue,
-    toggleAddCardForm,
-    closeAddCardForm,
     onEditClick,
     isEditing,
   } = props;
@@ -29,13 +27,6 @@ function Flashcard(props) {
       setIsEditingCard(true);
     }
   }, [initialValue]);
-
-  // should only toggle for existing cards, new cards should return to + state on click
-  const toggleEditCard = () => {
-    console.log('inside toggleEditCard');
-    setIsEditingCard(() => !isEditingCard);
-    closeAddCardForm();
-  };
 
   const handleDelete = async (e) => {
     try {
@@ -102,13 +93,11 @@ function Flashcard(props) {
           cardBack={back}
           deckId={deckId}
           fetchData={fetchData}
-          toggle={toggleEditCard}
           setSubmitInParent={setIsSubmitting}
           isSubmitting={isSubmitting}
           handleFlash={handleFlash}
           isEditingCard={isEditingCard}
           initialValue={initialValue}
-          toggleAddCardForm={toggleAddCardForm}
           onEditClick={onEditClick}
         />
       ) : (

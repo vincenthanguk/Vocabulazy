@@ -11,12 +11,10 @@ function EditCardForm(props) {
     cardBack,
     deckId,
     fetchData,
-    toggle,
     handleFlash,
     setSubmitInParent,
     isSubmitting,
     initialValue,
-    toggleAddCardForm,
     onEditClick,
   } = props;
   const [userContext, setUserContext] = useContext(UserContext);
@@ -59,7 +57,8 @@ function EditCardForm(props) {
           cardFront: '',
           cardBack: '',
         });
-        toggleAddCardForm();
+        // toggleAddCardForm();
+        onEditClick();
       } catch (err) {
         console.log(err);
         handleFlash('error', 'Oops, something went wrong!', 2000);

@@ -42,17 +42,15 @@ function Deck(props) {
     }
   };
 
+  // Clicked flashcard is already being edited or new card is being cancelled, switch back to normal view
+  // Click on + button activates new card view
+  // Clicked flashcard is not being edited, switch to edit view
   const handleEditClick = (i) => {
-    console.log('inside handleEditClick', i);
-    if (currentlyEditingIndex === i || currentlyEditingIndex === 'addNewCard') {
-      // Clicked flashcard is already being edited or new card is being cancelled, switch back to normal view
+    if (currentlyEditingIndex === i) {
       setCurrentlyEditingIndex(null);
-      // Click on + button activates new card view
-      if (i === 'addNewCard') {
-        setCurrentlyEditingIndex('addNewCard');
-      }
+    } else if (currentlyEditingIndex === 'addNewCard ' && i === 'addNewCard') {
+      setCurrentlyEditingIndex(null);
     } else {
-      // Clicked flashcard is not being edited, switch to edit view
       setCurrentlyEditingIndex(i);
     }
   };

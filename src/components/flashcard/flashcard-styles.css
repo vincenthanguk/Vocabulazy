@@ -21,6 +21,7 @@
   font-size: 1rem;
   justify-self: start;
 }
+
 .cardFront {
   grid-row: 2;
   grid-column: 1/-1;
@@ -28,6 +29,7 @@
   font-size: 2rem;
   font-weight: bold;
 }
+
 .cardBack {
   grid-row: 3;
   grid-column: 1/-1;
@@ -47,12 +49,11 @@
 }
 
 .editCardBtn {
-  grid-row: 4;
-  grid-column: 1;
+  grid-row: 1;
+  grid-column: 5;
   margin: 0;
   /* HACK: better solution than negative margins? */
-  margin-left: -1rem;
-  margin-bottom: -1rem;
+  margin-right: -1rem;
   padding: 0;
 }
 

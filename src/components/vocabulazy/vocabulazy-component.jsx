@@ -18,6 +18,9 @@ function Vocabulazy() {
   const [isError, setIsError] = useState(false);
   const [isStudying, setIsStudying] = useState(false);
   const [isAddingDeck, setIsAddingDeck] = useState(false);
+  const [currentlyEditingIndexDeck, setCurrentlyEditingIndexDeck] = useState(
+    null
+  );
   const [studyDeck, setStudyDeck] = useState(0);
   const [isShowingFlash, setIsShowingFlash] = useState(false);
   const [isShowingAccountPage, setIsShowingAccountPage] = useState(false);
@@ -198,11 +201,36 @@ function Vocabulazy() {
     </button>
   );
 
+  const newDeckContainer = (
+    <li className="liContainer">
+      <div className="container-deck">
+        {isAddingDeck || newDeckButton}
+
+        {isStudying ||
+          (isAddingDeck && (
+            <>
+              <NewDeckForm
+                fetchData={fetchData}
+                handleFlash={handleFlash}
+                toggle={toggleNewDeckForm}
+              />
+              {newDeckButton}
+            </>
+          ))}
+      </div>
+    </li>
+  );
+
   const mainContainer = (
     <>
       <div className="mainContainer">
         {/* display deckcontainers when not in study mode */}
-        {isStudying || <ul className="deckUl">{deckContainers}</ul>}
+        {isStudying || (
+          <ul className="deckUl">
+            {deckContainers}
+            {newDeckContainer}
+          </ul>
+        )}
         {/* display studyview when in study mode */}
         {isStudying && studyView}
         {deck.length > 0 || noDecks}
@@ -212,18 +240,7 @@ function Vocabulazy() {
           </button>
         )}
       </div>
-      <div>
-        {isStudying ||
-          (isAddingDeck && (
-            <NewDeckForm
-              fetchData={fetchData}
-              handleFlash={handleFlash}
-              toggle={toggleNewDeckForm}
-            />
-          ))}
-      </div>
       <div className="footer">
-        {isStudying || newDeckButton}
         <button onClick={logoutHandler}>Logout</button>
       </div>
     </>

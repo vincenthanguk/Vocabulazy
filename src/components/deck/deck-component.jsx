@@ -8,10 +8,10 @@ import EditDeckForm from '../editDeckForm/editDeckForm-component';
 
 function Deck(props) {
   const [userContext, setUserContext] = useContext(UserContext);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardsToggled, setCardsToggled] = useState(false);
   const [currentlyEditingIndex, setCurrentlyEditingIndex] = useState(null);
-
   const [editDeckFormToggled, setEditDeckFormToggled] = useState(false);
 
   const { deck, deckId, deckNumber, deckName, fetchData, handleFlash } = props;
@@ -58,10 +58,12 @@ function Deck(props) {
   // shows and hides cards in deck view
   const toggleCards = () => {
     setCardsToggled(() => !cardsToggled);
+    setCurrentlyEditingIndex(null);
   };
 
   const toggleEditDeckForm = () => {
     setEditDeckFormToggled(() => !editDeckFormToggled);
+    setCurrentlyEditingIndex(null);
   };
 
   // iterate over decks to generate flashcard components
@@ -106,9 +108,24 @@ function Deck(props) {
 
   return (
     <div className="container-deck">
-      <h1>
-        {deckNumber + 1}: {deckName} ({deck.length} Cards)
-      </h1>
+      <div className="container-deck-header">
+        {/* <div className="deckNumber">{deckNumber + 1}</div> */}
+        <button className="deleteDeckBtn" disabled={isSubmitting}>
+          ❌
+        </button>
+        <div className="deckName">
+          <button
+            className="deckNameBtn"
+            onClick={() => props.toggleStudy(deckNumber)}
+            disabled={deck.length === 0}
+          >
+            {deckName}
+          </button>
+        </div>
+        <button onClick={toggleEditDeckForm} className="editDeckBtn">
+          ✏️
+        </button>
+      </div>
       {cardsToggled && (
         <ul className="flashcardUl">
           {flashcards}
@@ -121,24 +138,12 @@ function Deck(props) {
 
       <div className="buttons">
         <button
-          onClick={() => props.toggleStudy(deckNumber)}
-          disabled={deck.length === 0}
-        >
-          Study
-        </button>
-        <button
           onClick={toggleCards}
           className={cardsToggled ? 'active' : undefined}
-          disabled={deck.length === 0}
+          // disabled={deck.length === 0}
         >
-          {cardsToggled ? 'Hide' : 'Show'} Cards
-        </button>
-
-        <button
-          onClick={toggleEditDeckForm}
-          className={editDeckFormToggled ? 'active' : undefined}
-        >
-          Edit Deck
+          {deck.length} Cards
+          {/* {cardsToggled ? 'Hide' : 'Show'} Cards */}
         </button>
         {editDeckFormToggled && (
           <EditDeckForm
@@ -148,11 +153,7 @@ function Deck(props) {
             handleFlash={handleFlash}
           />
         )}
-        <form onSubmit={handleSubmit}>
-          <button disabled={isSubmitting}>
-            {isSubmitting ? 'Deleting...' : 'Delete Deck'}
-          </button>
-        </form>
+        <form onSubmit={handleSubmit}></form>
       </div>
     </div>
   );

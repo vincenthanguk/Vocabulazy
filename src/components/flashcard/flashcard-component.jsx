@@ -20,6 +20,7 @@ function Flashcard(props) {
     initialValue,
     onEditClick,
     isEditing,
+    isDemoUser,
   } = props;
 
   useEffect(() => {
@@ -59,7 +60,7 @@ function Flashcard(props) {
       <button
         className={`emoji-btn card-btn edit-card-btn ${isHidden && 'hidden'}`}
         onClick={onEditClick}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isDemoUser}
       >
         ✏️
       </button>
@@ -67,7 +68,7 @@ function Flashcard(props) {
       <button
         className={`emoji-btn card-btn delete-card-btn ${isHidden && 'hidden'}`}
         onClick={handleDelete}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isDemoUser}
       >
         ❌
       </button>

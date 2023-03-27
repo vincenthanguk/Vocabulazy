@@ -1,7 +1,8 @@
 import React, { useCallback, useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
+
+import mockData from '../../data/mockData.json';
 import Deck from '../deck/deck-component';
-// import deckData from '../../data/data';
 import Login from '../login/login-component';
 import Study from '../study/study-component';
 import NewDeckForm from '../newDeckForm/newDeckForm-component';
@@ -16,6 +17,7 @@ function Vocabulazy() {
   const [deckList, setDeckList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [isDemoUser, setIsDemoUser] = useState(false);
   const [isStudying, setIsStudying] = useState(false);
   const [isAddingDeck, setIsAddingDeck] = useState(false);
   const [studyDeck, setStudyDeck] = useState(0);
@@ -25,32 +27,43 @@ function Vocabulazy() {
 
   // verify user token and refresh it
   const verifyUser = useCallback(() => {
-    fetch(process.env.REACT_APP_API_ENDPOINT + 'users/refreshToken', {
-      method: 'POST',
-      credentials: 'include',
-      SameSite: 'none',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(async (response) => {
-      if (response.ok) {
-        const data = await response.json();
-        setUserContext((oldValues) => {
-          return { ...oldValues, token: data.token };
-        });
-      } else {
-        setUserContext((oldValues) => {
-          return { ...oldValues, token: null };
-        });
-      }
-      // call refreshToken every 5 minutes to renew the authentication token.
-      setTimeout(verifyUser, 5 * 60 * 1000);
-    });
-  }, [setUserContext]);
+    if (userContext.username === 'demoUser') {
+      console.log('inside demoUser verifyUser');
+      return;
+      // setUserContext((oldValues) => {
+      //   return { ...oldValues, token: 'demoUser' };
+      // });
+      // setTimeout(verifyUser, 5 * 60 * 1000);
+    } else {
+      fetch(process.env.REACT_APP_API_ENDPOINT + 'users/refreshToken', {
+        method: 'POST',
+        credentials: 'include',
+        SameSite: 'none',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then(async (response) => {
+        if (response.ok) {
+          const data = await response.json();
+          setUserContext((oldValues) => {
+            return { ...oldValues, token: data.token };
+          });
+        } else {
+          setUserContext((oldValues) => {
+            return { ...oldValues, token: null };
+          });
+        }
+        // call refreshToken every 5 minutes to renew the authentication token.
+        setTimeout(verifyUser, 5 * 60 * 1000);
+      });
+    }
+  }, [setUserContext, userContext.username]);
 
   useEffect(() => {
-    verifyUser();
-  }, [verifyUser]);
+    if (userContext.username !== 'demoUser') {
+      verifyUser();
+    }
+  }, [verifyUser, userContext.username]);
 
   // logout handler
   const logoutHandler = () => {
@@ -88,28 +101,53 @@ function Vocabulazy() {
     setIsLoading(false);
   };
 
+  // fetch mock data from JSON
+  const fetchMockData = async (type) => {
+    console.log(mockData);
+    if (type in mockData) {
+      return new Response(JSON.stringify(mockData[type]), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } else {
+      return new Response('Not found', {
+        status: 404,
+        headers: { 'Content-Type': 'application.json' },
+      });
+    }
+  };
+
   // fetch data from API upon loading
   useEffect(() => {
-    // console.log(userContext);
+    console.log(userContext);
     let controller = new AbortController();
     setIsError(false);
     (async () => {
       try {
-        // fetchData();
-        const result = await fetch(
-          process.env.REACT_APP_API_ENDPOINT +
-            `decks/${userContext.details._id}`,
-          {
-            signal: controller.signal,
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${userContext.token}`,
-            },
-          }
-        );
-        const deckData = await result.json();
-        setDeckList(deckData.data.decks);
+        // LOAD MOCK USER DATA
+        if (userContext.username === 'demoUser') {
+          setIsDemoUser(true);
+          const result = await fetchMockData('decks');
+          console.log(result);
+          const deckData = await result.json();
+          console.log(deckData);
+          setDeckList(deckData);
+        } else {
+          const result = await fetch(
+            process.env.REACT_APP_API_ENDPOINT +
+              `decks/${userContext.details._id}`,
+            {
+              signal: controller.signal,
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userContext.token}`,
+              },
+            }
+          );
+          const deckData = await result.json();
+          setDeckList(deckData.data.decks);
+        }
         setIsLoading(false);
       } catch (err) {
         setIsError(true);
@@ -119,7 +157,7 @@ function Vocabulazy() {
       }
     })();
     return () => controller?.abort();
-  }, [userContext]);
+  }, []);
 
   // toggle study mode on/off, sets deck to be studied so it can be rendered in study view
   const toggleStudy = (deckNum) => {
@@ -180,6 +218,7 @@ function Vocabulazy() {
           toggleStudy={toggleStudy}
           fetchData={fetchData}
           handleFlash={handleFlash}
+          isDemoUser={isDemoUser}
         />
       </li>
     );

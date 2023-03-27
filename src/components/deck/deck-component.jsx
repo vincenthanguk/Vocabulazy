@@ -15,7 +15,15 @@ function Deck(props) {
   const [editingCardIndex, setEditingCardIndex] = useState(null);
   const [editDeckFormVisible, setEditDeckFormVisible] = useState(false);
 
-  const { deck, deckId, deckNumber, deckName, fetchData, handleFlash } = props;
+  const {
+    deck,
+    deckId,
+    deckNumber,
+    deckName,
+    fetchData,
+    handleFlash,
+    isDemoUser,
+  } = props;
 
   // deletes deck from database
   const handleDeleteDeck = async (e) => {
@@ -80,13 +88,14 @@ function Deck(props) {
           handleFlash={handleFlash}
           onEditClick={() => handleEditClick(i)}
           isEditing={editingCardIndex === i}
+          isDemoUser={isDemoUser}
         />
       </li>
     );
   });
 
   // form for adding new card to the deck
-  const form = (
+  const addNewCardForm = (
     <li>
       <Flashcard
         initialValue="newCard"
@@ -103,7 +112,12 @@ function Deck(props) {
   const addCardBtn = (
     <li>
       <div className="add-card-button-container">
-        <button onClick={() => handleEditClick('addNewCard')}>⊕</button>
+        <button
+          onClick={() => handleEditClick('addNewCard')}
+          disabled={isSubmitting || isDemoUser}
+        >
+          ⊕
+        </button>
       </div>
     </li>
   );
@@ -114,7 +128,7 @@ function Deck(props) {
         {/* <div className="deckNumber">{deckNumber + 1}</div> */}
         <button
           className="deck-delete-button"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isDemoUser}
           onClick={handleDeleteDeck}
         >
           ❌
@@ -131,6 +145,7 @@ function Deck(props) {
         <button
           onClick={toggleEditDeckFormVisibility}
           className="deck-edit-button"
+          disabled={isSubmitting || isDemoUser}
         >
           ✏️
         </button>
@@ -139,7 +154,7 @@ function Deck(props) {
         <ul className="flashcard-list">
           {flashcards}
           {/* show/hide add card */}
-          {editingCardIndex === 'addNewCard' && form}
+          {editingCardIndex === 'addNewCard' && addNewCardForm}
           {/* add card btn */}
           {editingCardIndex === 'addNewCard' || addCardBtn}
         </ul>

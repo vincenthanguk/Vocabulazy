@@ -11,7 +11,7 @@ function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
-  const [userContext, setUserContext] = useContext(UserContext);
+  const [userContext, setUserContext, toggleDemoMode] = useContext(UserContext);
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
@@ -61,6 +61,10 @@ function Login(props) {
     setIsRegistering(() => !isRegistering);
   };
 
+  const handleDemoClick = () => {
+    toggleDemoMode();
+  };
+
   return !isRegistering ? (
     <div className="Login">
       <h3>Login</h3>
@@ -95,7 +99,7 @@ function Login(props) {
         New to Gramm-Cracker? Please{' '}
         <button onClick={toggleIsRegistering}>register</button>!
       </span>
-      <button>Click here for demo version!</button>
+      <button onClick={handleDemoClick}>Click here for demo version!</button>
     </div>
   ) : (
     <Register toggle={toggleIsRegistering} handleFlash={handleFlash} />

@@ -18,7 +18,7 @@ function Deck(props) {
   const { deck, deckId, deckNumber, deckName, fetchData, handleFlash } = props;
 
   // deletes deck from database
-  const deleteDeck = async (e) => {
+  const handleDeleteDeck = async (e) => {
     try {
       e.preventDefault();
       setIsSubmitting(true);
@@ -112,7 +112,11 @@ function Deck(props) {
     <div className="deck-container">
       <div className="deck-header">
         {/* <div className="deckNumber">{deckNumber + 1}</div> */}
-        <button className="deck-delete-button" disabled={isSubmitting}>
+        <button
+          className="deck-delete-button"
+          disabled={isSubmitting}
+          onClick={handleDeleteDeck}
+        >
           ❌
         </button>
         <div className="deck-name-container">
@@ -158,7 +162,6 @@ function Deck(props) {
             handleFlash={handleFlash}
           />
         )}
-        <form onSubmit={deleteDeck}></form>
       </div>
     </div>
   );

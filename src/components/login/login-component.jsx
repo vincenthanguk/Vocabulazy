@@ -41,6 +41,7 @@ function Login(props) {
           }
         } else {
           const data = await response.json();
+          console.log(data);
           setUserContext((oldValues) => {
             return { ...oldValues, token: data.token };
           });
@@ -93,6 +94,7 @@ function Login(props) {
         New to Gramm-Cracker? Please{' '}
         <button onClick={toggleIsRegistering}>register</button>!
       </span>
+      <button>Click here for demo version!</button>
     </div>
   ) : (
     <Register toggle={toggleIsRegistering} handleFlash={handleFlash} />

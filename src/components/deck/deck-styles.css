@@ -1,4 +1,4 @@
-.flashcardUl {
+.flashcard-list {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
@@ -9,7 +9,7 @@
   gap: 1rem;
 }
 
-.container-deck {
+.deck-container {
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 7px 14px rgba(0, 0, 0, 0.01), 0 2px 2px rgba(0, 0, 0, 0.25);
@@ -26,7 +26,7 @@
         </button>
         <div className="deckName"> */
 
-.container-deck-header {
+.deck-header {
   display: grid;
   grid-template-rows: 1fr 6fr;
   grid-template-columns: 1fr 1fr 6fr 1fr 1fr;
@@ -36,30 +36,23 @@
   height: 8rem;
 }
 
-/* .deckNumber {
-  grid-row: 1;
-  grid-column: 1;
-  font-size: 1rem;
-  justify-self: start;
-} */
-
-.editDeckBtn {
+.deck-edit-button {
   grid-row: 1;
   grid-column: 4;
 }
 
-.deleteDeckBtn {
+.deck-delete-button {
   grid-row: 1;
   grid-column: 5;
 }
 
-.deckName {
+.deck-name-container {
   grid-row: 2;
   grid-column: 1/-1;
   /* height: 2rem; */
 }
 
-.addCardBtn {
+.add-card-button-container {
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -69,10 +62,6 @@
   height: 14rem;
 }
 
-/* .container-deck:hover {
-  box-shadow: inset 0 0 0 3px #82c1e5;
-} */
-
-.container-deck h1 {
+.deck-container h1 {
   font-size: 2rem;
 }

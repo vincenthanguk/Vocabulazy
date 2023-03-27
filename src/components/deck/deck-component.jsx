@@ -6,18 +6,19 @@ import './deck-styles.css';
 import Flashcard from '../flashcard/flashcard-component';
 import EditDeckForm from '../editDeckForm/editDeckForm-component';
 
+// deck component displays a deck of flashcards with additional functionality such as deleting a deck, editing a deck, and adding new cards
 function Deck(props) {
   const [userContext, setUserContext] = useContext(UserContext);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [cardsToggled, setCardsToggled] = useState(false);
-  const [currentlyEditingIndex, setCurrentlyEditingIndex] = useState(null);
-  const [editDeckFormToggled, setEditDeckFormToggled] = useState(false);
+  const [cardsVisible, setCardsVisible] = useState(false);
+  const [editingCardIndex, setEditingCardIndex] = useState(null);
+  const [editDeckFormVisible, setEditDeckFormVisible] = useState(false);
 
   const { deck, deckId, deckNumber, deckName, fetchData, handleFlash } = props;
 
-  // deletes decks from database
-  const handleSubmit = async (e) => {
+  // deletes deck from database
+  const deleteDeck = async (e) => {
     try {
       e.preventDefault();
       setIsSubmitting(true);
@@ -42,31 +43,30 @@ function Deck(props) {
     }
   };
 
-  // Clicked flashcard is already being edited or new card is being cancelled, switch back to normal view
-  // Click on + button activates new card view
-  // Clicked flashcard is not being edited, switch to edit view
+  // handles click events on flashcards, either editing an existing card, canceling the new card, or adding a new card.
   const handleEditClick = (i) => {
-    if (currentlyEditingIndex === i) {
-      setCurrentlyEditingIndex(null);
-    } else if (currentlyEditingIndex === 'addNewCard ' && i === 'addNewCard') {
-      setCurrentlyEditingIndex(null);
+    if (editingCardIndex === i) {
+      setEditingCardIndex(null);
+    } else if (editingCardIndex === 'addNewCard ' && i === 'addNewCard') {
+      setEditingCardIndex(null);
     } else {
-      setCurrentlyEditingIndex(i);
+      setEditingCardIndex(i);
     }
   };
 
-  // shows and hides cards in deck view
-  const toggleCards = () => {
-    setCardsToggled(() => !cardsToggled);
-    setCurrentlyEditingIndex(null);
+  // toggles the visibility of cards in the deck view
+  const toggleCardsVisibility = () => {
+    setCardsVisible((prevState) => !prevState);
+    setEditingCardIndex(null);
   };
 
-  const toggleEditDeckForm = () => {
-    setEditDeckFormToggled(() => !editDeckFormToggled);
-    setCurrentlyEditingIndex(null);
+  // toggles visibility of edit deck form
+  const toggleEditDeckFormVisibility = () => {
+    setEditDeckFormVisible((prevState) => !prevState);
+    setEditingCardIndex(null);
   };
 
-  // iterate over decks to generate flashcard components
+  // Generates Flshcard components for each card in the deck
   const flashcards = deck.map((card, i) => {
     return (
       <li key={i}>
@@ -79,12 +79,13 @@ function Deck(props) {
           fetchData={fetchData}
           handleFlash={handleFlash}
           onEditClick={() => handleEditClick(i)}
-          isEditing={currentlyEditingIndex === i}
+          isEditing={editingCardIndex === i}
         />
       </li>
     );
   });
 
+  // form for adding new card to the deck
   const form = (
     <li>
       <Flashcard
@@ -93,67 +94,71 @@ function Deck(props) {
         fetchData={fetchData}
         handleFlash={handleFlash}
         onEditClick={() => handleEditClick()}
-        isEditing={currentlyEditingIndex === 'addNewCard'}
+        isEditing={editingCardIndex === 'addNewCard'}
       />
     </li>
   );
 
+  // button for adding new card to deck
   const addCardBtn = (
     <li>
-      <div className="addCardBtn">
+      <div className="add-card-button-container">
         <button onClick={() => handleEditClick('addNewCard')}>⊕</button>
       </div>
     </li>
   );
 
   return (
-    <div className="container-deck">
-      <div className="container-deck-header">
+    <div className="deck-container">
+      <div className="deck-header">
         {/* <div className="deckNumber">{deckNumber + 1}</div> */}
-        <button className="deleteDeckBtn" disabled={isSubmitting}>
+        <button className="deck-delete-button" disabled={isSubmitting}>
           ❌
         </button>
-        <div className="deckName">
+        <div className="deck-name-container">
           <button
-            className="deckNameBtn"
+            className="deck-delete-button"
             onClick={() => props.toggleStudy(deckNumber)}
             disabled={deck.length === 0}
           >
             {deckName}
           </button>
         </div>
-        <button onClick={toggleEditDeckForm} className="editDeckBtn">
+        <button
+          onClick={toggleEditDeckFormVisibility}
+          className="deck-edit-button"
+        >
           ✏️
         </button>
       </div>
-      {cardsToggled && (
-        <ul className="flashcardUl">
+      {cardsVisible && (
+        <ul className="flashcard-list">
           {flashcards}
           {/* show/hide add card */}
-          {currentlyEditingIndex === 'addNewCard' && form}
+          {editingCardIndex === 'addNewCard' && form}
           {/* add card btn */}
-          {currentlyEditingIndex === 'addNewCard' || addCardBtn}
+          {editingCardIndex === 'addNewCard' || addCardBtn}
         </ul>
       )}
 
-      <div className="buttons">
+      <div>
         <button
-          onClick={toggleCards}
-          className={cardsToggled ? 'active' : undefined}
+          onClick={toggleCardsVisibility}
+          className={cardsVisible ? 'active' : undefined}
           // disabled={deck.length === 0}
         >
           {deck.length} Cards
-          {/* {cardsToggled ? 'Hide' : 'Show'} Cards */}
+          {/* {cardsVisible ? 'Hide' : 'Show'} Cards */}
         </button>
-        {editDeckFormToggled && (
+        {editDeckFormVisible && (
           <EditDeckForm
             deckId={deckId}
             fetchData={fetchData}
-            toggle={toggleEditDeckForm}
+            toggle={toggleEditDeckFormVisibility}
             handleFlash={handleFlash}
           />
         )}
-        <form onSubmit={handleSubmit}></form>
+        <form onSubmit={deleteDeck}></form>
       </div>
     </div>
   );

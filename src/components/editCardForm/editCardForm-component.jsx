@@ -104,13 +104,13 @@ function EditCardForm(props) {
 
   return (
     <>
-      <form className="editForm" onSubmit={handleSubmit}>
-        <div className="cardNumber">{cardNumber}</div>
-        <label className="label labelFront" htmlFor="cardFront">
+      <form className="form-edit" onSubmit={handleSubmit}>
+        <div className="card-number">{cardNumber}</div>
+        <label className="label label-front" htmlFor="cardFront">
           Front:{' '}
         </label>
         <input
-          className="input inputFront"
+          className="input input-front"
           type="text"
           name="cardFront"
           id="cardFront"
@@ -118,11 +118,11 @@ function EditCardForm(props) {
           onChange={handleChange}
           required
         />
-        <label className="label labelBack" htmlFor="cardBack">
+        <label className="label label-back" htmlFor="cardBack">
           Back:{' '}
         </label>
         <input
-          className="input inputBack"
+          className="input input-back"
           type="text"
           name="cardBack"
           id="cardBack"
@@ -131,7 +131,7 @@ function EditCardForm(props) {
           required
         />
         <button
-          className="emojiBtn formSubmitBtn"
+          className="emoji-btn form-submit-btn"
           type="submit"
           disabled={isSubmitting}
         >
@@ -140,7 +140,7 @@ function EditCardForm(props) {
         {/* don't show button on new cards */}
 
         <button
-          className="emojiBtn formCancelEditBtn"
+          className="emoji-btn form-cancel-edit-btn"
           onClick={onEditClick}
           disabled={isSubmitting}
         >

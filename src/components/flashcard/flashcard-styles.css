@@ -17,12 +17,12 @@
   background-color: lightslategray;
 }
 
-.cardNumber {
+.card-number {
   font-size: 1rem;
   justify-self: start;
 }
 
-.cardFront {
+.card-front {
   grid-row: 2;
   grid-column: 1/-1;
   align-self: center;
@@ -30,25 +30,25 @@
   font-weight: bold;
 }
 
-.cardBack {
+.card-back {
   grid-row: 3;
   grid-column: 1/-1;
   justify-self: center;
   align-self: center;
 }
 
-.cardBtn {
+.card-btn {
   font-size: 1.2rem;
   height: fit-content;
   width: fit-content;
   align-self: center;
   justify-self: center;
 }
-.cardBtn:hover {
+.card-btn:hover {
   cursor: pointer;
 }
 
-.editCardBtn {
+.edit-card-btn {
   grid-row: 1;
   grid-column: 5;
   margin: 0;
@@ -57,7 +57,7 @@
   padding: 0;
 }
 
-.deleteCardBtn {
+.delete-card-btn {
   grid-row: 1;
   grid-column: 6/7;
   justify-self: start;

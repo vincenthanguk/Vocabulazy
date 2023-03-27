@@ -18,6 +18,7 @@ function Login(props) {
     setIsSubmitting(true);
     setError('');
 
+    // TODO: insert demo mode
     const genericErrorMessage = 'Something went wrong! Please try again later.';
 
     fetch(process.env.REACT_APP_API_ENDPOINT + 'users/login', {

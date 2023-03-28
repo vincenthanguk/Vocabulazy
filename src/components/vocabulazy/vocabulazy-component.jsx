@@ -13,7 +13,7 @@ import MyAccount from '../myAccount/myAccount-component';
 import './vocabulazy-styles.css';
 
 function Vocabulazy() {
-  const [userContext, setUserContext] = useContext(UserContext);
+  const [userContext, setUserContext, toggleDemoMode] = useContext(UserContext);
   const [deckList, setDeckList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -27,6 +27,7 @@ function Vocabulazy() {
 
   // verify user token and refresh it
   const verifyUser = useCallback(() => {
+    console.log(userContext);
     if (userContext.username === 'demoUser') {
       console.log('inside demoUser verifyUser');
       return;
@@ -67,18 +68,26 @@ function Vocabulazy() {
 
   // logout handler
   const logoutHandler = () => {
-    fetch(process.env.REACT_APP_API_ENDPOINT + 'users/logout', {
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userContext.token}`,
-      },
-    }).then(async (response) => {
+    if (userContext.username === 'demoUser') {
+      toggleDemoMode();
+      // setIsDemoUser(false);
       setUserContext((oldValues) => {
         return { ...oldValues, details: undefined, token: null };
       });
-      window.localStorage.setItem('logout', Date.now());
-    });
+    } else {
+      fetch(process.env.REACT_APP_API_ENDPOINT + 'users/logout', {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+      }).then(async (response) => {
+        setUserContext((oldValues) => {
+          return { ...oldValues, details: undefined, token: null };
+        });
+        window.localStorage.setItem('logout', Date.now());
+      });
+    }
     handleFlash('success', 'You are now logged out', 2000);
   };
 
@@ -126,6 +135,7 @@ function Vocabulazy() {
       try {
         // LOAD MOCK USER DATA
         if (userContext.username === 'demoUser') {
+          console.log('fetching mock data');
           setIsDemoUser(true);
           const result = await fetchMockData('decks');
           console.log(result);
@@ -133,6 +143,7 @@ function Vocabulazy() {
           console.log(deckData);
           setDeckList(deckData);
         } else {
+          console.log('fetching api data');
           const result = await fetch(
             process.env.REACT_APP_API_ENDPOINT +
               `decks/${userContext.details._id}`,
@@ -157,7 +168,7 @@ function Vocabulazy() {
       }
     })();
     return () => controller?.abort();
-  }, []);
+  }, [userContext]);
 
   // toggle study mode on/off, sets deck to be studied so it can be rendered in study view
   const toggleStudy = (deckNum) => {

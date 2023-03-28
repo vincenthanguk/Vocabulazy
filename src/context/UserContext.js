@@ -4,7 +4,7 @@ const UserContext = React.createContext([{}, () => {}]);
 
 const UserProvider = (props) => {
   const [state, setState] = useState({});
-  const [demoMode, setDemoMode] = useState(true); // set initial demo mode
+  const [demoMode, setDemoMode] = useState(false); // set initial demo mode
 
   // add mock user data
   const mockUser = {
@@ -19,7 +19,18 @@ const UserProvider = (props) => {
   };
 
   const toggleDemoMode = () => {
-    setDemoMode(!demoMode);
+    console.log('inside toggleDemoMode!');
+    console.log(state);
+    console.log(demoMode);
+    if (demoMode === true) {
+      setDemoMode(false);
+      setState({});
+      console.log('demoMode set to false');
+    } else {
+      setDemoMode(true);
+      setState(mockUser);
+      console.log('demoMode set to true');
+    }
   };
 
   // prevent that state is set to mockUser multiple times

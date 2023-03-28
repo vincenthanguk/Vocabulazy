@@ -149,6 +149,12 @@ function Deck(props) {
         >
           ✏️
         </button>
+        <button
+          className="deck-study-button"
+          onClick={() => props.toggleStudy(deckNumber)}
+        >
+          Study
+        </button>
       </div>
       {cardsVisible && (
         <ul className="flashcard-list">

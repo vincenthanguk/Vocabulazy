@@ -7,6 +7,7 @@ function NewDeckForm(props) {
   const [deckName, setDeckName] = useState('');
   const { fetchData, handleFlash, toggle } = props;
 
+  // TODO: save deck to localStorage when 'isDemoUser'
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();

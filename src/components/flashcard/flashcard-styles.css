@@ -18,8 +18,9 @@
 }
 
 .card-number {
+  grid-row: 1;
+  grid-column: 7;
   font-size: 1rem;
-  justify-self: start;
 }
 
 .card-front {
@@ -50,20 +51,19 @@
 
 .edit-card-btn {
   grid-row: 1;
-  grid-column: 5;
+  grid-column: 2;
   margin: 0;
   /* HACK: better solution than negative margins? */
-  margin-right: -1rem;
   padding: 0;
 }
 
 .delete-card-btn {
   grid-row: 1;
-  grid-column: 6/7;
+  grid-column: 1;
   justify-self: start;
   font-size: 1rem;
   margin: 0;
-  margin-right: -1rem;
+  /* margin-right: -1rem; */
   padding: 0;
 }
 

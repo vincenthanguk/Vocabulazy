@@ -4,7 +4,7 @@ const UserContext = React.createContext([{}, () => {}]);
 
 const UserProvider = (props) => {
   const [state, setState] = useState({});
-  const [demoMode, setDemoMode] = useState(false); // set initial demo mode
+  const [demoMode, setDemoMode] = useState(true); // set initial demo mode
 
   // add mock user data
   const mockUser = {

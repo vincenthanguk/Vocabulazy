@@ -19,7 +19,9 @@ function Flashcard(props) {
     handleFlash,
     initialValue,
     onEditClick,
+    onAddCard,
     isEditing,
+    isDemoDeck,
     isDemoUser,
   } = props;
 
@@ -60,7 +62,7 @@ function Flashcard(props) {
       <button
         className={`emoji-btn card-btn edit-card-btn ${isHidden && 'hidden'}`}
         onClick={onEditClick}
-        disabled={isSubmitting || isDemoUser}
+        disabled={isSubmitting || isDemoDeck}
       >
         ✏️
       </button>
@@ -68,7 +70,7 @@ function Flashcard(props) {
       <button
         className={`emoji-btn card-btn delete-card-btn ${isHidden && 'hidden'}`}
         onClick={handleDelete}
-        disabled={isSubmitting || isDemoUser}
+        disabled={isSubmitting || isDemoDeck}
       >
         ❌
       </button>
@@ -100,6 +102,8 @@ function Flashcard(props) {
           isEditingCard={isEditingCard}
           initialValue={initialValue}
           onEditClick={onEditClick}
+          onAddCard={onAddCard}
+          isDemoUser={isDemoUser}
         />
       ) : (
         flashcardContent

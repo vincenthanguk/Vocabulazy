@@ -319,6 +319,7 @@
   "decks": [
     {
       "_id": "d1",
+      "demo": true,
       "name": "German",
       "user": "u1",
       "cards": [
@@ -431,6 +432,7 @@
     },
     {
       "_id": "d2",
+      "demo": true,
       "name": "Korean",
       "user": "u1",
       "cards": [
@@ -543,6 +545,7 @@
     },
     {
       "_id": "d3",
+      "demo": true,
       "name": "Chinese",
       "user": "u1",
       "cards": [

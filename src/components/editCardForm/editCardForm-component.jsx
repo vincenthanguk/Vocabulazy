@@ -16,6 +16,8 @@ function EditCardForm(props) {
     isSubmitting,
     initialValue,
     onEditClick,
+    isDemoUser,
+    onAddCard,
   } = props;
   const [userContext, setUserContext] = useContext(UserContext);
 
@@ -34,23 +36,33 @@ function EditCardForm(props) {
       try {
         e.preventDefault();
         setSubmitInParent(true);
-        await fetch(process.env.REACT_APP_API_ENDPOINT + 'cards', {
-          method: 'POST',
-          credentials: 'include',
-          // SameSite: 'none',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userContext.token}`,
-          },
-          body: JSON.stringify({
+        if (isDemoUser) {
+          // save card to state in demo mode
+          onAddCard({
             cardFront: formValue.cardFront,
             cardBack: formValue.cardBack,
             deck: deckId,
-            user: userContext.details._id,
-          }),
-        });
-
-        await fetchData();
+            user: userContext._id,
+          });
+        } else {
+          // post to api
+          await fetch(process.env.REACT_APP_API_ENDPOINT + 'cards', {
+            method: 'POST',
+            credentials: 'include',
+            // SameSite: 'none',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userContext.token}`,
+            },
+            body: JSON.stringify({
+              cardFront: formValue.cardFront,
+              cardBack: formValue.cardBack,
+              deck: deckId,
+              user: userContext.details._id,
+            }),
+          });
+          await fetchData();
+        }
         handleFlash('success', 'Card created!', 2000);
         setSubmitInParent(false);
         setFormValue({

@@ -1,6 +1,8 @@
 import React, { useCallback, useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import mockData from '../../data/mockData.json';
 import Deck from '../deck/deck-component';
 import Login from '../login/login-component';
@@ -24,6 +26,8 @@ function Vocabulazy() {
   const [isShowingFlash, setIsShowingFlash] = useState(false);
   const [isShowingAccountPage, setIsShowingAccountPage] = useState(false);
   const [flash, setFlash] = useState({ message: '', style: '' });
+
+  // -------------- USER VERIFICAATION + DATA FETCHING --------------
 
   // verify user token and refresh it
   const verifyUser = useCallback(() => {
@@ -65,31 +69,6 @@ function Vocabulazy() {
       verifyUser();
     }
   }, [verifyUser, userContext.username]);
-
-  // logout handler
-  const logoutHandler = () => {
-    if (userContext.username === 'demoUser') {
-      toggleDemoMode();
-      // setIsDemoUser(false);
-      setUserContext((oldValues) => {
-        return { ...oldValues, details: undefined, token: null };
-      });
-    } else {
-      fetch(process.env.REACT_APP_API_ENDPOINT + 'users/logout', {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userContext.token}`,
-        },
-      }).then(async (response) => {
-        setUserContext((oldValues) => {
-          return { ...oldValues, details: undefined, token: null };
-        });
-        window.localStorage.setItem('logout', Date.now());
-      });
-    }
-    handleFlash('success', 'You are now logged out', 2000);
-  };
 
   // fetch deck data from API
   const fetchData = async () => {
@@ -170,12 +149,67 @@ function Vocabulazy() {
     return () => controller?.abort();
   }, [userContext]);
 
-  // toggle study mode on/off, sets deck to be studied so it can be rendered in study view
-  const toggleStudy = (deckNum) => {
-    setIsStudying(() => !isStudying);
-    setStudyDeck(deckNum);
-    setIsAddingDeck(false);
+  // --------------------- HANDLER FUNCTIONS ---------------------
+
+  // logout handler
+  const logoutHandler = () => {
+    if (userContext.username === 'demoUser') {
+      toggleDemoMode();
+      // setIsDemoUser(false);
+      setUserContext((oldValues) => {
+        return { ...oldValues, details: undefined, token: null };
+      });
+    } else {
+      fetch(process.env.REACT_APP_API_ENDPOINT + 'users/logout', {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+      }).then(async (response) => {
+        setUserContext((oldValues) => {
+          return { ...oldValues, details: undefined, token: null };
+        });
+        window.localStorage.setItem('logout', Date.now());
+      });
+    }
+    handleFlash('success', 'You are now logged out', 2000);
   };
+
+  // ------------ DEMOMODE CRUD OPERATIONS ------------
+
+  const handleAddDeck = (user, deckName) => {
+    const newDeck = {
+      _id: uuidv4(),
+      name: deckName,
+      user: user,
+      cards: [],
+    };
+    setDeckList([...deckList, newDeck]);
+  };
+
+  const handleAddCardToDeck = (data) => {
+    console.log('handleCard', data);
+
+    const newCard = {
+      ...data,
+    };
+
+    const updatedDecks = deckList.map((deck) => {
+      if (data.deck === deck._id) {
+        return {
+          ...deck,
+          cards: [...deck.cards, newCard],
+        };
+      } else {
+        return deck;
+      }
+    });
+
+    setDeckList(updatedDecks);
+  };
+
+  // --------------------- FLASH MESSAGES ---------------------
 
   // check flash message status and content
   const checkFlash = (status, message) => {
@@ -196,6 +230,15 @@ function Vocabulazy() {
     }, flashTime);
   };
 
+  // --------------------- TOGGLES ---------------------
+
+  // toggle study mode on/off, sets deck to be studied so it can be rendered in study view
+  const toggleStudy = (deckNum) => {
+    setIsStudying(() => !isStudying);
+    setStudyDeck(deckNum);
+    setIsAddingDeck(false);
+  };
+
   const toggleNewDeckForm = () => {
     setIsAddingDeck(!isAddingDeck);
   };
@@ -203,6 +246,8 @@ function Vocabulazy() {
   const toggleAccountPage = () => {
     setIsShowingAccountPage(!isShowingAccountPage);
   };
+
+  // --------------------- ELEMENTS ---------------------
 
   let studyView;
   // conditional rendering in case no decks are loaded from DB
@@ -226,10 +271,12 @@ function Vocabulazy() {
           deckId={deck._id}
           deckNumber={i}
           deckName={deck.name}
+          isDemoDeck={deck.demo}
+          isDemoUser={isDemoUser}
           toggleStudy={toggleStudy}
           fetchData={fetchData}
           handleFlash={handleFlash}
-          isDemoUser={isDemoUser}
+          onAddCard={handleAddCardToDeck}
         />
       </li>
     );
@@ -261,8 +308,10 @@ function Vocabulazy() {
             <>
               <NewDeckForm
                 fetchData={fetchData}
-                handleFlash={handleFlash}
+                onFlash={handleFlash}
                 toggle={toggleNewDeckForm}
+                isDemoUser={isDemoUser}
+                onAddDeck={handleAddDeck}
               />
               {newDeckButton}
             </>
@@ -299,23 +348,6 @@ function Vocabulazy() {
 
   const loading = <div>Loading Decks...</div>;
 
-  // return (
-  //   <>
-  //     {isShowingFlash && <FlashMessage flash={flash} />}
-  //     <div className="Vocabulazy">
-  //       {heading}
-  //       {!userContext.token ? (
-  //         <>{isLoading ? loading : mainContainer}</>
-  //       ) : (
-  //         <>
-  //           <div className="mainContainer">
-  //             <Login handleFlash={handleFlash} />
-  //           </div>
-  //         </>
-  //       )}
-  //     </div>
-  //   </>
-  // );
   return (
     <>
       {isShowingAccountPage && (

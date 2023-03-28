@@ -5,43 +5,41 @@ function NewDeckForm(props) {
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deckName, setDeckName] = useState('');
-  const { fetchData, handleFlash, toggle } = props;
+  const { fetchData, onFlash, toggle, isDemoUser, onAddDeck } = props;
 
-  // TODO: save deck to localStorage when 'isDemoUser'
+  // save deck to state when 'isDemoUser', else post to API
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       setIsSubmitting(true);
-      // make axios post request
-      await fetch(process.env.REACT_APP_API_ENDPOINT + 'decks', {
-        method: 'POST',
-        credentials: 'include',
-        // SameSite: 'none',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userContext.token}`,
-        },
-        body: JSON.stringify({
-          name: deckName,
-          user: userContext.details._id,
-        }),
-      });
-      // const deckData = await result.json();
-      // setDeck(deckData.data.decks);
-      // setIsLoading(false);
-
-      // const response = await axios.post('http://localhost:8000/api/v1/decks', {
-      //   name: deckName,
-      //   user: userContext.details._id,
-      // });
-      // change of state most come before toggle (toggle unmounts the component)
-      await fetchData();
-      handleFlash('success', 'Deck created!', 2000);
+      if (isDemoUser) {
+        const user = userContext._id;
+        console.log('demoUser saving deck');
+        console.log(userContext);
+        onAddDeck(user, deckName);
+      } else {
+        // make post request
+        await fetch(process.env.REACT_APP_API_ENDPOINT + 'decks', {
+          method: 'POST',
+          credentials: 'include',
+          // SameSite: 'none',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userContext.token}`,
+          },
+          body: JSON.stringify({
+            name: deckName,
+            user: userContext.details._id,
+          }),
+        });
+        await fetchData();
+      }
+      onFlash('success', 'Deck created!', 2000);
       setIsSubmitting(false);
       toggle();
     } catch (err) {
       console.log(err);
-      handleFlash('error', 'Oops, something went wrong!', 2000);
+      onFlash('error', 'Oops, something went wrong!', 2000);
       setIsSubmitting(false);
       setDeckName('');
     }

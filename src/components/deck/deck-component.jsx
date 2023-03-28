@@ -17,12 +17,14 @@ function Deck(props) {
 
   const {
     deck,
+    isDemoDeck,
+    isDemoUser,
     deckId,
     deckNumber,
     deckName,
     fetchData,
     handleFlash,
-    isDemoUser,
+    onAddCard,
   } = props;
 
   // deletes deck from database
@@ -88,7 +90,9 @@ function Deck(props) {
           handleFlash={handleFlash}
           onEditClick={() => handleEditClick(i)}
           isEditing={editingCardIndex === i}
+          isDemoDeck={isDemoDeck}
           isDemoUser={isDemoUser}
+          onAddCard={onAddCard}
         />
       </li>
     );
@@ -104,6 +108,8 @@ function Deck(props) {
         handleFlash={handleFlash}
         onEditClick={() => handleEditClick()}
         isEditing={editingCardIndex === 'addNewCard'}
+        isDemoUser={isDemoUser}
+        onAddCard={onAddCard}
       />
     </li>
   );
@@ -114,7 +120,7 @@ function Deck(props) {
       <div className="add-card-button-container">
         <button
           onClick={() => handleEditClick('addNewCard')}
-          disabled={isSubmitting || isDemoUser}
+          disabled={isSubmitting || isDemoDeck}
         >
           ⊕
         </button>
@@ -128,7 +134,7 @@ function Deck(props) {
         {/* <div className="deckNumber">{deckNumber + 1}</div> */}
         <button
           className="deck-delete-button"
-          disabled={isSubmitting || isDemoUser}
+          disabled={isSubmitting || isDemoDeck}
           onClick={handleDeleteDeck}
         >
           ❌
@@ -145,13 +151,14 @@ function Deck(props) {
         <button
           onClick={toggleEditDeckFormVisibility}
           className="deck-edit-button"
-          disabled={isSubmitting || isDemoUser}
+          disabled={isSubmitting || isDemoDeck}
         >
           ✏️
         </button>
         <button
           className="deck-study-button"
           onClick={() => props.toggleStudy(deckNumber)}
+          disabled={deck.length === 0}
         >
           Study
         </button>

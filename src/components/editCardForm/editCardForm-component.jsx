@@ -18,6 +18,7 @@ function EditCardForm(props) {
     onEditClick,
     isDemoUser,
     onAddCard,
+    onEditCard,
   } = props;
   const [userContext, setUserContext] = useContext(UserContext);
 
@@ -33,6 +34,7 @@ function EditCardForm(props) {
   const handleSubmit = async (e) => {
     console.log('inside handle submit');
     if (initialValue === 'newCard') {
+      // add new card to deck
       try {
         e.preventDefault();
         setSubmitInParent(true);
@@ -49,7 +51,6 @@ function EditCardForm(props) {
           await fetch(process.env.REACT_APP_API_ENDPOINT + 'cards', {
             method: 'POST',
             credentials: 'include',
-            // SameSite: 'none',
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${userContext.token}`,
@@ -78,24 +79,35 @@ function EditCardForm(props) {
       }
     } else {
       try {
-        console.log('inside handle submit 2');
+        // no initial value, PATCH the card
         e.preventDefault();
-        setSubmitInParent(true);
-
-        await fetch(process.env.REACT_APP_API_ENDPOINT + `cards/${cardId}`, {
-          method: 'PATCH',
-          credentials: 'include',
-          // SameSite: 'none',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userContext.token}`,
-          },
-          body: JSON.stringify({
+        if (isDemoUser) {
+          // edit card in state in demo mode
+          onEditCard({
             cardFront: formValue.cardFront,
             cardBack: formValue.cardBack,
-          }),
-        });
-        await fetchData();
+            deck: deckId,
+            cardId: cardId,
+            user: userContext._id,
+          });
+        } else {
+          // API PATCH Request
+          setSubmitInParent(true);
+          await fetch(process.env.REACT_APP_API_ENDPOINT + `cards/${cardId}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            // SameSite: 'none',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userContext.token}`,
+            },
+            body: JSON.stringify({
+              cardFront: formValue.cardFront,
+              cardBack: formValue.cardBack,
+            }),
+          });
+          await fetchData();
+        }
         handleFlash('success', 'Card edited!', 2000);
         setSubmitInParent(false);
         onEditClick();

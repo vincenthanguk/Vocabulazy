@@ -20,6 +20,7 @@ function Flashcard(props) {
     initialValue,
     onEditClick,
     onAddCard,
+    onEditCard,
     isEditing,
     isDemoDeck,
     isDemoUser,
@@ -103,6 +104,7 @@ function Flashcard(props) {
           initialValue={initialValue}
           onEditClick={onEditClick}
           onAddCard={onAddCard}
+          onEditCard={onEditCard}
           isDemoUser={isDemoUser}
         />
       ) : (

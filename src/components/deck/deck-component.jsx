@@ -25,6 +25,7 @@ function Deck(props) {
     fetchData,
     handleFlash,
     onAddCard,
+    onEditCard,
   } = props;
 
   // deletes deck from database
@@ -93,6 +94,7 @@ function Deck(props) {
           isDemoDeck={isDemoDeck}
           isDemoUser={isDemoUser}
           onAddCard={onAddCard}
+          onEditCard={onEditCard}
         />
       </li>
     );

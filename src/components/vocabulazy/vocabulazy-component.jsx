@@ -192,6 +192,7 @@ function Vocabulazy() {
     console.log('handleCard', data);
 
     const newCard = {
+      _id: uuidv4(),
       ...data,
     };
 
@@ -206,6 +207,36 @@ function Vocabulazy() {
       }
     });
 
+    setDeckList(updatedDecks);
+  };
+
+  const handleEditCard = (data) => {
+    console.log('handleEditcard', data);
+
+    // 1. find deck and card from ID
+    const deckIndex = deckList.findIndex((deck) => deck._id === data.deck);
+
+    const cardIndex = deckList[deckIndex].cards.findIndex(
+      (card) => card._id === data.cardId
+    );
+
+    const deck = deckList[deckIndex];
+    const card = deck.cards[cardIndex];
+
+    // 2. Update properties of card
+    card.cardFront = data.cardFront;
+    card.cardBack = data.cardBack;
+
+    // 3. Update deck list with updated deck
+    const updatedDecks = [...deckList];
+    updatedDecks[deckIndex] = {
+      ...deck,
+      cards: [
+        ...deck.cards.slice(0, cardIndex),
+        card,
+        ...deck.cards.slice(cardIndex + 1),
+      ],
+    };
     setDeckList(updatedDecks);
   };
 
@@ -277,6 +308,7 @@ function Vocabulazy() {
           fetchData={fetchData}
           handleFlash={handleFlash}
           onAddCard={handleAddCardToDeck}
+          onEditCard={handleEditCard}
         />
       </li>
     );

@@ -21,6 +21,7 @@ function Flashcard(props) {
     onEditClick,
     onAddCard,
     onEditCard,
+    onDeleteCard,
     isEditing,
     isDemoDeck,
     isDemoUser,
@@ -36,16 +37,21 @@ function Flashcard(props) {
     try {
       e.preventDefault();
       setIsSubmitting(true);
-      await fetch(process.env.REACT_APP_API_ENDPOINT + `cards/${cardDBId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-        // SameSite: 'none',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userContext.token}`,
-        },
-      });
-      await fetchData();
+      // edit deck in local state in demo mode
+      if (isDemoUser) {
+        onDeleteCard(deckId, cardDBId);
+      } else {
+        await fetch(process.env.REACT_APP_API_ENDPOINT + `cards/${cardDBId}`, {
+          method: 'DELETE',
+          credentials: 'include',
+          // SameSite: 'none',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userContext.token}`,
+          },
+        });
+        await fetchData();
+      }
       handleFlash('success', 'Card deleted!', 2000);
       setIsSubmitting(false);
     } catch (err) {

@@ -6,26 +6,38 @@ function EditDeckForm(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deckName, setDeckName] = useState('');
 
-  const { fetchData, deckId, toggle, handleFlash } = props;
+  const {
+    fetchData,
+    deckId,
+    toggle,
+    handleFlash,
+    isDemoUser,
+    onEditDeck,
+  } = props;
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       setIsSubmitting(true);
-      // make  post request
-      await fetch(process.env.REACT_APP_API_ENDPOINT + `decks/${deckId}`, {
-        method: 'PATCH',
-        credentials: 'include',
-        // SameSite: 'none',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userContext.token}`,
-        },
-        body: JSON.stringify({
-          name: deckName,
-        }),
-      });
-      await fetchData();
+      // edit deck in local state in demo mode
+      if (isDemoUser) {
+        onEditDeck(deckId, deckName);
+      } else {
+        // make  APIpost request
+        await fetch(process.env.REACT_APP_API_ENDPOINT + `decks/${deckId}`, {
+          method: 'PATCH',
+          credentials: 'include',
+          // SameSite: 'none',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userContext.token}`,
+          },
+          body: JSON.stringify({
+            name: deckName,
+          }),
+        });
+        await fetchData();
+      }
       handleFlash('success', 'Deck edited!', 2000);
       setIsSubmitting(false);
       toggle();

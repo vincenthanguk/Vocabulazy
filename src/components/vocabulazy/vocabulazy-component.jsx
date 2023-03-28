@@ -188,6 +188,25 @@ function Vocabulazy() {
     setDeckList([...deckList, newDeck]);
   };
 
+  const handleDeleteDeck = (deckId) => {
+    const updatedDecks = deckList.filter((deck) => deck._id !== deckId);
+    setDeckList(updatedDecks);
+  };
+
+  const handleEditDeck = (deckId, deckName) => {
+    const deckIndex = deckList.findIndex((deck) => deck._id === deckId);
+    const deck = deckList[deckIndex];
+    deck.name = deckName;
+    const updatedDecks = [
+      ...deckList.slice(0, deckIndex),
+      deck,
+      ...deckList.slice(deckIndex + 1),
+    ];
+
+    console.log(updatedDecks);
+    setDeckList(updatedDecks);
+  };
+
   const handleAddCardToDeck = (data) => {
     console.log('handleCard', data);
 
@@ -237,6 +256,17 @@ function Vocabulazy() {
         ...deck.cards.slice(cardIndex + 1),
       ],
     };
+    setDeckList(updatedDecks);
+  };
+
+  const handleDeleteCard = (deckId, cardId) => {
+    console.log('delete', deckId, cardId);
+    const deckIndex = deckList.findIndex((deck) => deck._id === deckId);
+    const updatedDecks = [...deckList];
+    updatedDecks[deckIndex].cards = deckList[deckIndex].cards.filter(
+      (card) => card._id !== cardId
+    );
+
     setDeckList(updatedDecks);
   };
 
@@ -309,6 +339,9 @@ function Vocabulazy() {
           handleFlash={handleFlash}
           onAddCard={handleAddCardToDeck}
           onEditCard={handleEditCard}
+          onDeleteCard={handleDeleteCard}
+          onDeleteDeck={handleDeleteDeck}
+          onEditDeck={handleEditDeck}
         />
       </li>
     );

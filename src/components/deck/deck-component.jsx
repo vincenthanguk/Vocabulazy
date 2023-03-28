@@ -26,6 +26,9 @@ function Deck(props) {
     handleFlash,
     onAddCard,
     onEditCard,
+    onDeleteCard,
+    onDeleteDeck,
+    onEditDeck,
   } = props;
 
   // deletes deck from database
@@ -33,18 +36,21 @@ function Deck(props) {
     try {
       e.preventDefault();
       setIsSubmitting(true);
-
-      await fetch(process.env.REACT_APP_API_ENDPOINT + `decks/${deckId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-        // SameSite: 'none',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userContext.token}`,
-        },
-      });
-
-      await fetchData();
+      if (isDemoUser) {
+        // handle deletion for demo_mode
+        onDeleteDeck(deckId);
+      } else {
+        await fetch(process.env.REACT_APP_API_ENDPOINT + `decks/${deckId}`, {
+          method: 'DELETE',
+          credentials: 'include',
+          // SameSite: 'none',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userContext.token}`,
+          },
+        });
+        await fetchData();
+      }
       handleFlash('success', 'Deck deleted!', 2000);
       setIsSubmitting(false);
     } catch (err) {
@@ -95,6 +101,7 @@ function Deck(props) {
           isDemoUser={isDemoUser}
           onAddCard={onAddCard}
           onEditCard={onEditCard}
+          onDeleteCard={onDeleteCard}
         />
       </li>
     );
@@ -190,6 +197,8 @@ function Deck(props) {
             fetchData={fetchData}
             toggle={toggleEditDeckFormVisibility}
             handleFlash={handleFlash}
+            isDemoUser={isDemoUser}
+            onEditDeck={onEditDeck}
           />
         )}
       </div>

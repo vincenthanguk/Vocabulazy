@@ -3,7 +3,6 @@ import { UserContext } from '../../context/UserContext';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import mockData from '../../data/mockData.json';
 import Deck from '../deck/deck-component';
 import Login from '../login/login-component';
 import Study from '../study/study-component';
@@ -11,6 +10,17 @@ import NewDeckForm from '../newDeckForm/newDeckForm-component';
 import FlashMessage from '../flashMessage/flashMessage-component';
 import Welcome from '../welcome/welcome-component';
 import MyAccount from '../myAccount/myAccount-component';
+
+import mockData from '../../data/mockData.json';
+
+import {
+  handleAddDeck,
+  handleDeleteDeck,
+  handleEditDeck,
+  handleAddCardToDeck,
+  handleEditCard,
+  handleDeleteCard,
+} from '../../utils/handlers.js';
 
 import './vocabulazy-styles.css';
 
@@ -178,96 +188,28 @@ function Vocabulazy() {
 
   // ------------ DEMOMODE CRUD OPERATIONS ------------
 
-  const handleAddDeck = (user, deckName) => {
-    const newDeck = {
-      _id: uuidv4(),
-      name: deckName,
-      user: user,
-      cards: [],
-    };
-    setDeckList([...deckList, newDeck]);
+  const handleAddDeckWrapper = (user, deckName) => {
+    handleAddDeck(deckList, setDeckList, user, deckName);
   };
 
-  const handleDeleteDeck = (deckId) => {
-    const updatedDecks = deckList.filter((deck) => deck._id !== deckId);
-    setDeckList(updatedDecks);
+  const handleDeleteDeckWrapper = (deckId) => {
+    handleDeleteDeck(deckList, setDeckList, deckId);
   };
 
-  const handleEditDeck = (deckId, deckName) => {
-    const deckIndex = deckList.findIndex((deck) => deck._id === deckId);
-    const deck = deckList[deckIndex];
-    deck.name = deckName;
-    const updatedDecks = [
-      ...deckList.slice(0, deckIndex),
-      deck,
-      ...deckList.slice(deckIndex + 1),
-    ];
-
-    console.log(updatedDecks);
-    setDeckList(updatedDecks);
+  const handleEditDeckWrapper = (deckId, deckName) => {
+    handleEditDeck(deckList, setDeckList, deckId, deckName);
   };
 
-  const handleAddCardToDeck = (data) => {
-    console.log('handleCard', data);
-
-    const newCard = {
-      _id: uuidv4(),
-      ...data,
-    };
-
-    const updatedDecks = deckList.map((deck) => {
-      if (data.deck === deck._id) {
-        return {
-          ...deck,
-          cards: [...deck.cards, newCard],
-        };
-      } else {
-        return deck;
-      }
-    });
-
-    setDeckList(updatedDecks);
+  const handleAddCardToDeckWrapper = (data) => {
+    handleAddCardToDeck(deckList, setDeckList, data);
   };
 
-  const handleEditCard = (data) => {
-    console.log('handleEditcard', data);
-
-    // 1. find deck and card from ID
-    const deckIndex = deckList.findIndex((deck) => deck._id === data.deck);
-
-    const cardIndex = deckList[deckIndex].cards.findIndex(
-      (card) => card._id === data.cardId
-    );
-
-    const deck = deckList[deckIndex];
-    const card = deck.cards[cardIndex];
-
-    // 2. Update properties of card
-    card.cardFront = data.cardFront;
-    card.cardBack = data.cardBack;
-
-    // 3. Update deck list with updated deck
-    const updatedDecks = [...deckList];
-    updatedDecks[deckIndex] = {
-      ...deck,
-      cards: [
-        ...deck.cards.slice(0, cardIndex),
-        card,
-        ...deck.cards.slice(cardIndex + 1),
-      ],
-    };
-    setDeckList(updatedDecks);
+  const handleEditCardWrapper = (data) => {
+    handleEditCard(deckList, setDeckList, data);
   };
 
-  const handleDeleteCard = (deckId, cardId) => {
-    console.log('delete', deckId, cardId);
-    const deckIndex = deckList.findIndex((deck) => deck._id === deckId);
-    const updatedDecks = [...deckList];
-    updatedDecks[deckIndex].cards = deckList[deckIndex].cards.filter(
-      (card) => card._id !== cardId
-    );
-
-    setDeckList(updatedDecks);
+  const handleDeleteCardWrapper = (deckId, cardId) => {
+    handleDeleteCard(deckList, setDeckList, deckId, cardId);
   };
 
   // --------------------- FLASH MESSAGES ---------------------
@@ -337,11 +279,11 @@ function Vocabulazy() {
           toggleStudy={toggleStudy}
           fetchData={fetchData}
           handleFlash={handleFlash}
-          onAddCard={handleAddCardToDeck}
-          onEditCard={handleEditCard}
-          onDeleteCard={handleDeleteCard}
-          onDeleteDeck={handleDeleteDeck}
-          onEditDeck={handleEditDeck}
+          onAddCard={handleAddCardToDeckWrapper}
+          onEditCard={handleEditCardWrapper}
+          onDeleteCard={handleDeleteCardWrapper}
+          onDeleteDeck={handleDeleteDeckWrapper}
+          onEditDeck={handleEditDeckWrapper}
         />
       </li>
     );
@@ -376,7 +318,7 @@ function Vocabulazy() {
                 onFlash={handleFlash}
                 toggle={toggleNewDeckForm}
                 isDemoUser={isDemoUser}
-                onAddDeck={handleAddDeck}
+                onAddDeck={handleAddDeckWrapper}
               />
               {newDeckButton}
             </>

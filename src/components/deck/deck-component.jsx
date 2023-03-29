@@ -12,8 +12,9 @@ function Deck(props) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardsVisible, setCardsVisible] = useState(false);
-  const [editingCardIndex, setEditingCardIndex] = useState(null);
   const [editDeckFormVisible, setEditDeckFormVisible] = useState(false);
+  const [editingCardIndex, setEditingCardIndex] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   const {
     deck,
@@ -139,11 +140,18 @@ function Deck(props) {
   );
 
   return (
-    <div className="deck-container">
-      <div className="deck-header">
-        {/* <div className="deckNumber">{deckNumber + 1}</div> */}
+    <div className={`deck-container ${isHovered && 'glow'}`}>
+      <div
+        className="deck-header"
+        onMouseEnter={(e) => {
+          setIsHovered(true);
+        }}
+        onMouseLeave={(e) => {
+          setIsHovered(false);
+        }}
+      >
         <button
-          className="deck-delete-button"
+          className={`deck-delete-button ${isHovered || 'hidden'}`}
           disabled={isSubmitting || isDemoDeck}
           onClick={handleDeleteDeck}
         >
@@ -160,7 +168,7 @@ function Deck(props) {
         </div>
         <button
           onClick={toggleEditDeckFormVisibility}
-          className="deck-edit-button"
+          className={`deck-edit-button ${isHovered || 'hidden'}`}
           disabled={isSubmitting || isDemoDeck}
         >
           ✏️

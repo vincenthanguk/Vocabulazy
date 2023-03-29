@@ -7,7 +7,7 @@ import './flashcard-styles.css';
 function Flashcard(props) {
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isHidden, setIsHidden] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const [isEditingCard, setIsEditingCard] = useState(false);
   const {
     cardId,
@@ -67,7 +67,7 @@ function Flashcard(props) {
       <div className="card-front">{front}</div>
       <div className="card-back">{back}</div>
       <button
-        className={`emoji-btn card-btn edit-card-btn ${isHidden && 'hidden'}`}
+        className={`emoji-btn card-btn edit-card-btn ${isHovered || 'hidden'}`}
         onClick={onEditClick}
         disabled={isSubmitting || isDemoDeck}
       >
@@ -75,7 +75,9 @@ function Flashcard(props) {
       </button>
 
       <button
-        className={`emoji-btn card-btn delete-card-btn ${isHidden && 'hidden'}`}
+        className={`emoji-btn card-btn delete-card-btn ${
+          isHovered || 'hidden'
+        }`}
         onClick={handleDelete}
         disabled={isSubmitting || isDemoDeck}
       >
@@ -87,12 +89,12 @@ function Flashcard(props) {
   const flashcard = (
     <div
       className={`flashcard ${isSubmitting ? 'deleting' : ''}
-    ${initialValue === 'newCard' || !isHidden ? 'glow' : ''}`}
+    ${initialValue === 'newCard' || !isHovered ? 'glow' : ''}`}
       onMouseEnter={(e) => {
-        setIsHidden(false);
+        setIsHovered(true);
       }}
       onMouseLeave={(e) => {
-        setIsHidden(true);
+        setIsHovered(false);
       }}
     >
       {isEditing ? (

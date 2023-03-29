@@ -208,7 +208,7 @@ function Vocabulazy() {
     setIsAddingDeck(!isAddingDeck);
   };
 
-  const toggleAccountPage = () => {
+  const handleToggleAccountPage = () => {
     setIsShowingAccountPage(!isShowingAccountPage);
   };
 
@@ -256,7 +256,7 @@ function Vocabulazy() {
       <h1 className="heading-title">Vocabulazy 🤓</h1>
       <span className="span-title">Your Daily Study Helper</span>
       {!isStudying && userContext.token ? (
-        <Welcome toggle={toggleAccountPage} />
+        <Welcome toggle={handleToggleAccountPage} />
       ) : null}
     </>
   );
@@ -321,7 +321,7 @@ function Vocabulazy() {
     <>
       {isShowingAccountPage && (
         <MyAccount
-          toggle={toggleAccountPage}
+          toggleAccountPage={handleToggleAccountPage}
           deckData={deckList}
           userDetails={userContext.details}
           handleFlash={handleFlash}

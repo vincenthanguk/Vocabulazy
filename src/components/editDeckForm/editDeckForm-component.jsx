@@ -4,7 +4,8 @@ import { UserContext } from '../../context/UserContext';
 function EditDeckForm(props) {
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [deckName, setDeckName] = useState('');
+  // initialize state with prevDeckName for the case when deck name is not changed (would otherwise return '')
+  const [deckName, setDeckName] = useState(props.prevDeckName);
 
   const {
     fetchData,
@@ -67,7 +68,7 @@ function EditDeckForm(props) {
           defaultValue={prevDeckName}
           onChange={(e) => setDeckName(e.target.value)}
           ref={deckNameInput}
-        ></input>
+        />
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </button>

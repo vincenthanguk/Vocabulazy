@@ -1,4 +1,11 @@
-import { React, useState, useContext, useEffect } from 'react';
+import {
+  React,
+  useState,
+  useContext,
+  useCallback,
+  useRef,
+  useEffect,
+} from 'react';
 import { UserContext } from '../../context/UserContext';
 
 import './myAccount-styles.css';
@@ -8,14 +15,12 @@ const MyAccount = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [studysessions, setStudysessions] = useState([]);
 
-  const { toggle, deckData, userDetails, handleFlash } = props;
+  const { toggleAccountPage, deckData, userDetails, handleFlash } = props;
 
-  useEffect(() => {
-    fetchStudysessionData();
-  }, []);
+  const modalRef = useRef(null);
 
   // load statistic data when component mounts
-  const fetchStudysessionData = async () => {
+  const fetchStudysessionData = useCallback(async () => {
     const result = await fetch(
       process.env.REACT_APP_API_ENDPOINT + 'studysession',
       {
@@ -28,7 +33,33 @@ const MyAccount = (props) => {
     );
     const studysessionData = await result.json();
     setStudysessions(studysessionData.data.studysessions);
-  };
+  }, [userContext.token]);
+
+  useEffect(() => {
+    fetchStudysessionData();
+  }, [fetchStudysessionData]);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        toggleAccountPage();
+      }
+    }
+
+    function handleEscapePress(e) {
+      if (e.key === 'Escape') {
+        toggleAccountPage();
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleEscapePress);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapePress);
+    };
+  }, [toggleAccountPage]);
 
   const calculateTotalCards = (decks) => {
     let cardSum = 0;
@@ -69,7 +100,7 @@ const MyAccount = (props) => {
   const handleDelete = async (e) => {
     try {
       // FIXME: toggle to prevent crash
-      toggle();
+      toggleAccountPage();
       e.preventDefault();
       setIsSubmitting(true);
 
@@ -103,7 +134,7 @@ const MyAccount = (props) => {
 
   const handleResetStatistics = async (e) => {
     try {
-      toggle();
+      toggleAccountPage();
       e.preventDefault();
       console.log('resetting stats');
       setIsSubmitting(true);
@@ -130,10 +161,9 @@ const MyAccount = (props) => {
 
   return (
     // FIXME: implement closing modal on click anywhere except buttons
-    // <div className="modal" onClick={toggle}>
     <div className="modal">
-      <div className="modal-main">
-        <button onClick={toggle}>X</button>
+      <div className="modal-main" ref={modalRef}>
+        <button onClick={toggleAccountPage}>X</button>
         <h1>{userDetails.firstName}</h1>
         <span>
           (Hardly studying since {convertDateString(userDetails.createdAt)})

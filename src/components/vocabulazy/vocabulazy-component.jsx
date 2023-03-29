@@ -1,8 +1,6 @@
 import React, { useCallback, useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import Deck from '../deck/deck-component';
 import Login from '../login/login-component';
 import Study from '../study/study-component';
@@ -22,6 +20,8 @@ import {
   handleDeleteCard,
 } from '../../utils/handlers.js';
 
+import { useVerifyUser } from '../../utils/auth';
+
 import './vocabulazy-styles.css';
 
 function Vocabulazy() {
@@ -37,42 +37,9 @@ function Vocabulazy() {
   const [isShowingAccountPage, setIsShowingAccountPage] = useState(false);
   const [flash, setFlash] = useState({ message: '', style: '' });
 
-  // -------------- USER VERIFICAATION + DATA FETCHING --------------
+  // -------------- USER VERIFICATION + DATA FETCHING --------------
 
-  // verify user token and refresh it
-  const verifyUser = useCallback(() => {
-    console.log(userContext);
-    if (userContext.username === 'demoUser') {
-      console.log('inside demoUser verifyUser');
-      return;
-      // setUserContext((oldValues) => {
-      //   return { ...oldValues, token: 'demoUser' };
-      // });
-      // setTimeout(verifyUser, 5 * 60 * 1000);
-    } else {
-      fetch(process.env.REACT_APP_API_ENDPOINT + 'users/refreshToken', {
-        method: 'POST',
-        credentials: 'include',
-        SameSite: 'none',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then(async (response) => {
-        if (response.ok) {
-          const data = await response.json();
-          setUserContext((oldValues) => {
-            return { ...oldValues, token: data.token };
-          });
-        } else {
-          setUserContext((oldValues) => {
-            return { ...oldValues, token: null };
-          });
-        }
-        // call refreshToken every 5 minutes to renew the authentication token.
-        setTimeout(verifyUser, 5 * 60 * 1000);
-      });
-    }
-  }, [setUserContext, userContext.username]);
+  const verifyUser = useVerifyUser(userContext, setUserContext);
 
   useEffect(() => {
     if (userContext.username !== 'demoUser') {
@@ -101,7 +68,6 @@ function Vocabulazy() {
 
   // fetch mock data from JSON
   const fetchMockData = async (type) => {
-    console.log(mockData);
     if (type in mockData) {
       return new Response(JSON.stringify(mockData[type]), {
         status: 200,
@@ -117,19 +83,15 @@ function Vocabulazy() {
 
   // fetch data from API upon loading
   useEffect(() => {
-    console.log(userContext);
     let controller = new AbortController();
     setIsError(false);
     (async () => {
       try {
         // LOAD MOCK USER DATA
         if (userContext.username === 'demoUser') {
-          console.log('fetching mock data');
           setIsDemoUser(true);
           const result = await fetchMockData('decks');
-          console.log(result);
           const deckData = await result.json();
-          console.log(deckData);
           setDeckList(deckData);
         } else {
           console.log('fetching api data');

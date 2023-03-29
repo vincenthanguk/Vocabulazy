@@ -1,9 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 import './editCardForm-styles.css';
 
 function EditCardForm(props) {
+  const [userContext, setUserContext] = useContext(UserContext);
+
   const {
     cardId,
     cardNumber,
@@ -20,7 +22,12 @@ function EditCardForm(props) {
     onAddCard,
     onEditCard,
   } = props;
-  const [userContext, setUserContext] = useContext(UserContext);
+
+  const cardFrontInput = useRef(null);
+
+  useEffect(() => {
+    cardFrontInput.current.focus();
+  }, []);
 
   const [formValue, setFormValue] = useState({
     cardFront: cardFront || '',
@@ -30,6 +37,26 @@ function EditCardForm(props) {
   // set up two scenarios:
   // 1) without 'initialValue' -> edit the card (PATCH)
   // 2) with 'initialValue' of newCard -> add new card to deck
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') {
+        console.log('escape pressed');
+        const button = document.querySelector(
+          '.emoji-btn.form-cancel-edit-btn'
+        );
+        if (button) {
+          button.click();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     console.log('inside handle submit');
@@ -140,6 +167,7 @@ function EditCardForm(props) {
           id="cardFront"
           value={formValue.cardFront}
           onChange={handleChange}
+          ref={cardFrontInput}
           required
         />
         <label className="label label-back" htmlFor="cardBack">

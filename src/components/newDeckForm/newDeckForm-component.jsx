@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 function NewDeckForm(props) {
@@ -6,6 +6,12 @@ function NewDeckForm(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deckName, setDeckName] = useState('');
   const { fetchData, onFlash, toggle, isDemoUser, onAddDeck } = props;
+
+  const deckNameInput = useRef(null);
+
+  useEffect(() => {
+    deckNameInput.current.focus();
+  }, []);
 
   // save deck to state when 'isDemoUser', else post to API
   const handleSubmit = async (e) => {
@@ -54,9 +60,11 @@ function NewDeckForm(props) {
           name="deckName"
           id="deckName"
           required
-          value={deckName}
+          // does not have a name
+          defaultValue={deckName}
           onChange={(e) => setDeckName(e.target.value)}
-        ></input>
+          ref={deckNameInput}
+        />
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </button>

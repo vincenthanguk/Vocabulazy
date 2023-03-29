@@ -62,6 +62,7 @@ function Deck(props) {
 
   // handles click events on flashcards, either editing an existing card, canceling the new card, or adding a new card.
   const handleEditClick = (i) => {
+    console.log('inside handleEditClic', i);
     if (editingCardIndex === i) {
       setEditingCardIndex(null);
     } else if (editingCardIndex === 'addNewCard ' && i === 'addNewCard') {
@@ -199,6 +200,7 @@ function Deck(props) {
             handleFlash={handleFlash}
             isDemoUser={isDemoUser}
             onEditDeck={onEditDeck}
+            prevDeckName={deckName}
           />
         )}
       </div>

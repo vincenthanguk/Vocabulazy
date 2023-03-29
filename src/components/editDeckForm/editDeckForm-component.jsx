@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 function EditDeckForm(props) {
@@ -13,7 +13,14 @@ function EditDeckForm(props) {
     handleFlash,
     isDemoUser,
     onEditDeck,
+    prevDeckName,
   } = props;
+
+  const deckNameInput = useRef(null);
+
+  useEffect(() => {
+    deckNameInput.current.focus();
+  }, []);
 
   const handleSubmit = async (e) => {
     try {
@@ -57,8 +64,9 @@ function EditDeckForm(props) {
           name="deckName"
           id="deckName"
           required
-          value={deckName}
+          defaultValue={prevDeckName}
           onChange={(e) => setDeckName(e.target.value)}
+          ref={deckNameInput}
         ></input>
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : 'Submit'}

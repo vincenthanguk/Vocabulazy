@@ -46,7 +46,7 @@ function Login(props) {
           setUserContext((oldValues) => {
             return { ...oldValues, token: data.token };
           });
-          handleFlash('success', 'Welcome to Gramm-Cracker!', 2000);
+          handleFlash('success', 'Welcome to Vocabulazy!', 2000);
           console.log(userContext);
         }
       })

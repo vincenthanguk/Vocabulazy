@@ -11,16 +11,25 @@ import { UserContext } from '../../context/UserContext';
 import './myAccount-styles.css';
 
 const MyAccount = (props) => {
+  const {
+    toggleAccountPage,
+    deckData,
+    userDetails,
+    handleFlash,
+    isDemoUser,
+    demoStudysessionList,
+    setDemoStudysessionList,
+  } = props;
+
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [studysessions, setStudysessions] = useState([]);
-
-  const { toggleAccountPage, deckData, userDetails, handleFlash } = props;
 
   const modalRef = useRef(null);
 
   // load statistic data when component mounts
   const fetchStudysessionData = useCallback(async () => {
+    // TODO: Fetch data from state
     const result = await fetch(
       process.env.REACT_APP_API_ENDPOINT + 'studysession',
       {
@@ -36,7 +45,7 @@ const MyAccount = (props) => {
   }, [userContext.token]);
 
   useEffect(() => {
-    fetchStudysessionData();
+    if (!isDemoUser) fetchStudysessionData();
   }, [fetchStudysessionData]);
 
   useEffect(() => {
@@ -134,21 +143,24 @@ const MyAccount = (props) => {
 
   const handleResetStatistics = async (e) => {
     try {
-      toggleAccountPage();
-      e.preventDefault();
-      console.log('resetting stats');
-      setIsSubmitting(true);
+      if (isDemoUser) {
+        setDemoStudysessionList([]);
+      } else {
+        toggleAccountPage();
+        e.preventDefault();
+        console.log('resetting stats');
+        setIsSubmitting(true);
 
-      await fetch(process.env.REACT_APP_API_ENDPOINT + 'studysession/', {
-        method: 'DELETE',
-        credentials: 'include',
-        // SameSite: 'none',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userContext.token}`,
-        },
-      });
-
+        await fetch(process.env.REACT_APP_API_ENDPOINT + 'studysession/', {
+          method: 'DELETE',
+          credentials: 'include',
+          // SameSite: 'none',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userContext.token}`,
+          },
+        });
+      }
       handleFlash('success', 'Studysessions deleted!', 2000);
       // await fetchData();
       setIsSubmitting(false);
@@ -159,8 +171,10 @@ const MyAccount = (props) => {
     }
   };
 
+  // dynamic input for demo mode
+  const input = studysessions.length > 0 ? studysessions : demoStudysessionList;
+
   return (
-    // FIXME: implement closing modal on click anywhere except buttons
     <div className="modal">
       <div className="modal-main" ref={modalRef}>
         <button onClick={toggleAccountPage}>X</button>
@@ -171,17 +185,17 @@ const MyAccount = (props) => {
         <h2>Statistics</h2>
         <p>Total Decks: {deckData.length}</p>
         <p>Total Cards: {calculateTotalCards(deckData)}</p>
-        <p>Total Study Sessions: {studysessions.length} </p>
-        {isNaN(calculateAverageTime(studysessions)) || (
+        <p>Total Study Sessions: {input.length} </p>
+        {isNaN(calculateAverageTime(input)) || (
           <>
-            <p>✅: {calculateCorrectCardsPercentage(studysessions)}%</p>
-            <p>Average ⏱: {calculateAverageTime(studysessions)}s</p>
+            <p>✅: {calculateCorrectCardsPercentage(input)}%</p>
+            <p>Average ⏱: {calculateAverageTime(input)}s</p>
           </>
         )}
 
         <button onClick={handleResetStatistics}>Reset Statistics</button>
         {/* <button>Change Password</button> */}
-        <button onClick={handleDelete} disabled={isSubmitting}>
+        <button onClick={handleDelete} disabled={isDemoUser || isSubmitting}>
           {isSubmitting ? 'Deleting Account...' : 'Delete Account'}
         </button>
       </div>

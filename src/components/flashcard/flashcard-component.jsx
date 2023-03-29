@@ -5,10 +5,6 @@ import EditCardForm from '../editCardForm/editCardForm-component';
 import './flashcard-styles.css';
 
 function Flashcard(props) {
-  const [userContext, setUserContext] = useContext(UserContext);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isEditingCard, setIsEditingCard] = useState(false);
   const {
     cardId,
     cardDBId,
@@ -26,6 +22,11 @@ function Flashcard(props) {
     isDemoDeck,
     isDemoUser,
   } = props;
+
+  const [userContext, setUserContext] = useContext(UserContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isEditingCard, setIsEditingCard] = useState(false);
 
   useEffect(() => {
     if (initialValue === 'newCard') {

@@ -2,11 +2,6 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 function EditDeckForm(props) {
-  const [userContext, setUserContext] = useContext(UserContext);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  // initialize state with prevDeckName for the case when deck name is not changed (would otherwise return '')
-  const [deckName, setDeckName] = useState(props.prevDeckName);
-
   const {
     fetchData,
     deckId,
@@ -16,6 +11,11 @@ function EditDeckForm(props) {
     onEditDeck,
     prevDeckName,
   } = props;
+
+  const [userContext, setUserContext] = useContext(UserContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  // initialize state with prevDeckName for the case when deck name is not changed (would otherwise return '')
+  const [deckName, setDeckName] = useState(prevDeckName);
 
   const deckNameInput = useRef(null);
 

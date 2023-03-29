@@ -8,14 +8,6 @@ import EditDeckForm from '../editDeckForm/editDeckForm-component';
 
 // deck component displays a deck of flashcards with additional functionality such as deleting a deck, editing a deck, and adding new cards
 function Deck(props) {
-  const [userContext, setUserContext] = useContext(UserContext);
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [cardsVisible, setCardsVisible] = useState(false);
-  const [editDeckFormVisible, setEditDeckFormVisible] = useState(false);
-  const [editingCardIndex, setEditingCardIndex] = useState(null);
-  const [isHovered, setIsHovered] = useState(false);
-
   const {
     deck,
     isDemoDeck,
@@ -31,6 +23,13 @@ function Deck(props) {
     onDeleteDeck,
     onEditDeck,
   } = props;
+
+  const [userContext, setUserContext] = useContext(UserContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [cardsVisible, setCardsVisible] = useState(false);
+  const [editDeckFormVisible, setEditDeckFormVisible] = useState(false);
+  const [editingCardIndex, setEditingCardIndex] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   // deletes deck from database
   const handleDeleteDeck = async (e) => {

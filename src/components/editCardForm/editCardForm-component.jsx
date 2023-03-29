@@ -4,8 +4,6 @@ import { UserContext } from '../../context/UserContext';
 import './editCardForm-styles.css';
 
 function EditCardForm(props) {
-  const [userContext, setUserContext] = useContext(UserContext);
-
   const {
     cardId,
     cardNumber,
@@ -23,6 +21,7 @@ function EditCardForm(props) {
     onEditCard,
   } = props;
 
+  const [userContext, setUserContext] = useContext(UserContext);
   const cardFrontInput = useRef(null);
 
   useEffect(() => {

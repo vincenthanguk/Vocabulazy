@@ -4,14 +4,14 @@ import { UserContext } from '../../context/UserContext';
 import './register-styles.css';
 
 function Register(props) {
+  const { toggle, handleFlash } = props;
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userContext, setUserContext] = useContext(UserContext);
-
-  const { toggle, handleFlash } = props;
 
   const formSubmitHandler = (e) => {
     e.preventDefault();

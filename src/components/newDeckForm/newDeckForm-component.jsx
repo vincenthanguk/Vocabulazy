@@ -2,10 +2,11 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 function NewDeckForm(props) {
+  const { fetchData, onFlash, toggle, isDemoUser, onAddDeck } = props;
+
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deckName, setDeckName] = useState('');
-  const { fetchData, onFlash, toggle, isDemoUser, onAddDeck } = props;
 
   const deckNameInput = useRef(null);
 

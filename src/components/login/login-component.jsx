@@ -6,6 +6,7 @@ import Register from '../register/register-component';
 
 function Login(props) {
   const { handleFlash } = props;
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');

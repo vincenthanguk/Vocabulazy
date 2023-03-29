@@ -27,6 +27,17 @@ import './vocabulazy-styles.css';
 function Vocabulazy() {
   const [userContext, setUserContext, toggleDemoMode] = useContext(UserContext);
   const [deckList, setDeckList] = useState([]);
+  const [demoStudysessionList, setDemoStudysessionList] = useState([
+    {
+      id: 'asd',
+      totalCards: 15,
+      correctCards: 15,
+      wrongCards: 0,
+      totalTime: 6,
+      user: 'u1',
+      deck: 'd1',
+    },
+  ]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [isDemoUser, setIsDemoUser] = useState(false);
@@ -222,6 +233,8 @@ function Vocabulazy() {
         deck={deckList[studyDeck].cards}
         deckName={deckList[studyDeck].name}
         deckId={deckList[studyDeck]._id}
+        isDemoUser={isDemoUser}
+        setDemoStudysessionList={setDemoStudysessionList}
       />
     );
   }
@@ -325,6 +338,9 @@ function Vocabulazy() {
           deckData={deckList}
           userDetails={userContext.details}
           handleFlash={handleFlash}
+          isDemoUser={isDemoUser}
+          demoStudysessionList={demoStudysessionList}
+          setDemoStudysessionList={setDemoStudysessionList}
         />
       )}
       {isShowingFlash && <FlashMessage flash={flash} />}

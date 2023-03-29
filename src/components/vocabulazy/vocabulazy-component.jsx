@@ -267,7 +267,7 @@ function Vocabulazy() {
 
   const heading = (
     <>
-      <h1 className="heading-title">Vocabulazy 🤓</h1>
+      <h1 className="heading-title">Vocabulazy</h1>
       <span className="span-title">Your Daily Study Helper</span>
       {!isStudying && userContext.token ? (
         <Welcome toggle={handleToggleAccountPage} />

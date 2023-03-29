@@ -1,4 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
+
+:root {
+  --color-primary: #678dfd;
+  --color-primary-shade: #678dfd;
+  --color-secondary: #a4bbfe;
+  --color-tertiary: #f0f4ff;
+  --color-contrast-primary: #e88a77;
+  --color-contrast-secondary: #f4c5bb;
+  --color-contrast-tertiary: #fdf3f1;
+  --color-text-primary: black;
+  --color-text-secondary: black;
+}
 
 html {
   font-size: 62.5%;
@@ -6,7 +18,7 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Dosis', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 2rem;

@@ -157,13 +157,7 @@ function Deck(props) {
           ❌
         </button>
         <div className="deck-name-container">
-          <button
-            className="deck-delete-button"
-            onClick={() => props.toggleStudy(deckNumber)}
-            disabled={deck.length === 0}
-          >
-            {deckName}
-          </button>
+          <h1>{deckName}</h1>
         </div>
         <button
           onClick={toggleEditDeckFormVisibility}

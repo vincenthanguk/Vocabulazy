@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 import Deck from '../deck/deck-component';
@@ -234,6 +234,7 @@ function Vocabulazy() {
         deckName={deckList[studyDeck].name}
         deckId={deckList[studyDeck]._id}
         isDemoUser={isDemoUser}
+        demoStudysessionList={demoStudysessionList}
         setDemoStudysessionList={setDemoStudysessionList}
       />
     );

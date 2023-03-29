@@ -9,7 +9,14 @@ import { faSync } from '@fortawesome/free-solid-svg-icons';
 import './study-styles.css';
 
 function Study(props) {
-  const { deck, deckName, deckId } = props;
+  const {
+    deck,
+    deckName,
+    deckId,
+    isDemoUser,
+    demoStudysessionList,
+    setDemoStudysessionList,
+  } = props;
 
   const [userContext, setUserContext] = useContext(UserContext);
   const [studyDeck, setStudyDeck] = useState(deck);
@@ -54,24 +61,32 @@ function Study(props) {
     return card;
   };
 
+  const studysessionData = {
+    totalCards: correct.length + wrong.length,
+    correctCards: correct.length,
+    wrongCards: wrong.length,
+    totalTime: timerSeconds,
+    user: isDemoUser ? 'demoUser' : userContext.details._id,
+    deck: deckId,
+  };
+
   const submitSession = async () => {
-    await fetch(process.env.REACT_APP_API_ENDPOINT + 'studysession', {
-      method: 'POST',
-      credentials: 'include',
-      // SameSite: 'none',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userContext.token}`,
-      },
-      body: JSON.stringify({
-        totalCards: correct.length + wrong.length,
-        correctCards: correct.length,
-        wrongCards: wrong.length,
-        totalTime: timerSeconds,
-        user: userContext.details._id,
-        deck: deckId,
-      }),
-    });
+    if (isDemoUser) {
+      setDemoStudysessionList((prevState) => [...prevState, studysessionData]);
+    } else {
+      await fetch(process.env.REACT_APP_API_ENDPOINT + 'studysession', {
+        method: 'POST',
+        credentials: 'include',
+        // SameSite: 'none',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userContext.token}`,
+        },
+        body: JSON.stringify({
+          studysessionData,
+        }),
+      });
+    }
   };
 
   const cardCorrect = (card) => {

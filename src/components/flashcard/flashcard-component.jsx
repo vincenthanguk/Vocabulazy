@@ -90,7 +90,7 @@ function Flashcard(props) {
   const flashcard = (
     <div
       className={`flashcard ${isSubmitting ? 'deleting' : ''}
-    ${initialValue === 'newCard' || !isHovered ? 'glow' : ''}`}
+    ${initialValue === 'newCard' || isHovered ? 'glow' : ''}`}
       onMouseEnter={(e) => {
         setIsHovered(true);
       }}

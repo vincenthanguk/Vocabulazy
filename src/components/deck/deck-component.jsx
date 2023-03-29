@@ -167,7 +167,7 @@ function Deck(props) {
           ✏️
         </button>
         <button
-          className="deck-study-button"
+          className="button deck-study-button"
           onClick={() => props.toggleStudy(deckNumber)}
           disabled={deck.length === 0}
         >
@@ -187,7 +187,7 @@ function Deck(props) {
       <div>
         <button
           onClick={toggleCardsVisibility}
-          className={cardsVisible ? 'active' : undefined}
+          className={`button ${cardsVisible ? 'active' : undefined}`}
           // disabled={deck.length === 0}
         >
           {deck.length} Cards

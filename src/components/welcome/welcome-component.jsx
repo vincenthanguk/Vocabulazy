@@ -51,7 +51,10 @@ const Welcome = (props) => {
     <div className="heading-welcome">
       <p>
         Welcome,&nbsp;
-        <button onClick={toggle}>{userContext.details.firstName}</button>!
+        <button className="button" onClick={toggle}>
+          {userContext.details.firstName}
+        </button>
+        !
       </p>
     </div>
   );

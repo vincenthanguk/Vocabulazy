@@ -276,7 +276,7 @@ function Vocabulazy() {
   );
 
   const newDeckButton = (
-    <button onClick={() => setIsAddingDeck(!isAddingDeck)}>
+    <button className="button" onClick={() => setIsAddingDeck(!isAddingDeck)}>
       {isAddingDeck ? 'X' : 'Add Deck'}
     </button>
   );
@@ -324,7 +324,9 @@ function Vocabulazy() {
         )}
       </div>
       <div className="footer">
-        <button onClick={logoutHandler}>Logout</button>
+        <button className="button" onClick={logoutHandler}>
+          Logout
+        </button>
       </div>
     </>
   );

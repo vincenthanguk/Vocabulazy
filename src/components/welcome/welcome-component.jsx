@@ -1,6 +1,8 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
+import './welcome-styles.css';
+
 // NOTE: fetch auslagern, damit die myAccount Seite auch UserContext erhält
 
 const Welcome = (props) => {
@@ -48,16 +50,22 @@ const Welcome = (props) => {
   return !userContext.details ? (
     'Loading user details...'
   ) : (
-    <div className="heading-welcome">
-      <p>
-        Welcome,&nbsp;
-        <button className="button" onClick={toggle}>
-          {userContext.details.firstName}
-        </button>
-        !
-      </p>
+    <div className="avatar-container">
+      <img
+        src={process.env.PUBLIC_URL + '/images/avatar.png'}
+        className="avatar-img"
+        alt="user-avatar"
+        onClick={toggle}
+        role="button"
+      />
     </div>
   );
 };
 
 export default Welcome;
+
+// <div className="heading-welcome">
+//   <button className="button" onClick={toggle}>
+//     {userContext.details.firstName}
+//   </button>
+// </div>;

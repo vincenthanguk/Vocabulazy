@@ -1,0 +1,21 @@
+.avatar-container {
+  border: 2px solid var(--color-contrast-secondary);
+  border-radius: 50%;
+  justify-self: end;
+  width: 4rem;
+  height: 4rem;
+  overflow: hidden;
+}
+
+.avatar-img {
+  display: block;
+  width: 100%;
+  transition: all 0.3s;
+  width: 4rem;
+  height: 4rem;
+  box-shadow: inset -1px 3px 8px 5px #344e41,
+    2px 5px 16px 0px rgba(0, 0, 0, 0.205), 5px 5px 15px 5px rgba(0, 0, 0, 0);
+}
+.avatar-img:hover {
+  transform: scale(1.1);
+}

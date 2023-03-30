@@ -266,13 +266,19 @@ function Vocabulazy() {
   });
 
   const heading = (
-    <>
-      <h1 className="heading-title">Vocabulazy</h1>
-      <span className="span-title">Your Daily Study Helper</span>
+    <div className="heading-container">
+      {userContext.token ? (
+        <div>Vocabulazy</div>
+      ) : (
+        <>
+          <h1 className="heading-title">Vocabulazy</h1>
+          <span className="span-title">Your Daily Study Helper</span>
+        </>
+      )}
       {!isStudying && userContext.token ? (
-        <Welcome toggle={handleToggleAccountPage} />
+        <Welcome className="Welcome" toggle={handleToggleAccountPage} />
       ) : null}
-    </>
+    </div>
   );
 
   const newDeckButton = (

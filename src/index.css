@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
 
 :root {
-  --color-primary: #4471f6;
+  --color-primary: #3c559f;
   --color-primary-shade: #678dfd;
   --color-secondary: #a4bbfe;
   --color-tertiary: #f0f4ff;
-  --color-contrast-primary: #e88a77;
-  --color-contrast-secondary: #f4c5bb;
+  --color-contrast-primary: #fd8e39;
+  --color-contrast-secondary: #f3722cad;
   --color-contrast-tertiary: #fdf3f1;
   --color-text-primary: black;
   --color-text-secondary: black;
@@ -58,11 +58,10 @@ button:disabled:hover {
   font-family: 'Dosis', sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.1rem;
   line-height: 20px;
   margin: 0;
   outline: none;
-  overflow: visible;
   padding: 13px 16px;
   text-align: center;
   text-transform: uppercase;

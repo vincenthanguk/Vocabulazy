@@ -267,17 +267,14 @@ function Vocabulazy() {
 
   const heading = (
     <div className="heading-container">
-      {userContext.token ? (
-        <div>Vocabulazy</div>
-      ) : (
-        <>
-          <h1 className="heading-title">Vocabulazy</h1>
-          <span className="span-title">Your Daily Study Helper</span>
-        </>
-      )}
+      <div className="heading-subheading">Be Vocabulazy Today</div>
+      <div className="heading-username">Hi {userContext.username}!</div>
       {!isStudying && userContext.token ? (
-        <Welcome className="Welcome" toggle={handleToggleAccountPage} />
+        <div className="avatar-container">
+          <Welcome className="Welcome" toggle={handleToggleAccountPage} />
+        </div>
       ) : null}
+      <div className="darkmode-container">☽</div>
     </div>
   );
 

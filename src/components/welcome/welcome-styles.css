@@ -1,6 +1,6 @@
 .avatar-container {
-  border: 2px solid var(--color-contrast-secondary);
-  border-radius: 50%;
+  border: 1px solid var(--color-contrast-secondary);
+  border-radius: 1rem;
   justify-self: end;
   width: 4rem;
   height: 4rem;

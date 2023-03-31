@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700;800&display=swap');
 
 :root {
-  --color-primary: #3c559f;
+  --color-primary: rgb(78, 115, 224);
   --color-primary-shade: #678dfd;
   --color-secondary: #a4bbfe;
   --color-tertiary: #ffffff2a;
@@ -34,8 +34,8 @@ h1 {
 }
 
 button:disabled {
-  background-color: rgb(183, 188, 194);
-  color: rgb(121, 123, 124);
+  background-color: rgb(197, 201, 207);
+  color: rgb(216, 215, 215);
 }
 button:disabled:hover {
   cursor: not-allowed;

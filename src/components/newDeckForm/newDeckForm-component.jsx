@@ -2,7 +2,14 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 function NewDeckForm(props) {
-  const { fetchData, onFlash, toggle, isDemoUser, onAddDeck } = props;
+  const {
+    fetchData,
+    onFlash,
+    toggle,
+    isDemoUser,
+    isAddingDeck,
+    onAddDeck,
+  } = props;
 
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -11,8 +18,8 @@ function NewDeckForm(props) {
   const deckNameInput = useRef(null);
 
   useEffect(() => {
-    deckNameInput.current.focus();
-  }, []);
+    deckNameInput.current?.focus();
+  }, [isAddingDeck]);
 
   // save deck to state when 'isDemoUser', else post to API
   const handleSubmit = async (e) => {
@@ -52,25 +59,51 @@ function NewDeckForm(props) {
     }
   };
 
+  const newDeckButton = (
+    <button
+      className="button button-small new-deck-btn show-card-btn"
+      onClick={toggle}
+    >
+      {isAddingDeck ? 'X' : 'Add Deck'}
+    </button>
+  );
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="deckName">Deck Name:</label>
-        <input
-          type="text"
-          name="deckName"
-          id="deckName"
-          required
-          // does not have a name
-          defaultValue={deckName}
-          onChange={(e) => setDeckName(e.target.value)}
-          ref={deckNameInput}
-        />
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Submit'}
-        </button>
-      </form>
-    </>
+    <li className="list-container">
+      <div>
+        {isAddingDeck || newDeckButton}
+        {isAddingDeck && (
+          <div className="deck-container">
+            <div>
+              <form
+                className="deck-header form-new-deck"
+                onSubmit={handleSubmit}
+              >
+                <div className="deck-name-container">
+                  <input
+                    type="text"
+                    name="deckName"
+                    id="deckName"
+                    required
+                    defaultValue={deckName}
+                    onChange={(e) => setDeckName(e.target.value)}
+                    ref={deckNameInput}
+                  />
+                </div>
+                <button
+                  className="button deck-study-button"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Add'}
+                </button>
+              </form>
+            </div>
+            <div>{newDeckButton}</div>
+          </div>
+        )}
+      </div>
+    </li>
   );
 }
 

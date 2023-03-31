@@ -278,37 +278,6 @@ function Vocabulazy() {
     </div>
   );
 
-  const newDeckButton = (
-    <button
-      className="button button-small"
-      onClick={() => setIsAddingDeck(!isAddingDeck)}
-    >
-      {isAddingDeck ? 'X' : 'Add Deck'}
-    </button>
-  );
-
-  const newDeckContainer = (
-    <li className="list-container">
-      <div className="container-deck">
-        {isAddingDeck || newDeckButton}
-
-        {isStudying ||
-          (isAddingDeck && (
-            <>
-              <NewDeckForm
-                fetchData={fetchData}
-                onFlash={handleFlash}
-                toggle={toggleNewDeckForm}
-                isDemoUser={isDemoUser}
-                onAddDeck={handleAddDeckWrapper}
-              />
-              {newDeckButton}
-            </>
-          ))}
-      </div>
-    </li>
-  );
-
   // render main container
   const mainContainer = (
     <>
@@ -317,7 +286,15 @@ function Vocabulazy() {
         {isStudying || (
           <ul className="deck-list">
             {deckContainers}
-            {newDeckContainer}
+            <NewDeckForm
+              fetchData={fetchData}
+              onFlash={handleFlash}
+              toggle={toggleNewDeckForm}
+              isDemoUser={isDemoUser}
+              isAddingDeck={isAddingDeck}
+              isStudying={isStudying}
+              onAddDeck={handleAddDeckWrapper}
+            />
           </ul>
         )}
         {/* display studyview when in study mode */}

@@ -36,14 +36,30 @@
   height: 8rem;
 }
 
+.deck-btn {
+  border: none;
+  background-color: unset;
+  color: #fff;
+}
+
+.deck-btn:hover {
+  cursor: pointer;
+}
+
+.deck-btn:disabled {
+  background-color: unset;
+}
+
 .deck-edit-button {
   grid-row: 1;
   grid-column: 2;
+  justify-self: start;
 }
 
 .deck-delete-button {
   grid-row: 1;
   grid-column: 1;
+  justify-self: end;
 }
 
 .deck-name-container {
@@ -54,6 +70,7 @@
   font-weight: 800;
   justify-self: center;
   align-self: center;
+  user-select: none;
   /* height: 2rem; */
 }
 
@@ -69,7 +86,7 @@
   border-width: unset;
   font-size: 1.8rem;
   font-weight: 800;
-  letter-spacing: 0.05rem;
+  letter-spacing: -0.03rem;
   padding: 0;
   text-align: center;
   margin-bottom: 0;

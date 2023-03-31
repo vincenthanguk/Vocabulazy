@@ -6,6 +6,9 @@ import './deck-styles.css';
 import Flashcard from '../flashcard/flashcard-component';
 import EditDeckForm from '../editDeckForm/editDeckForm-component';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
+
 // deck component displays a deck of flashcards with additional functionality such as deleting a deck, editing a deck, and adding new cards
 function Deck(props) {
   const {
@@ -149,37 +152,22 @@ function Deck(props) {
           setIsHovered(false);
         }}
       >
-        {/* <button
-          className={`deck-delete-button`}
+        <button
+          className={`deck-btn deck-delete-button${
+            !isHovered ? ' hidden' : ''
+          }`}
           disabled={isSubmitting || isDemoDeck}
           onClick={handleDeleteDeck}
         >
-          ❌
-        </button>
-        <div className="deck-name-container">
-          <h1>{deckName}</h1>
-        </div>
-        <button
-          onClick={toggleEditDeckFormVisibility}
-          className={`deck-edit-button`}
-          disabled={isSubmitting || isDemoDeck}
-        >
-          ✏️
-        </button> */}
-        <button
-          className={`deck-delete-button${!isHovered ? ' hidden' : ''}`}
-          disabled={isSubmitting || isDemoDeck}
-          onClick={handleDeleteDeck}
-        >
-          ❌
+          <FontAwesomeIcon icon={faTrash} />
         </button>
         <div className="deck-name-container">{deckName}</div>
         <button
           onClick={toggleEditDeckFormVisibility}
-          className={`deck-edit-button${!isHovered ? ' hidden' : ''}`}
+          className={`deck-btn deck-edit-button${!isHovered ? ' hidden' : ''}`}
           disabled={isSubmitting || isDemoDeck}
         >
-          ✏️
+          <FontAwesomeIcon icon={faPen} />
         </button>
         <button
           className="button deck-study-button"
@@ -205,10 +193,8 @@ function Deck(props) {
           className={`button button-small show-card-btn${
             cardsVisible ? ' active' : ''
           }`}
-          // disabled={deck.length === 0}
         >
-          {deck.length} Cards
-          {/* {cardsVisible ? 'Hide' : 'Show'} Cards */}
+          {cardsVisible ? 'Hide' : `${deck.length} Cards`}
         </button>
         {editDeckFormVisible && (
           <EditDeckForm

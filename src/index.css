@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700;800&display=swap');
 
 :root {
   --color-primary: #3c559f;
@@ -57,7 +57,7 @@ button:disabled:hover {
   display: inline-block;
   font-family: 'Dosis', sans-serif;
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.1rem;
   line-height: 20px;
   margin: 0;
@@ -102,4 +102,13 @@ button:disabled:hover {
 
 .button:disabled {
   cursor: auto;
+}
+
+.button-small {
+  width: 10rem;
+  height: 3.5rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.05rem;
+  padding: 0;
+  text-align: center;
 }

@@ -267,7 +267,7 @@ function Vocabulazy() {
 
   const heading = (
     <div className="heading-container">
-      <div className="heading-subheading">Be Vocabulazy Today</div>
+      <div className="heading-subheading">Let's be Vocabulazy today</div>
       <div className="heading-username">Hi {userContext.username}!</div>
       {!isStudying && userContext.token ? (
         <div className="avatar-container">
@@ -279,7 +279,10 @@ function Vocabulazy() {
   );
 
   const newDeckButton = (
-    <button className="button" onClick={() => setIsAddingDeck(!isAddingDeck)}>
+    <button
+      className="button button-small"
+      onClick={() => setIsAddingDeck(!isAddingDeck)}
+    >
       {isAddingDeck ? 'X' : 'Add Deck'}
     </button>
   );
@@ -327,9 +330,9 @@ function Vocabulazy() {
         )}
       </div>
       <div className="footer">
-        <button className="button" onClick={logoutHandler}>
-          Logout
-        </button>
+        {/* <button className="button" onClick={logoutHandler}>
+          Log Out
+        </button> */}
       </div>
     </>
   );

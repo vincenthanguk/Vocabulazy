@@ -28,11 +28,11 @@
 
 .deck-header {
   display: grid;
-  grid-template-rows: 1fr 6fr;
+  grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr 1fr 6fr 1fr 1fr;
   border-radius: 2.5rem 2.5rem 0 0;
   background-color: var(--color-contrast-secondary);
-  margin-bottom: 10px;
+  margin-bottom: 0.6rem;
   height: 8rem;
 }
 
@@ -49,12 +49,25 @@
 .deck-name-container {
   grid-row: 1/-1;
   grid-column: 1/-1;
+  justify-self: center;
+  align-self: center;
   /* height: 2rem; */
 }
 
 .deck-study-button {
   grid-row: 1/-1;
   grid-column: 4/-1;
+  justify-self: center;
+  align-self: center;
+  width: 8rem;
+  height: 6rem;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 0.05rem;
+  padding: 0;
+  text-align: center;
+  margin-top: 4px;
+  margin-bottom: 0;
 }
 
 .add-card-button-container {
@@ -69,4 +82,8 @@
 
 .deck-container h1 {
   font-size: 2rem;
+}
+
+.show-card-btn {
+  margin-bottom: 0.6rem;
 }

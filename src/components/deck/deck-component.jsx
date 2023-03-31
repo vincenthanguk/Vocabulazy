@@ -139,7 +139,7 @@ function Deck(props) {
   );
 
   return (
-    <div className={`deck-container ${isHovered && 'glow'}`}>
+    <div className={`deck-container${isHovered ? ' glow' : ''}`}>
       <div
         className="deck-header"
         onMouseEnter={(e) => {
@@ -149,8 +149,8 @@ function Deck(props) {
           setIsHovered(false);
         }}
       >
-        <button
-          className={`deck-delete-button ${isHovered || 'hidden'}`}
+        {/* <button
+          className={`deck-delete-button`}
           disabled={isSubmitting || isDemoDeck}
           onClick={handleDeleteDeck}
         >
@@ -161,7 +161,24 @@ function Deck(props) {
         </div>
         <button
           onClick={toggleEditDeckFormVisibility}
-          className={`deck-edit-button ${isHovered || 'hidden'}`}
+          className={`deck-edit-button`}
+          disabled={isSubmitting || isDemoDeck}
+        >
+          ✏️
+        </button> */}
+        <button
+          className={`deck-delete-button${!isHovered ? ' hidden' : ''}`}
+          disabled={isSubmitting || isDemoDeck}
+          onClick={handleDeleteDeck}
+        >
+          ❌
+        </button>
+        <div className="deck-name-container">
+          <h1>{deckName}</h1>
+        </div>
+        <button
+          onClick={toggleEditDeckFormVisibility}
+          className={`deck-edit-button${!isHovered ? ' hidden' : ''}`}
           disabled={isSubmitting || isDemoDeck}
         >
           ✏️
@@ -187,7 +204,9 @@ function Deck(props) {
       <div>
         <button
           onClick={toggleCardsVisibility}
-          className={`button ${cardsVisible ? 'active' : undefined}`}
+          className={`button button-small show-card-btn${
+            cardsVisible ? ' active' : ''
+          }`}
           // disabled={deck.length === 0}
         >
           {deck.length} Cards

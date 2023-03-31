@@ -4,7 +4,7 @@ import { UserContext } from '../../context/UserContext';
 import Deck from '../deck/deck-component';
 import Login from '../login/login-component';
 import Study from '../study/study-component';
-import NewDeckForm from '../newDeckForm/newDeckForm-component';
+import EditDeckForm from '../editDeckForm/editDeckForm-component';
 import FlashMessage from '../flashMessage/flashMessage-component';
 import Welcome from '../welcome/welcome-component';
 import MyAccount from '../myAccount/myAccount-component';
@@ -43,6 +43,7 @@ function Vocabulazy() {
   const [isDemoUser, setIsDemoUser] = useState(false);
   const [isStudying, setIsStudying] = useState(false);
   const [isAddingDeck, setIsAddingDeck] = useState(false);
+  const [editingDeckIndex, setEditingDeckIndex] = useState(null);
   const [studyDeck, setStudyDeck] = useState(0);
   const [isShowingFlash, setIsShowingFlash] = useState(false);
   const [isShowingAccountPage, setIsShowingAccountPage] = useState(false);
@@ -159,6 +160,18 @@ function Vocabulazy() {
     handleFlash('success', 'You are now logged out', 2000);
   };
 
+  // handles click events on decks, either editing an existing deck, canceling the new deck, or adding a new deck
+  const handleDeckEditClick = (i) => {
+    console.log('inside handleEditCliccccc', i);
+    if (editingDeckIndex === i) {
+      setEditingDeckIndex(null);
+    } else if (editingDeckIndex === 'addNewDeck ' && i === 'addNewDeck') {
+      setEditingDeckIndex(null);
+    } else {
+      setEditingDeckIndex(i);
+    }
+  };
+
   // ------------ DEMOMODE CRUD OPERATIONS ------------
 
   const handleAddDeckWrapper = (user, deckName) => {
@@ -215,10 +228,6 @@ function Vocabulazy() {
     setIsAddingDeck(false);
   };
 
-  const toggleNewDeckForm = () => {
-    setIsAddingDeck(!isAddingDeck);
-  };
-
   const handleToggleAccountPage = () => {
     setIsShowingAccountPage(!isShowingAccountPage);
   };
@@ -260,6 +269,8 @@ function Vocabulazy() {
           onDeleteCard={handleDeleteCardWrapper}
           onDeleteDeck={handleDeleteDeckWrapper}
           onEditDeck={handleEditDeckWrapper}
+          editDeckFormVisible={editingDeckIndex === i}
+          onDeckEditClick={handleDeckEditClick}
         />
       </li>
     );
@@ -286,15 +297,18 @@ function Vocabulazy() {
         {isStudying || (
           <ul className="deck-list">
             {deckContainers}
-            <NewDeckForm
-              fetchData={fetchData}
-              onFlash={handleFlash}
-              toggle={toggleNewDeckForm}
-              isDemoUser={isDemoUser}
-              isAddingDeck={isAddingDeck}
-              isStudying={isStudying}
-              onAddDeck={handleAddDeckWrapper}
-            />
+            <li className="list-container">
+              <EditDeckForm
+                fetchData={fetchData}
+                onFlash={handleFlash}
+                toggle={handleDeckEditClick}
+                isDemoUser={isDemoUser}
+                isAddingDeck={editingDeckIndex === 'addNewDeck'}
+                isStudying={isStudying}
+                onAddDeck={handleAddDeckWrapper}
+                initialValue="newDeck"
+              />
+            </li>
           </ul>
         )}
         {/* display studyview when in study mode */}

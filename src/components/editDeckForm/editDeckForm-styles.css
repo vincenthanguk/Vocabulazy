@@ -1,0 +1,14 @@
+.input-deck-name {
+  border: none;
+  border-bottom: 1px solid white;
+  background-color: transparent;
+  color: white;
+  outline: none;
+  height: 3rem;
+  width: 21rem;
+  /* margin-bottom: ; */
+  font-family: 'Dosis';
+  font-size: 3.6rem;
+  font-weight: 800;
+  text-align: center;
+}

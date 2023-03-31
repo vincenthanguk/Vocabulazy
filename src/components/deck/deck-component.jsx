@@ -25,12 +25,13 @@ function Deck(props) {
     onDeleteCard,
     onDeleteDeck,
     onEditDeck,
+    onDeckEditClick,
+    editDeckFormVisible,
   } = props;
 
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardsVisible, setCardsVisible] = useState(false);
-  const [editDeckFormVisible, setEditDeckFormVisible] = useState(false);
   const [editingCardIndex, setEditingCardIndex] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -78,12 +79,6 @@ function Deck(props) {
   // toggles the visibility of cards in the deck view
   const toggleCardsVisibility = () => {
     setCardsVisible((prevState) => !prevState);
-    setEditingCardIndex(null);
-  };
-
-  // toggles visibility of edit deck form
-  const toggleEditDeckFormVisibility = () => {
-    setEditDeckFormVisible((prevState) => !prevState);
     setEditingCardIndex(null);
   };
 
@@ -141,7 +136,7 @@ function Deck(props) {
     </li>
   );
 
-  return (
+  const deckContainer = (
     <div className={`deck-container${isHovered ? ' glow' : ''}`}>
       <div
         className="deck-header"
@@ -163,7 +158,7 @@ function Deck(props) {
         </button>
         <div className="deck-name-container">{deckName}</div>
         <button
-          onClick={toggleEditDeckFormVisibility}
+          onClick={() => onDeckEditClick(deckNumber)}
           className={`deck-btn deck-edit-button${!isHovered ? ' hidden' : ''}`}
           disabled={isSubmitting || isDemoDeck}
         >
@@ -186,7 +181,6 @@ function Deck(props) {
           {editingCardIndex === 'addNewCard' || addCardBtn}
         </ul>
       )}
-
       <div>
         <button
           onClick={toggleCardsVisibility}
@@ -196,19 +190,24 @@ function Deck(props) {
         >
           {cardsVisible ? 'Hide' : `${deck.length} Cards`}
         </button>
-        {editDeckFormVisible && (
-          <EditDeckForm
-            deckId={deckId}
-            fetchData={fetchData}
-            toggle={toggleEditDeckFormVisibility}
-            handleFlash={handleFlash}
-            isDemoUser={isDemoUser}
-            onEditDeck={onEditDeck}
-            prevDeckName={deckName}
-          />
-        )}
       </div>
     </div>
+  );
+
+  return editDeckFormVisible ? (
+    <EditDeckForm
+      deckId={deckId}
+      deckNumber={deckNumber}
+      fetchData={fetchData}
+      toggle={onDeckEditClick}
+      onFlash={handleFlash}
+      isDemoUser={isDemoUser}
+      onEditDeck={onEditDeck}
+      prevDeckName={deckName}
+      isAddingDeck={true}
+    />
+  ) : (
+    deckContainer
   );
 }
 

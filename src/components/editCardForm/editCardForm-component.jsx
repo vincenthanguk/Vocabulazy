@@ -58,7 +58,6 @@ function EditCardForm(props) {
   }, []);
 
   const handleSubmit = async (e) => {
-    console.log('inside handle submit');
     if (initialValue === 'newCard') {
       // add new card to deck
       try {

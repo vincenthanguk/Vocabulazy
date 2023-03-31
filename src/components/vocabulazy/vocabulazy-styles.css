@@ -17,9 +17,8 @@ whitespace: multiples of 16px
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-radius: 2.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  background-color: var(--color-tertiary);
+  margin: 2rem;
+  background-color: var(--color-contrast-tertiary);
   color: black;
   text-align: center;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.25);
@@ -42,6 +41,7 @@ whitespace: multiples of 16px
   flex-wrap: wrap;
   justify-content: space-evenly;
   list-style: none;
+  margin: 0;
   padding: 0;
 }
 
@@ -94,9 +94,9 @@ h1 {
   align-self: center;
 }
 
-/* .footer {
-  margin-bottom: 0.8rem;
-} */
+.footer {
+  margin-top: 1.3rem;
+}
 
 /* universal elements */
 

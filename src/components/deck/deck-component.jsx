@@ -173,9 +173,7 @@ function Deck(props) {
         >
           ❌
         </button>
-        <div className="deck-name-container">
-          <h1>{deckName}</h1>
-        </div>
+        <div className="deck-name-container">{deckName}</div>
         <button
           onClick={toggleEditDeckFormVisibility}
           className={`deck-edit-button${!isHovered ? ' hidden' : ''}`}

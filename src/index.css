@@ -4,7 +4,7 @@
   --color-primary: #3c559f;
   --color-primary-shade: #678dfd;
   --color-secondary: #a4bbfe;
-  --color-tertiary: #f0f4ff;
+  --color-tertiary: #ffffff2a;
   --color-contrast-primary: #fd8e39;
   --color-contrast-secondary: #f3722cad;
   --color-contrast-tertiary: #fdf3f1;
@@ -26,7 +26,7 @@ body {
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  background-color: whitesmoke;
+  background-color: white;
 }
 
 h1 {
@@ -75,7 +75,7 @@ button:disabled:hover {
   width: 100%;
 }
 
-.button:after {
+.button::after {
   background-clip: padding-box;
   background-color: var(--color-secondary);
   border: solid transparent;

@@ -15,7 +15,6 @@ whitespace: multiples of 16px
   height: auto;
   display: flex;
   flex-direction: column;
-  padding-top: 1rem;
   padding-bottom: 1rem;
   border-radius: 2.5rem;
   margin: 2rem;
@@ -67,7 +66,7 @@ h1 {
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 2rem 5rem 15rem 1fr 2rem 2rem;
-  margin-top: 0.6rem;
+  margin-top: 1.6rem;
 }
 
 .header-main {

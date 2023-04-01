@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Welcome from '../../components/welcome/welcome-component';
 import Deck from '../../components/deck/deck-component';
 import EditDeckForm from '../../components/editDeckForm/editDeckForm-component';
+import ProgressBar from '../../components/progressBar/progressBar-component';
 
 import {
   handleAddDeck,
@@ -132,13 +133,15 @@ function MainView(props) {
         </li>
       </ul>
       {deckList.length > 0 || noDecks}
+      <ProgressBar current={1} total={4} />
     </div>
   );
 
   return (
     <div className="MainView">
       <div className="header-main">{heading}</div>
-      {isLoading ? loading : userContext.token && mainContainer}
+      {isLoading ? loading : mainContainer}
+      {!userContext.token && 'No User Token'}
     </div>
   );
 }

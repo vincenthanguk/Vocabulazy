@@ -4,15 +4,25 @@
   align-items: center;
 }
 
-table {
-  margin-left: auto;
-  margin-right: auto;
+.study-header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-primary);
+  border-radius: 2.5rem 2.5rem 0 0;
+  margin-bottom: 0.6rem;
+  height: 8rem;
+  width: 100%;
 }
 
-td {
-  padding: 0 10px;
+.study-header {
+  color: #fff;
+  font-size: 3.6rem;
+  font-weight: 800;
 }
 
-.Study h1 {
-  font-size: 1rem;
+.study-timer {
+  font-size: 1.4rem;
+  align-self: center;
+  justify-self: center;
 }

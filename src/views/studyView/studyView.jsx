@@ -128,18 +128,14 @@ function Study(props) {
 
   return (
     <div className="Study">
-      <h1>Studying Deck "{deckName}"</h1>
+      <div className="study-header-container">
+        <div className="study-header">{deckName}</div>
+      </div>
       <div className="overview">
-        <table>
-          <tbody>
-            <tr>
-              <td>⏱: {timerSeconds}</td>
-              <td>🗂: {studyDeck.length}</td>
-              <td>✅: {correct.length}</td>
-              <td>❌: {wrong.length}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="study-timer">⏱: {timerSeconds}</div>
+        🗂: {studyDeck.length}
+        ✅: {correct.length}
+        ❌: {wrong.length}
       </div>
       <div className="card">
         {currentCard && timerIsActive ? (

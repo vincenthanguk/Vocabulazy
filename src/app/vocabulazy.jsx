@@ -147,18 +147,6 @@ function Vocabulazy() {
     handleFlash('success', 'You are now logged out', 2000);
   };
 
-  // handles click events on decks, either editing an existing deck, canceling the new deck, or adding a new deck
-  const handleDeckEditClick = (i) => {
-    console.log('inside handleEditCliccccc', i);
-    if (editingDeckIndex === i) {
-      setEditingDeckIndex(null);
-    } else if (editingDeckIndex === 'addNewDeck ' && i === 'addNewDeck') {
-      setEditingDeckIndex(null);
-    } else {
-      setEditingDeckIndex(i);
-    }
-  };
-
   // --------------------- FLASH MESSAGES ---------------------
 
   // check flash message status and content

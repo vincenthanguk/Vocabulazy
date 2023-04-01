@@ -30,7 +30,6 @@ function Vocabulazy() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [isDemoUser, setIsDemoUser] = useState(false);
-  const [isStudying, setIsStudying] = useState(false);
   const [editingDeckIndex, setEditingDeckIndex] = useState(null);
   const [studyDeck, setStudyDeck] = useState(0);
   const [isShowingFlash, setIsShowingFlash] = useState(false);
@@ -183,12 +182,6 @@ function Vocabulazy() {
 
   // --------------------- TOGGLES ---------------------
 
-  // toggle study mode on/off, sets deck to be studied so it can be rendered in study view
-  const toggleStudy = (deckNum) => {
-    setIsStudying(() => !isStudying);
-    setStudyDeck(deckNum);
-  };
-
   const handleToggleAccountPage = () => {
     setIsShowingAccountPage(!isShowingAccountPage);
   };
@@ -202,14 +195,14 @@ function Vocabulazy() {
     case 'mainView':
       activeView = (
         <MainView
-          isStudying={isStudying}
+          setView={setView}
           isLoading={isLoading}
           isDemoUser={isDemoUser}
           onToggleAccountPage={handleToggleAccountPage}
           userContext={userContext}
           deckList={deckList}
           setDeckList={setDeckList}
-          toggleStudy={toggleStudy}
+          setStudyDeck={setStudyDeck}
           fetchData={fetchData}
           handleFlash={handleFlash}
         />
@@ -218,6 +211,7 @@ function Vocabulazy() {
     case 'studyView':
       activeView = (
         <StudyView
+          setView={setView}
           deck={deckList[studyDeck].cards}
           deckName={deckList[studyDeck].name}
           deckId={deckList[studyDeck]._id}
@@ -229,7 +223,7 @@ function Vocabulazy() {
       break;
 
     default:
-      activeView = <LoginView />;
+      activeView = <LoginView setView={setView} />;
       break;
   }
 

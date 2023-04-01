@@ -15,15 +15,16 @@ import {
 
 function MainView(props) {
   const {
+    setView,
     isLoading,
     onToggleAccountPage,
     isDemoUser,
-    toggleStudy,
     fetchData,
     handleFlash,
     userContext,
     deckList,
     setDeckList,
+    setStudyDeck,
   } = props;
 
   const [editingDeckIndex, setEditingDeckIndex] = useState(null);
@@ -38,6 +39,12 @@ function MainView(props) {
     } else {
       setEditingDeckIndex(i);
     }
+  };
+
+  // toggle study mode on/off, sets deck to be studied so it can be rendered in study view
+  const toggleStudy = (deckNum) => {
+    setView('studyView');
+    setStudyDeck(deckNum);
   };
 
   // ------------ DEMOMODE CRUD OPERATIONS ------------

@@ -11,6 +11,7 @@ import './studyView-styles.css';
 
 function Study(props) {
   const {
+    setView,
     deck,
     deckName,
     deckId,
@@ -123,6 +124,8 @@ function Study(props) {
     setCardIsRevealed(false);
   };
 
+  // TODO: REFACTOR
+
   return (
     <div className="Study">
       <h1>Studying Deck "{deckName}"</h1>
@@ -170,6 +173,7 @@ function Study(props) {
           </button>
         )}
       </div>
+      <button onClick={() => setView('mainView')}>Back</button>
     </div>
   );
 }

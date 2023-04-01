@@ -27,6 +27,7 @@ function Deck(props) {
     onEditDeck,
     onDeckEditClick,
     editDeckFormVisible,
+    toggleStudy,
   } = props;
 
   const [userContext, setUserContext] = useContext(UserContext);
@@ -183,7 +184,7 @@ function Deck(props) {
         </button>
         <button
           className="button deck-study-button"
-          onClick={() => props.toggleStudy(deckNumber)}
+          onClick={() => toggleStudy(deckNumber)}
           disabled={deck.length === 0}
         >
           Study

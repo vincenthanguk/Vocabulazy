@@ -28,14 +28,35 @@ function EditDeckForm(props) {
     deckNameInput.current?.focus();
   }, [isAddingDeck]);
 
-  // set up two scenarios:
-  // 1) without 'initialValue' -> edit the deck (PATCH)
-  // 2) with 'initialValue' of newDeck -> add new deck to state
+  useEffect(() => {
+    console.log('inside isAddingDeck useEffect', isAddingDeck);
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') {
+        console.log('escape pressed');
+        const button = document.querySelector(
+          '.button.button-small.new-deck-btn.show-card-btn'
+        );
+        if (button) {
+          button.click();
+        }
+      }
+    }
+
+    if (isAddingDeck) document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      console.log('isAddingDeck useEffect removed');
+    };
+  }, [isAddingDeck]);
+
+  // 1) with 'initialValue' of newDeck -> add new deck to state
+  // 2) without 'initialValue' -> edit the deck (PATCH)
 
   // save deck to state when 'isDemoUser', else post to API
   const handleSubmit = async (e) => {
     if (initialValue === 'newDeck') {
-      // add deck
+      // 1) add deck
       try {
         // save deck to state
         e.preventDefault();
@@ -73,7 +94,7 @@ function EditDeckForm(props) {
         setDeckName('');
       }
     } else {
-      // edit deck
+      // 2) edit deck
       try {
         console.log('editing deck submit');
         e.preventDefault();

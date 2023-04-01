@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 import './deck-styles.css';
@@ -34,6 +34,23 @@ function Deck(props) {
   const [cardsVisible, setCardsVisible] = useState(false);
   const [editingCardIndex, setEditingCardIndex] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    console.log('inside cardsVisible useEffect', cardsVisible);
+    function handleKeyDown(e) {
+      if (e.key === 'Escape' && !editingCardIndex && editingCardIndex !== 0) {
+        console.log('escape pressed', editingCardIndex);
+        setCardsVisible(false);
+      }
+    }
+
+    if (cardsVisible) document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      console.log('cardsVisible useEffect removed');
+    };
+  }, [cardsVisible, editingCardIndex]);
 
   // deletes deck from database
   const handleDeleteDeck = async (e) => {

@@ -42,7 +42,7 @@ function Vocabulazy() {
   const [isError, setIsError] = useState(false);
   const [isDemoUser, setIsDemoUser] = useState(false);
   const [isStudying, setIsStudying] = useState(false);
-  const [isAddingDeck, setIsAddingDeck] = useState(false);
+  // const [isAddingDeck, setIsAddingDeck] = useState(false);
   const [editingDeckIndex, setEditingDeckIndex] = useState(null);
   const [studyDeck, setStudyDeck] = useState(0);
   const [isShowingFlash, setIsShowingFlash] = useState(false);
@@ -225,7 +225,7 @@ function Vocabulazy() {
   const toggleStudy = (deckNum) => {
     setIsStudying(() => !isStudying);
     setStudyDeck(deckNum);
-    setIsAddingDeck(false);
+    // setIsAddingDeck(false);
   };
 
   const handleToggleAccountPage = () => {

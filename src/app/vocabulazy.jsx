@@ -1,31 +1,20 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../context/UserContext';
 
-import Deck from '../deck/deck-component';
-import Login from '../login/login-component';
-import Study from '../study/study-component';
-import EditDeckForm from '../editDeckForm/editDeckForm-component';
-import FlashMessage from '../flashMessage/flashMessage-component';
-import Welcome from '../welcome/welcome-component';
-import MyAccount from '../myAccount/myAccount-component';
+import StudyView from '../views/studyView/studyView';
+import FlashMessage from '../components/flashMessage/flashMessage-component';
+import LoginView from '../views/loginView/loginView';
+import MainView from '../views/mainView/mainView';
 
-import mockData from '../../data/mockData.json';
+import mockData from '../data/mockData.json';
 
-import {
-  handleAddDeck,
-  handleDeleteDeck,
-  handleEditDeck,
-  handleAddCardToDeck,
-  handleEditCard,
-  handleDeleteCard,
-} from '../../utils/handlers.js';
-
-import { useVerifyUser } from '../../utils/auth';
+import { useVerifyUser } from '../utils/auth';
 
 import './vocabulazy-styles.css';
 
 function Vocabulazy() {
   const [userContext, setUserContext, toggleDemoMode] = useContext(UserContext);
+  const [view, setView] = useState('mainView');
   const [deckList, setDeckList] = useState([]);
   const [demoStudysessionList, setDemoStudysessionList] = useState([
     {
@@ -42,7 +31,6 @@ function Vocabulazy() {
   const [isError, setIsError] = useState(false);
   const [isDemoUser, setIsDemoUser] = useState(false);
   const [isStudying, setIsStudying] = useState(false);
-  // const [isAddingDeck, setIsAddingDeck] = useState(false);
   const [editingDeckIndex, setEditingDeckIndex] = useState(null);
   const [studyDeck, setStudyDeck] = useState(0);
   const [isShowingFlash, setIsShowingFlash] = useState(false);
@@ -172,32 +160,6 @@ function Vocabulazy() {
     }
   };
 
-  // ------------ DEMOMODE CRUD OPERATIONS ------------
-
-  const handleAddDeckWrapper = (user, deckName) => {
-    handleAddDeck(deckList, setDeckList, user, deckName);
-  };
-
-  const handleDeleteDeckWrapper = (deckId) => {
-    handleDeleteDeck(deckList, setDeckList, deckId);
-  };
-
-  const handleEditDeckWrapper = (deckId, deckName) => {
-    handleEditDeck(deckList, setDeckList, deckId, deckName);
-  };
-
-  const handleAddCardToDeckWrapper = (data) => {
-    handleAddCardToDeck(deckList, setDeckList, data);
-  };
-
-  const handleEditCardWrapper = (data) => {
-    handleEditCard(deckList, setDeckList, data);
-  };
-
-  const handleDeleteCardWrapper = (deckId, cardId) => {
-    handleDeleteCard(deckList, setDeckList, deckId, cardId);
-  };
-
   // --------------------- FLASH MESSAGES ---------------------
 
   // check flash message status and content
@@ -225,138 +187,53 @@ function Vocabulazy() {
   const toggleStudy = (deckNum) => {
     setIsStudying(() => !isStudying);
     setStudyDeck(deckNum);
-    // setIsAddingDeck(false);
   };
 
   const handleToggleAccountPage = () => {
     setIsShowingAccountPage(!isShowingAccountPage);
   };
 
-  // --------------------- ELEMENTS ---------------------
+  let activeView;
 
-  let studyView;
-  // conditional rendering in case no decks are loaded from DB
-  if (deckList.length > 0) {
-    studyView = (
-      <Study
-        deck={deckList[studyDeck].cards}
-        deckName={deckList[studyDeck].name}
-        deckId={deckList[studyDeck]._id}
-        isDemoUser={isDemoUser}
-        demoStudysessionList={demoStudysessionList}
-        setDemoStudysessionList={setDemoStudysessionList}
-      />
-    );
-  }
-
-  const noDecks = <div>Try adding your first deck!</div>;
-
-  const deckContainers = deckList.map((deck, i) => {
-    return (
-      <li className="list-container" key={i}>
-        <Deck
-          deck={deck.cards}
-          deckId={deck._id}
-          deckNumber={i}
-          deckName={deck.name}
-          isDemoDeck={deck.demo}
+  switch (view) {
+    case 'loginView':
+      activeView = <LoginView />;
+      break;
+    case 'mainView':
+      activeView = (
+        <MainView
+          isStudying={isStudying}
+          isLoading={isLoading}
           isDemoUser={isDemoUser}
+          onToggleAccountPage={handleToggleAccountPage}
+          userContext={userContext}
+          deckList={deckList}
+          setDeckList={setDeckList}
           toggleStudy={toggleStudy}
           fetchData={fetchData}
           handleFlash={handleFlash}
-          onAddCard={handleAddCardToDeckWrapper}
-          onEditCard={handleEditCardWrapper}
-          onDeleteCard={handleDeleteCardWrapper}
-          onDeleteDeck={handleDeleteDeckWrapper}
-          onEditDeck={handleEditDeckWrapper}
-          editDeckFormVisible={editingDeckIndex === i}
-          onDeckEditClick={handleDeckEditClick}
         />
-      </li>
-    );
-  });
-
-  const heading = (
-    <div className="heading-container">
-      <div className="heading-subheading">Let's be Vocabulazy today</div>
-      <div className="heading-username">Hi {userContext.username}!</div>
-      {!isStudying && userContext.token ? (
-        <div className="avatar-container">
-          <Welcome className="Welcome" toggle={handleToggleAccountPage} />
-        </div>
-      ) : null}
-      <div className="darkmode-container">☽</div>
-    </div>
-  );
-
-  // render main container
-  const mainContainer = (
-    <>
-      <div className="main-container">
-        {/* display deckcontainers when not in study mode */}
-        {isStudying || (
-          <ul className="deck-list">
-            {deckContainers}
-            <li className="list-container">
-              <EditDeckForm
-                fetchData={fetchData}
-                onFlash={handleFlash}
-                toggle={handleDeckEditClick}
-                isDemoUser={isDemoUser}
-                isAddingDeck={editingDeckIndex === 'addNewDeck'}
-                isStudying={isStudying}
-                onAddDeck={handleAddDeckWrapper}
-                initialValue="newDeck"
-              />
-            </li>
-          </ul>
-        )}
-        {/* display studyview when in study mode */}
-        {isStudying && studyView}
-        {deckList.length > 0 || noDecks}
-        {isStudying && (
-          <button className="back-btn" onClick={() => toggleStudy(studyDeck)}>
-            Back to Decks
-          </button>
-        )}
-      </div>
-      <div className="footer">
-        {/* <button className="button" onClick={logoutHandler}>
-          Log Out
-        </button> */}
-      </div>
-    </>
-  );
-
-  const loading = <div>Loading Decks...</div>;
-
-  return (
-    <>
-      {isShowingAccountPage && (
-        <MyAccount
-          toggleAccountPage={handleToggleAccountPage}
-          deckData={deckList}
-          userDetails={userContext.details}
-          handleFlash={handleFlash}
+      );
+      break;
+    case 'studyView':
+      activeView = (
+        <StudyView
+          deck={deckList[studyDeck].cards}
+          deckName={deckList[studyDeck].name}
+          deckId={deckList[studyDeck]._id}
           isDemoUser={isDemoUser}
           demoStudysessionList={demoStudysessionList}
           setDemoStudysessionList={setDemoStudysessionList}
         />
-      )}
-      {isShowingFlash && <FlashMessage flash={flash} />}
-      <div className="Vocabulazy">
-        <div className="header-main">{heading}</div>
-        {isLoading ? loading : userContext.token && mainContainer}
-        {userContext.token === null && (
-          <>
-            <div className="main-container">
-              <Login handleFlash={handleFlash} />
-            </div>
-          </>
-        )}
-      </div>
-    </>
-  );
+      );
+      break;
+
+    default:
+      activeView = <LoginView />;
+      break;
+  }
+
+  return <div className="Vocabulazy">{activeView}</div>;
 }
 
 export default Vocabulazy;

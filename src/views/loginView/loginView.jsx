@@ -1,8 +1,8 @@
 import { React, useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 
-import './login-styles.css';
-import Register from '../register/register-component';
+import './loginView-styles.css';
+import Register from '../../components/register/register-component';
 
 function Login(props) {
   const { handleFlash } = props;

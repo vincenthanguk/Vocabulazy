@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
-import StudyFlashcard from '../studyFlashcard/studyFlashcard-component';
+
+import StudyFlashcard from '../../components/studyFlashcard/studyFlashcard-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 
-import './study-styles.css';
+import './studyView-styles.css';
 
 function Study(props) {
   const {

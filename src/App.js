@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Vocabulazy from './components/vocabulazy/vocabulazy-component.jsx';
+import Vocabulazy from './app/vocabulazy.jsx';
 
 function App() {
   return (

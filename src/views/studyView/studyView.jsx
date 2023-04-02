@@ -33,7 +33,7 @@ function Study(props) {
   const [currentCard, setCurrentCard] = useState([]);
   const [correct, setCorrect] = useState([]);
   const [wrong, setWrong] = useState([]);
-  const [cardIsRevealed, setCardIsRevealed] = useState(false);
+  const [cardIsFlipped, setCardIsFlipped] = useState(false);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [timerIsActive, setTimerIsActive] = useState(true);
 
@@ -125,11 +125,11 @@ function Study(props) {
   };
 
   const revealCard = () => {
-    setCardIsRevealed(true);
+    setCardIsFlipped(true);
   };
 
   const hideCard = () => {
-    setCardIsRevealed(false);
+    setCardIsFlipped(false);
   };
 
   function formatTime(seconds) {
@@ -186,7 +186,7 @@ function Study(props) {
             cardId={currentCard.cardId}
             front={currentCard.cardFront}
             back={currentCard.cardBack}
-            reveal={cardIsRevealed}
+            isFlipped={cardIsFlipped}
           />
         ) : (
           `Finished deck in ${timerSeconds} seconds!`
@@ -194,12 +194,12 @@ function Study(props) {
       </div>
 
       <div className="buttons">
-        {!cardIsRevealed && currentCard && (
+        {!cardIsFlipped && currentCard && (
           <button className="button button-small" onClick={() => revealCard()}>
             Show!
           </button>
         )}
-        {cardIsRevealed && (
+        {cardIsFlipped && (
           <>
             <button onClick={() => cardCorrect(currentCard)}>
               <FontAwesomeIcon icon={faCheck} />

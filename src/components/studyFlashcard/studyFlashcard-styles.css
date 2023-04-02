@@ -12,12 +12,12 @@
   margin-bottom: 1.4rem;
 }
 
-.card-front {
+.study-card-front {
   background-color: var(--color-tertiary);
   color: var(--color-primary-dark);
 }
 
-.card-back {
+.study-card-back {
   background-color: var(--color-primary-dark);
   color: var(--color-tertiary);
 }

@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700;800&family=Roboto+Mono:wght@400;600&family=Ubuntu+Mono:wght@700&display=swap');
 
 :root {
   --color-primary: rgb(78, 115, 224);
   --color-primary-shade: #678dfd;
   --color-secondary: #a4bbfe;
-  --color-tertiary: #ffffff2a;
+  --color-tertiary: #ffffff;
   --color-contrast-primary: #fd8e39;
-  --color-contrast-secondary: #f3722cad;
+  --color-contrast-secondary: #f3722c;
   --color-contrast-tertiary: #fdf3f1;
   --color-text-primary: black;
   --color-text-secondary: black;

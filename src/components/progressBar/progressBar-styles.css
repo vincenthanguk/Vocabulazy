@@ -10,13 +10,12 @@
   flex-direction: row;
   justify-content: space-between;
   position: relative;
-  max-width: 100%;
   width: 35rem;
 }
 
 .progress-container::before {
   content: '';
-  background-color: gray;
+  background-color: var(--color-secondary);
   position: absolute;
   top: 50%;
   left: 0;
@@ -35,7 +34,7 @@
 }
 
 .progress {
-  background-color: green;
+  background-color: var(--color-contrast-secondary);
   position: absolute;
   top: 50%;
   left: 0;
@@ -47,19 +46,20 @@
 }
 
 .circle {
-  background-color: white;
-  color: #999;
+  background-color: var(--color-tertiary);
   border-radius: 50%;
   height: 1rem;
   width: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid #e0e0e0;
+  border: 3px solid var(--color-secondary);
   transition: 0.4s ease;
   z-index: 1;
 }
 
 .circle.progressbar-active {
-  border-color: #3498db;
+  border-color: var(--color-contrast-primary);
+  border: 3px solid var(--color-contrast-secondary);
+  background-color: var(--color-tertiary);
 }

@@ -30,7 +30,7 @@
   background-color: var(--color-primary);
   display: grid;
   grid-template-rows: 1fr 1fr;
-  grid-template-columns: 1fr 1fr 6fr 1fr 1fr;
+  grid-template-columns: 4.2rem 4.2rem 1fr 4.2rem 4.2rem;
   border-radius: 2.5rem 2.5rem 0 0;
   margin-bottom: 0.6rem;
   height: 8rem;

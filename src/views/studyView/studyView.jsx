@@ -2,10 +2,16 @@ import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 import StudyFlashcard from '../../components/studyFlashcard/studyFlashcard-component';
+import ProgressBar from '../../components/progressBar/progressBar-component';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { faSync } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faTimes,
+  faSync,
+  faChevronLeft,
+  faStopwatch,
+} from '@fortawesome/free-solid-svg-icons';
 
 import './studyView-styles.css';
 
@@ -124,15 +130,33 @@ function Study(props) {
     setCardIsRevealed(false);
   };
 
-  // TODO: REFACTOR
+  function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const paddedSeconds =
+      remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+    return `${minutes}:${paddedSeconds}`;
+  }
 
   return (
     <div className="Study">
       <div className="study-header-container">
         <div className="study-header">{deckName}</div>
+
+        <button
+          className="study-view button deck-study-button"
+          onClick={() => setView('mainView')}
+        >
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
+        <div className="study-timer">
+          <div className="stopwatch">
+            <FontAwesomeIcon icon={faStopwatch} />
+          </div>
+          <div className="timer">{formatTime(timerSeconds)}</div>
+        </div>
       </div>
       <div className="overview">
-        <div className="study-timer">⏱: {timerSeconds}</div>
         🗂: {studyDeck.length}
         ✅: {correct.length}
         ❌: {wrong.length}
@@ -149,9 +173,14 @@ function Study(props) {
           `Finished deck in ${timerSeconds} seconds!`
         )}
       </div>
+      <div className="ProgressBar">
+        <ProgressBar total={15} current={3} />
+      </div>
       <div className="buttons">
         {!cardIsRevealed && currentCard && (
-          <button onClick={() => revealCard()}>Show!</button>
+          <button className="button button-small" onClick={() => revealCard()}>
+            Show!
+          </button>
         )}
         {cardIsRevealed && (
           <>
@@ -169,7 +198,6 @@ function Study(props) {
           </button>
         )}
       </div>
-      <button onClick={() => setView('mainView')}>Back</button>
     </div>
   );
 }

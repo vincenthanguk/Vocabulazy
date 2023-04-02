@@ -5,9 +5,9 @@
 }
 
 .study-header-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 6rem 1fr 6rem;
   background-color: var(--color-primary);
   border-radius: 2.5rem 2.5rem 0 0;
   margin-bottom: 0.6rem;
@@ -16,13 +16,40 @@
 }
 
 .study-header {
+  grid-row: 1/-1;
+  grid-column: 2/3;
+  justify-self: center;
+  align-self: center;
   color: #fff;
   font-size: 3.6rem;
   font-weight: 800;
 }
 
+.study-view.button.deck-study-button {
+  grid-column: 1/2;
+  border-radius: 16px 0 0 0;
+}
+
+.ProgressBar {
+  width: 25rem;
+}
+
 .study-timer {
-  font-size: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  grid-row: 1/-1;
+  grid-column: 3/-1;
+  color: #fff;
+  background-color: var(--color-secondary);
+  border-radius: 0 16px 0 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Ubuntu Mono';
+  font-weight: 600;
+  font-size: 1.8rem;
   align-self: center;
   justify-self: center;
 }

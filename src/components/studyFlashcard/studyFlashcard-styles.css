@@ -1,10 +1,13 @@
-/* .flashcard {
-  width: 150px;
-  height: 150px;
-  margin: 15px;
-  border: 2px solid black;
-  background-color: white;
-  padding: 10px;
+.study-flashcard {
+  width: 26rem;
+  height: 20rem;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.25);
+  background-color: var(--color-tertiary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 5px;
-  font-size: 0.7rem;
-} */
+  font-size: 6rem;
+  font-weight: 800;
+  padding: 5px;
+}

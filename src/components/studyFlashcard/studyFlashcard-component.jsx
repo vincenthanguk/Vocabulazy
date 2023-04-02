@@ -5,10 +5,7 @@ function StudyFlashcard(props) {
   const { front, back, reveal } = props;
 
   const flashcard = (
-    <>
-      <h3>Front: {front}</h3>
-      <h3>Back: {reveal ? back : ''}</h3>
-    </>
+    <div className="study-flashcard">{reveal ? back : front}</div>
   );
 
   return flashcard;

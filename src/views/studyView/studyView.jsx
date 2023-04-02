@@ -11,6 +11,8 @@ import {
   faSync,
   faChevronLeft,
   faStopwatch,
+  faLayerGroup,
+  faBan,
 } from '@fortawesome/free-solid-svg-icons';
 
 import './studyView-styles.css';
@@ -142,7 +144,6 @@ function Study(props) {
     <div className="Study">
       <div className="study-header-container">
         <div className="study-header">{deckName}</div>
-
         <button
           className="study-view button deck-study-button"
           onClick={() => setView('mainView')}
@@ -157,9 +158,27 @@ function Study(props) {
         </div>
       </div>
       <div className="overview">
-        🗂: {studyDeck.length}
-        ✅: {correct.length}
-        ❌: {wrong.length}
+        <div className="overview-element stack">
+          <div className="overview-icon">
+            <FontAwesomeIcon icon={faLayerGroup} />
+          </div>
+          <div className="overview-count">{studyDeck.length}</div>
+        </div>
+        <div className="overview-element correct">
+          <div className="overview-icon">
+            <FontAwesomeIcon icon={faCheck} />
+          </div>
+          <div className="overview-count">{correct.length}</div>
+        </div>
+        <div className="overview-element wrong">
+          <div className="overview-icon">
+            <FontAwesomeIcon icon={faBan} />
+          </div>
+          <div className="overview-count">{wrong.length}</div>
+        </div>
+        <div className="ProgressBar">
+          <ProgressBar total={15} current={3} />
+        </div>
       </div>
       <div className="card">
         {currentCard && timerIsActive ? (
@@ -173,9 +192,7 @@ function Study(props) {
           `Finished deck in ${timerSeconds} seconds!`
         )}
       </div>
-      <div className="ProgressBar">
-        <ProgressBar total={15} current={3} />
-      </div>
+
       <div className="buttons">
         {!cardIsRevealed && currentCard && (
           <button className="button button-small" onClick={() => revealCard()}>

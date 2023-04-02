@@ -13,6 +13,7 @@
   margin-bottom: 0.6rem;
   height: 8rem;
   width: 100%;
+  margin-bottom: 1.6rem;
 }
 
 .study-header {
@@ -28,10 +29,6 @@
 .study-view.button.deck-study-button {
   grid-column: 1/2;
   border-radius: 16px 0 0 0;
-}
-
-.ProgressBar {
-  width: 25rem;
 }
 
 .study-timer {
@@ -52,4 +49,40 @@
   font-size: 1.8rem;
   align-self: center;
   justify-self: center;
+}
+
+.stopwatch {
+  font-size: 2.2rem;
+}
+
+.overview {
+  display: grid;
+  grid-template-rows: 1fr 2rem;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.overview-element {
+  color: var(--color-primary-darkish);
+}
+.overview-element.stack {
+  grid-row: 1;
+  grid-column: 1/2;
+}
+.overview-element.correct {
+  grid-row: 1;
+  grid-column: 2/3;
+}
+.overview-element.wrong {
+  grid-row: 1;
+  grid-column: 3/4;
+}
+
+.overview-count {
+  color: var(--color-);
+}
+
+.ProgressBar {
+  width: 28.4rem;
+  grid-row: 2;
+  grid-column: 1/-1;
+  align-self: flex-end;
 }

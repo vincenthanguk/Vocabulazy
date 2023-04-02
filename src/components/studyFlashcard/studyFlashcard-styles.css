@@ -1,13 +1,23 @@
 .study-flashcard {
-  width: 26rem;
-  height: 20rem;
+  font-size: 10rem;
+  font-weight: 800;
+  width: 30rem;
+  height: 30rem;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.25);
-  background-color: var(--color-tertiary);
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
-  font-size: 6rem;
-  font-weight: 800;
-  padding: 5px;
+  border-radius: 16px;
+  margin-top: 1.4rem;
+  margin-bottom: 1.4rem;
+}
+
+.card-front {
+  background-color: var(--color-tertiary);
+  color: var(--color-primary-dark);
+}
+
+.card-back {
+  background-color: var(--color-primary-dark);
+  color: var(--color-tertiary);
 }

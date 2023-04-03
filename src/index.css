@@ -121,3 +121,7 @@ button:disabled:hover {
   padding: 0;
   text-align: center;
 }
+
+.button-small:hover:not(:disabled) {
+  font-size: 1.5rem;
+}

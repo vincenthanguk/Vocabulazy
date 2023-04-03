@@ -1,5 +1,7 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import './editCardForm-styles.css';
 
@@ -155,46 +157,42 @@ function EditCardForm(props) {
     <>
       <form className="form-edit" onSubmit={handleSubmit}>
         <div className="card-number">{cardNumber}</div>
-        <label className="label label-front" htmlFor="cardFront">
-          Front:{' '}
-        </label>
         <input
-          className="input input-front"
+          className="card-input input-front"
           type="text"
           name="cardFront"
           id="cardFront"
           value={formValue.cardFront}
+          placeholder="Front"
           onChange={handleChange}
           ref={cardFrontInput}
           required
         />
-        <label className="label label-back" htmlFor="cardBack">
-          Back:{' '}
-        </label>
         <input
-          className="input input-back"
+          className="card-input input-back"
           type="text"
           name="cardBack"
           id="cardBack"
           value={formValue.cardBack}
+          placeholder="Back"
           onChange={handleChange}
           required
         />
         <button
-          className="emoji-btn form-submit-btn"
+          className="form-btn form-submit-btn"
           type="submit"
           disabled={isSubmitting}
         >
-          ✅
+          <FontAwesomeIcon icon={faCheck} />
         </button>
         {/* don't show button on new cards */}
 
         <button
-          className="emoji-btn form-cancel-edit-btn"
+          className="form-btn form-cancel-edit-btn"
           onClick={onEditClick}
           disabled={isSubmitting}
         >
-          🚫
+          <FontAwesomeIcon icon={faTimes} />
         </button>
       </form>
     </>

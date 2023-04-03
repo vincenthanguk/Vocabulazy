@@ -19,23 +19,27 @@
   font-size: 1rem;
 }
 
-.input {
+.card-input {
   width: 10rem;
   margin-top: 0;
+  border: none;
+  border-bottom: 1px solid rgb(195, 195, 195);
+  background-color: transparent;
+  color: var(--color-primary-dark);
+  outline: none;
+  /* height: 3rem; */
+  width: 11rem;
+  font-family: 'Dosis';
+  font-size: 2rem;
+  font-weight: 600;
 }
 
-.label-front {
-  grid-row: 2;
-  grid-column: 1 / -1;
+.card-input::placeholder {
+  color: rgb(223, 223, 223);
 }
 
 .input-front {
   grid-row: 3;
-  grid-column: 1 / -1;
-}
-
-.label-back {
-  grid-row: 4;
   grid-column: 1 / -1;
 }
 
@@ -44,9 +48,25 @@
   grid-column: 1 / -1;
 }
 
+.form-btn {
+  font-size: 2rem;
+  height: fit-content;
+  width: fit-content;
+  align-self: center;
+  justify-self: center;
+  border: none;
+  background-color: unset;
+  color: var(--color-primary);
+}
+
+.form-btn:hover {
+  cursor: pointer;
+}
+
 .form-submit-btn {
   grid-row: 6;
   grid-column: 1;
+  font-size: 2rem;
 }
 
 .form-cancel-edit-btn {
@@ -54,4 +74,5 @@
   grid-column: 2;
   align-self: center;
   justify-self: center;
+  font-size: 2rem;
 }

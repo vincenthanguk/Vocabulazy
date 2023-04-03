@@ -7,6 +7,7 @@
   align-items: center;
   padding: 0;
   gap: 1rem;
+  margin-bottom: 0.6rem;
 }
 
 .deck-container {
@@ -40,6 +41,7 @@
   border: none;
   background-color: unset;
   color: #fff;
+  padding: 0;
 }
 
 .deck-btn:hover {
@@ -59,7 +61,6 @@
 .deck-delete-button {
   grid-row: 1;
   grid-column: 1;
-  justify-self: end;
 }
 
 .deck-name-container {
@@ -118,8 +119,8 @@
   align-content: center;
   justify-content: center;
   align-items: center;
-  width: 14rem;
-  height: 14rem;
+  width: 13rem;
+  height: 13rem;
 }
 
 .deck-container h1 {
@@ -128,4 +129,14 @@
 
 .show-card-btn {
   margin-bottom: 0.6rem;
+}
+
+.add-card-btn {
+  font-size: 4rem;
+  color: var(--color-secondary);
+  transition: 400ms ease;
+}
+
+.add-card-btn:not([disabled]):hover {
+  color: var(--color-primary);
 }

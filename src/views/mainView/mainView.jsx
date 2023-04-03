@@ -133,7 +133,6 @@ function MainView(props) {
         </li>
       </ul>
       {deckList.length > 0 || noDecks}
-      <ProgressBar current={1} total={4} />
     </div>
   );
 

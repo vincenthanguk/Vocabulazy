@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
+import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
 import EditCardForm from '../editCardForm/editCardForm-component';
 import './flashcard-styles.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Flashcard(props) {
   const {
@@ -68,21 +70,19 @@ function Flashcard(props) {
       <div className="card-front">{front}</div>
       <div className="card-back">{back}</div>
       <button
-        className={`emoji-btn card-btn edit-card-btn ${isHovered || 'hidden'}`}
+        className={`card-btn edit-card-btn ${isHovered || 'hidden'}`}
         onClick={onEditClick}
         disabled={isSubmitting || isDemoDeck}
       >
-        ✏️
+        <FontAwesomeIcon icon={faPen} />
       </button>
 
       <button
-        className={`emoji-btn card-btn delete-card-btn ${
-          isHovered || 'hidden'
-        }`}
+        className={`card-btn delete-card-btn ${isHovered || 'hidden'}`}
         onClick={handleDelete}
         disabled={isSubmitting || isDemoDeck}
       >
-        ❌
+        <FontAwesomeIcon icon={faTrash} />
       </button>
     </>
   );

@@ -4,11 +4,12 @@
   /* margin: 1rem; */
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.25);
   background-color: var(--color-tertiary);
+  color: var(--color-primary-dark);
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: 0.5fr 2fr 2fr 1fr;
   border-radius: 5px;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   padding: 5px;
 }
 
@@ -43,7 +44,15 @@
   width: fit-content;
   align-self: center;
   justify-self: center;
+  border: none;
+  background-color: unset;
+  color: var(--color-primary-dark);
 }
+
+.card-btn:disabled {
+  background-color: unset;
+}
+
 .card-btn:hover {
   cursor: pointer;
 }
@@ -60,7 +69,6 @@
   grid-row: 1;
   grid-column: 1;
   justify-self: start;
-  font-size: 1rem;
   margin: 0;
   /* margin-right: -1rem; */
   padding: 0;

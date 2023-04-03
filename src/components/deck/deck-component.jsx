@@ -7,7 +7,11 @@ import Flashcard from '../flashcard/flashcard-component';
 import EditDeckForm from '../editDeckForm/editDeckForm-component';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTrash,
+  faPen,
+  faPlusCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
 // deck component displays a deck of flashcards with additional functionality such as deleting a deck, editing a deck, and adding new cards
 function Deck(props) {
@@ -145,10 +149,11 @@ function Deck(props) {
     <li>
       <div className="add-card-button-container">
         <button
+          className="deck-btn add-card-btn"
           onClick={() => handleEditClick('addNewCard')}
           disabled={isSubmitting || isDemoDeck}
         >
-          ⊕
+          <FontAwesomeIcon icon={faPlusCircle} />
         </button>
       </div>
     </li>

@@ -323,7 +323,7 @@ function Study(props) {
       ) : (
         <div className="studyFlashcard-finished">
           <div>Deck</div>
-          <div>Finished</div>
+          <div>Finished!</div>
         </div>
       )}
       {/* <div>Finished deck in {timerSeconds} seconds!</div> */}

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import StudyFlashcard from '../../components/studyFlashcard/studyFlashcard-component';
+import StudyFlashcardTwo from '../../components/studyFlashcard/studyFlashcardTwo-component';
 import ProgressBar from '../../components/progressBar/progressBar-component';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,9 +35,13 @@ function Study(props) {
   const [currentCard, setCurrentCard] = useState([]);
   const [correct, setCorrect] = useState([]);
   const [wrong, setWrong] = useState([]);
-  const [cardIsFlipped, setCardIsFlipped] = useState(false);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [timerIsActive, setTimerIsActive] = useState(true);
+  const [isFirstCard, setIsFirstCard] = useState(true);
+  const [isFlippedOne, setIsFlippedOne] = useState(false);
+  const [isFlippedTwo, setIsFlippedTwo] = useState(false);
+
+  const [cardIsFinished, setCardIsFinished] = useState(false);
 
   useEffect(() => setCurrentCard(generateRandomCard()), [studyDeck]);
 
@@ -63,6 +69,26 @@ function Study(props) {
       return;
     }
   }, [studyDeck]);
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.keyCode === 32) {
+        console.log('Space pressed');
+        const button = document.querySelector(
+          '.button-show.button.button-small'
+        );
+        if (button) {
+          button.click();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // everytime the studydeck is changed, a new random card is selected as currentCard
   const generateRandomCard = () => {
@@ -125,11 +151,21 @@ function Study(props) {
   };
 
   const revealCard = () => {
-    setCardIsFlipped(true);
+    if (isFirstCard) {
+      setIsFlippedOne(true);
+    } else {
+      setIsFlippedTwo(true);
+    }
   };
 
   const hideCard = () => {
-    setCardIsFlipped(false);
+    if (isFirstCard) {
+      setIsFirstCard(false);
+      setIsFlippedOne(false);
+    } else {
+      setIsFirstCard(true);
+      setIsFlippedTwo(false);
+    }
   };
 
   function formatTime(seconds) {
@@ -180,35 +216,64 @@ function Study(props) {
           <ProgressBar total={15} current={3} />
         </div>
       </div>
-      <div className="card">
-        {currentCard && timerIsActive ? (
-          <StudyFlashcard
-            cardId={currentCard.cardId}
-            front={currentCard.cardFront}
-            back={currentCard.cardBack}
-            isFlipped={cardIsFlipped}
-          />
-        ) : (
-          `Finished deck in ${timerSeconds} seconds!`
-        )}
-      </div>
+      {currentCard && timerIsActive ? (
+        <div className="card">
+          <div style={{ display: isFirstCard ? 'block' : 'none' }}>
+            <CSSTransition
+              in={isFirstCard}
+              timeout={300}
+              classNames="fade"
+              unmountOnExit
+            >
+              <StudyFlashcard
+                cardId={currentCard.cardId}
+                front={currentCard.cardFront}
+                back={currentCard.cardBack}
+                isFlipped={isFlippedOne}
+                isFinished={cardIsFinished}
+                key="card1"
+              />
+            </CSSTransition>
+          </div>
+          <div style={{ display: !isFirstCard ? 'block' : 'none' }}>
+            <CSSTransition
+              in={!isFirstCard}
+              timeout={300}
+              classNames="fade"
+              unmountOnExit
+            >
+              <StudyFlashcardTwo
+                cardId={currentCard.cardId}
+                front={currentCard.cardFront}
+                back={currentCard.cardBack}
+                isFlipped={isFlippedTwo}
+                isFinished={cardIsFinished}
+                key="card2"
+              />
+            </CSSTransition>
+          </div>
+        </div>
+      ) : (
+        <div>Finished deck in {timerSeconds} seconds!</div>
+      )}
 
-      <div className="buttons">
-        {!cardIsFlipped && currentCard && (
-          <button className="button button-small" onClick={() => revealCard()}>
+      <div className="study-buttons">
+        {currentCard && (
+          <button
+            className="button-show button button-small"
+            onClick={(e) => revealCard(e)}
+          >
             Show!
           </button>
         )}
-        {cardIsFlipped && (
-          <>
-            <button onClick={() => cardCorrect(currentCard)}>
-              <FontAwesomeIcon icon={faCheck} />
-            </button>
-            <button onClick={() => cardWrong(currentCard)}>
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
-          </>
-        )}
+        <>
+          <button onClick={() => cardCorrect(currentCard)}>
+            <FontAwesomeIcon icon={faCheck} />
+          </button>
+          <button onClick={() => cardWrong(currentCard)}>
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </>
         {!currentCard && (
           <button onClick={() => resetDecks()}>
             <FontAwesomeIcon icon={faSync} />

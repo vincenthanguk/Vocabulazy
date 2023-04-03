@@ -59,6 +59,7 @@
   display: grid;
   grid-template-rows: 1fr 2rem;
   grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 1.4rem;
 }
 .overview-element {
   color: var(--color-primary-darkish);
@@ -85,4 +86,8 @@
   grid-row: 2;
   grid-column: 1/-1;
   align-self: flex-end;
+}
+
+.study-buttons {
+  margin-top: 1.4rem;
 }

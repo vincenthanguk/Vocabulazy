@@ -8,8 +8,6 @@
   justify-content: center;
   align-items: center;
   border-radius: 16px;
-  margin-top: 1.4rem;
-  margin-bottom: 1.4rem;
 }
 
 .study-card-front {
@@ -20,4 +18,22 @@
 .study-card-back {
   background-color: var(--color-primary-dark);
   color: var(--color-tertiary);
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
 }

@@ -72,13 +72,38 @@ function Study(props) {
 
   useEffect(() => {
     function handleKeyDown(e) {
-      if (e.keyCode === 32) {
-        console.log('Space pressed');
-        const button = document.querySelector(
-          '.button-show.button.button-small'
+      // press escape to go back to decks
+      if (e.keyCode === 27) {
+        const buttonBack = document.querySelector(
+          '.study-view.button.deck-study-button'
         );
-        if (button) {
-          button.click();
+
+        if (buttonBack) {
+          buttonBack.click();
+        }
+      }
+
+      // press space to show card back, choose correct or reset deck
+      if (e.keyCode === 32) {
+        const buttonShow = document.querySelector('.button-show');
+        const buttonCorrect = document.querySelector('.button-correct');
+        const buttonReset = document.querySelector('.button-reset');
+        if (buttonShow) {
+          buttonShow.click();
+        }
+        if (buttonCorrect) {
+          buttonCorrect.click();
+        }
+        if (buttonReset) {
+          buttonReset.click();
+        }
+      }
+      // handle 'x' press for wrong answer
+      if (e.keyCode === 88) {
+        const buttonWrong = document.querySelector('.button-wrong');
+
+        if (buttonWrong) {
+          buttonWrong.click();
         }
       }
     }
@@ -176,6 +201,47 @@ function Study(props) {
     return `${minutes}:${paddedSeconds}`;
   }
 
+  const generateStudyButtons = () => {
+    if (!currentCard) {
+      return (
+        <button
+          className="button-reset button button-small"
+          onClick={() => resetDecks()}
+        >
+          <FontAwesomeIcon icon={faSync} />
+        </button>
+      );
+    }
+
+    if (!isFlippedOne && !isFlippedTwo) {
+      return (
+        <button
+          className="button-show button button-small"
+          onClick={(e) => revealCard(e)}
+        >
+          Show!
+        </button>
+      );
+    } else {
+      return (
+        <>
+          <button
+            className="button-correct button button-small"
+            onClick={() => cardCorrect(currentCard)}
+          >
+            <FontAwesomeIcon icon={faCheck} />
+          </button>
+          <button
+            className="button-wrong button button-small"
+            onClick={() => cardWrong(currentCard)}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </>
+      );
+    }
+  };
+
   return (
     <div className="Study">
       <div className="study-header-container">
@@ -208,12 +274,15 @@ function Study(props) {
         </div>
         <div className="overview-element wrong">
           <div className="overview-icon">
-            <FontAwesomeIcon icon={faBan} />
+            <FontAwesomeIcon icon={faTimes} />
           </div>
           <div className="overview-count">{wrong.length}</div>
         </div>
         <div className="ProgressBar">
-          <ProgressBar total={15} current={3} />
+          <ProgressBar
+            total={deck.length}
+            current={correct.length + wrong.length}
+          />
         </div>
       </div>
       {currentCard && timerIsActive ? (
@@ -226,7 +295,6 @@ function Study(props) {
               unmountOnExit
             >
               <StudyFlashcard
-                cardId={currentCard.cardId}
                 front={currentCard.cardFront}
                 back={currentCard.cardBack}
                 isFlipped={isFlippedOne}
@@ -243,7 +311,6 @@ function Study(props) {
               unmountOnExit
             >
               <StudyFlashcardTwo
-                cardId={currentCard.cardId}
                 front={currentCard.cardFront}
                 back={currentCard.cardBack}
                 isFlipped={isFlippedTwo}
@@ -254,32 +321,13 @@ function Study(props) {
           </div>
         </div>
       ) : (
-        <div>Finished deck in {timerSeconds} seconds!</div>
+        <div className="studyFlashcard-finished">
+          <div>Deck</div>
+          <div>Finished</div>
+        </div>
       )}
-
-      <div className="study-buttons">
-        {currentCard && (
-          <button
-            className="button-show button button-small"
-            onClick={(e) => revealCard(e)}
-          >
-            Show!
-          </button>
-        )}
-        <>
-          <button onClick={() => cardCorrect(currentCard)}>
-            <FontAwesomeIcon icon={faCheck} />
-          </button>
-          <button onClick={() => cardWrong(currentCard)}>
-            <FontAwesomeIcon icon={faTimes} />
-          </button>
-        </>
-        {!currentCard && (
-          <button onClick={() => resetDecks()}>
-            <FontAwesomeIcon icon={faSync} />
-          </button>
-        )}
-      </div>
+      {/* <div>Finished deck in {timerSeconds} seconds!</div> */}
+      <div className="study-buttons">{generateStudyButtons()}</div>
     </div>
   );
 }

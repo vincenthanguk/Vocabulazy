@@ -5,14 +5,18 @@ import './progressBar-styles.css';
 function ProgressBar(props) {
   const { total, current } = props;
 
-  const [width, setWidth] = useState('50%');
+  const [width, setWidth] = useState('0%');
 
   /* ProgressBar receives the sum of decks/cards (total) which determines the amount of circles/steps. it also receives the current value of decks/cards, which determines the length of progress bar
    */
 
   useEffect(() => {
-    console.log('inside progressbar useEffect');
-    setWidth((((current - 1) / (total - 1)) * 100).toFixed(2) + '%');
+    console.log('inside progressbar useEffect', current, total);
+    if (current === 0) {
+      setWidth('0%');
+    } else {
+      setWidth((((current - 1) / (total - 1)) * 100).toFixed(2) + '%');
+    }
   }, [total, current]);
 
   const circles = [];

@@ -14,7 +14,7 @@ import './vocabulazy-styles.css';
 
 function Vocabulazy() {
   const [userContext, setUserContext, toggleDemoMode] = useContext(UserContext);
-  const [view, setView] = useState('studyView');
+  const [view, setView] = useState('mainView');
   const [deckList, setDeckList] = useState([]);
   const [demoStudysessionList, setDemoStudysessionList] = useState([
     {
@@ -201,34 +201,34 @@ function Vocabulazy() {
       activeView = (
         <StudyView
           setView={setView}
-          // deck={deckList[studyDeck].cards}
-          // deckName={deckList[studyDeck].name}
-          // deckId={deckList[studyDeck]._id}
-          deck={[
-            {
-              _id: 'c1',
-              cardFront: 'Hund',
-              cardBack: 'Dog',
-              deck: 'd1',
-              user: 'u1',
-            },
-            {
-              _id: 'c2',
-              cardFront: 'Katze',
-              cardBack: 'Cat',
-              deck: 'd1',
-              user: 'u1',
-            },
-            {
-              _id: 'c3',
-              cardFront: 'Haus',
-              cardBack: 'House',
-              deck: 'd1',
-              user: 'u1',
-            },
-          ]}
-          deckName="German"
-          deckId="asd"
+          deck={deckList[studyDeck].cards}
+          deckName={deckList[studyDeck].name}
+          deckId={deckList[studyDeck]._id}
+          // deck={[
+          //   {
+          //     _id: 'c1',
+          //     cardFront: 'Hund',
+          //     cardBack: 'Dog',
+          //     deck: 'd1',
+          //     user: 'u1',
+          //   },
+          //   {
+          //     _id: 'c2',
+          //     cardFront: 'Katze',
+          //     cardBack: 'Cat',
+          //     deck: 'd1',
+          //     user: 'u1',
+          //   },
+          //   {
+          //     _id: 'c3',
+          //     cardFront: 'Haus',
+          //     cardBack: 'House',
+          //     deck: 'd1',
+          //     user: 'u1',
+          //   },
+          // ]}
+          // deckName="German"
+          // deckId="asd"
           isDemoUser={isDemoUser}
           demoStudysessionList={demoStudysessionList}
           setDemoStudysessionList={setDemoStudysessionList}

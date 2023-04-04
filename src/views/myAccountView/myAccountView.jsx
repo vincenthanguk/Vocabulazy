@@ -1,5 +1,6 @@
 import { React, useState, useContext, useCallback, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
+import { PieChart } from 'react-minimal-pie-chart';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
@@ -75,6 +76,18 @@ const MyAccount = (props) => {
     console.log('correctCardSum: ', correctCardSum);
     // inaccurate rounding with toFixed. not relevant for this use case.
     return (correctCardSum / cardSum).toFixed(2) * 100;
+  };
+
+  const calculateWrongCards = (sessions) => {
+    let cardSum = 0;
+    let wrongCardSum = 0;
+    sessions.forEach((studysession) => {
+      cardSum += studysession.totalCards;
+      wrongCardSum += studysession.wrongCards;
+    });
+    console.log('cardSum: ', cardSum);
+    console.log('wrongCardSum: ', wrongCardSum);
+    return wrongCardSum;
   };
 
   const calculateAverageTime = (sessions) => {
@@ -160,6 +173,12 @@ const MyAccount = (props) => {
   // dynamic input for demo mode
   const input = studysessions.length > 0 ? studysessions : demoStudysessionList;
 
+  const dataMock = [
+    { title: 'One', value: 10, color: '#E38627' },
+    { title: 'Two', value: 15, color: '#C13C37' },
+    { title: 'Three', value: 20, color: '#6A2135' },
+  ];
+
   return (
     <div className="account-view-container">
       {/* <button onClick={toggleAccountPage}>X</button> */}
@@ -177,28 +196,47 @@ const MyAccount = (props) => {
             />
           </div>
         </div>
-        <h1>{userContext.details.firstName}</h1>
-        <span>
-          (Hardly studying since{' '}
-          {convertDateString(userContext.details.createdAt)})
-        </span>
+        <div className="user-name">{userContext.details.firstName}</div>
+        <div className="user-since">
+          Hardly studying since{' '}
+          {convertDateString(userContext.details.createdAt)}
+        </div>
       </div>
-      <h2>Statistics</h2>
-      <p>Total Decks: {deckData.length}</p>
-      <p>Total Cards: {calculateTotalCards(deckData)}</p>
-      <p>Total Study Sessions: {input.length} </p>
-      {isNaN(calculateAverageTime(input)) || (
-        <>
-          <p>✅: {calculateCorrectCardsPercentage(input)}%</p>
-          <p>Average ⏱: {calculateAverageTime(input)}s</p>
-        </>
-      )}
-
-      <button onClick={handleResetStatistics}>Reset Statistics</button>
-      {/* <button>Change Password</button> */}
-      <button onClick={handleDelete} disabled={isDemoUser || isSubmitting}>
-        {isSubmitting ? 'Deleting Account...' : 'Delete Account'}
+      <div className="user-stats">
+        <div className="top-stats top-stats-decks">Decks</div>
+        <div className="bottom-stats bottom-stats-decks">{deckData.length}</div>
+        <div className="top-stats top-stats-cards">Cards</div>
+        <div className="bottom-stats bottom-stats-cards">
+          {calculateTotalCards(deckData)}
+        </div>
+        <div className="top-stats top-stats-sessions">Sessions</div>
+        <div className="bottom-stats bottom-stats-sessions">{input.length}</div>
+        <div className="top-stats top-stats-time">Avg. Time</div>
+        <div className="bottom-stats bottom-stats-time">
+          {isNaN(calculateAverageTime(input)) || calculateAverageTime(input)}s
+        </div>
+      </div>
+      <div className="user-chart">
+        <PieChart
+          data={dataMock}
+          radius={30}
+          lineWidth={20}
+          rounded={true}
+          label={({ dataEntry }) => dataEntry.value}
+          labelStyle={(i) => ({
+            fill: dataMock[i].color,
+            fontSize: '1rem',
+          })}
+          labelPosition={60}
+        />
+      </div>
+      <button className="button button-small">Back</button>
+      <button className="button button-small" onClick={handleResetStatistics}>
+        Reset
       </button>
+      {/* <button onClick={handleDelete} disabled={isDemoUser || isSubmitting}>
+        {isSubmitting ? 'Deleting Account...' : 'Delete Account'}
+      </button> */}
     </div>
   );
 };

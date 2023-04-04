@@ -16,6 +16,7 @@
   box-shadow: inset -1px 3px 8px 5px #344e41,
     2px 5px 16px 0px rgba(0, 0, 0, 0.205), 5px 5px 15px 5px rgba(0, 0, 0, 0);
 }
-.avatar-img:hover {
+
+/* .avatar-img:hover {
   transform: scale(1.1);
-}
+} */

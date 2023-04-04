@@ -15,7 +15,7 @@ import './vocabulazy-styles.css';
 
 function Vocabulazy() {
   const [userContext, setUserContext, toggleDemoMode] = useContext(UserContext);
-  const [view, setView] = useState('myAccountView');
+  const [view, setView] = useState('mainView');
   const [deckList, setDeckList] = useState([]);
   const [demoStudysessionList, setDemoStudysessionList] = useState([
     {

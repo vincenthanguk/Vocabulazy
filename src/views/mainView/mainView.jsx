@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import Welcome from '../../components/welcome/welcome-component';
 import Deck from '../../components/deck/deck-component';
 import EditDeckForm from '../../components/editDeckForm/editDeckForm-component';
-import ProgressBar from '../../components/progressBar/progressBar-component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 import {
   handleAddDeck,
@@ -83,7 +84,9 @@ function MainView(props) {
           <Welcome className="Welcome" toggle={onToggleAccountPage} />
         </div>
       ) : null}
-      <div className="darkmode-container">☽</div>
+      <div className="darkmode-container">
+        <FontAwesomeIcon icon={faBars} />
+      </div>
     </div>
   );
 

@@ -4,8 +4,10 @@
   max-width: var(--width-app-max-width);
   height: auto;
 }
+
 .profile-picture {
   margin-top: 4.8rem;
+  margin-bottom: 1.6rem;
   position: relative;
   display: inline-block;
 }
@@ -15,28 +17,16 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: -10px;
-  right: -10px;
-  width: 40px;
-  height: 40px;
+  bottom: -1rem;
+  right: -1rem;
+  width: 3.8rem;
+  height: 3.8rem;
   background-color: var(--color-secondary);
   color: var(--color-primary);
-  border: 3px solid var(--color-light-gray);
+  border: 3px solid var(--color-tertiary);
   border-radius: 25%;
   font-size: 2.2rem;
 }
-
-/* .camera-btn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  border: 2px solid #555;
-  border-radius: 50%;
-} */
 
 .account-view-header {
   background-color: var(--color-primary-dark);
@@ -44,8 +34,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: var(--color-tertiary);
+  color: var(--color-light-gray);
   border-radius: 2.5rem 2.5rem 0 0;
+  margin-bottom: 3.2rem;
 }
 
 .account-view.avatar-container {
@@ -60,4 +51,77 @@
 .account-view.avatar-img {
   width: 16rem;
   height: 16rem;
+}
+
+.user-name {
+  font-size: 3.6rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--color-contrast-primary);
+}
+
+.user-since {
+  font-size: 1.2rem;
+  color: var(--color-light-gray);
+  margin-bottom: 1.2rem;
+}
+
+.user-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 1.2rem;
+  column-gap: 1rem;
+  font-size: 1.6rem;
+}
+
+.top-stats {
+  color: var(--color-dark-gray);
+}
+
+.bottom-stats {
+}
+
+.top-stats-decks {
+  grid-row: 1;
+  grid-column: 1/2;
+}
+
+.bottom-stats-decks {
+  grid-row: 2;
+  grid-column: 1/2;
+}
+
+.top-stats-cards {
+  grid-row: 1;
+  grid-column: 2/3;
+}
+
+.bottom-stats-cards {
+  grid-row: 2;
+  grid-column: 2/3;
+}
+
+.top-stats-sessions {
+  grid-row: 1;
+  grid-column: 3/4;
+}
+
+.bottom-stats-sessions {
+  grid-row: 2;
+  grid-column: 3/4;
+}
+
+.top-stats-time {
+  grid-row: 1;
+  grid-column: 4/5;
+}
+
+.bottom-stats-time {
+  grid-row: 2;
+  grid-column: 4/5;
+}
+
+.user-chart {
+  height: 35rem;
+  width: 35rem;
 }

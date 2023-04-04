@@ -1,20 +1,15 @@
-import {
-  React,
-  useState,
-  useContext,
-  useCallback,
-  useRef,
-  useEffect,
-} from 'react';
+import { React, useState, useContext, useCallback, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
-import './myAccount-styles.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
+
+import './myAccountView-styles.css';
 
 const MyAccount = (props) => {
   const {
     toggleAccountPage,
     deckData,
-    userDetails,
     handleFlash,
     isDemoUser,
     demoStudysessionList,
@@ -25,8 +20,7 @@ const MyAccount = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [studysessions, setStudysessions] = useState([]);
 
-  const modalRef = useRef(null);
-
+  /*
   // load statistic data when component mounts
   const fetchStudysessionData = useCallback(async () => {
     // TODO: Fetch data from state
@@ -47,25 +41,17 @@ const MyAccount = (props) => {
   useEffect(() => {
     if (!isDemoUser) fetchStudysessionData();
   }, [fetchStudysessionData]);
-
+*/
   useEffect(() => {
-    function handleClickOutside(e) {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
-        toggleAccountPage();
-      }
-    }
-
     function handleEscapePress(e) {
       if (e.key === 'Escape') {
         toggleAccountPage();
       }
     }
 
-    document.addEventListener('click', handleClickOutside);
     document.addEventListener('keydown', handleEscapePress);
 
     return () => {
-      document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('keydown', handleEscapePress);
     };
   }, [toggleAccountPage]);
@@ -175,30 +161,44 @@ const MyAccount = (props) => {
   const input = studysessions.length > 0 ? studysessions : demoStudysessionList;
 
   return (
-    <div className="modal">
-      <div className="modal-main" ref={modalRef}>
-        <button onClick={toggleAccountPage}>X</button>
-        <h1>{userDetails.firstName}</h1>
+    <div className="account-view-container">
+      {/* <button onClick={toggleAccountPage}>X</button> */}
+      <div className="account-view-header">
+        <div className="profile-picture">
+          <div className="camera-btn">
+            <FontAwesomeIcon icon={faCamera} />
+          </div>
+          <div className="account-view avatar-container">
+            <img
+              src={process.env.PUBLIC_URL + '/images/avatar.png'}
+              className="account-view avatar-img"
+              alt="user-avatar"
+              role="button"
+            />
+          </div>
+        </div>
+        <h1>{userContext.details.firstName}</h1>
         <span>
-          (Hardly studying since {convertDateString(userDetails.createdAt)})
+          (Hardly studying since{' '}
+          {convertDateString(userContext.details.createdAt)})
         </span>
-        <h2>Statistics</h2>
-        <p>Total Decks: {deckData.length}</p>
-        <p>Total Cards: {calculateTotalCards(deckData)}</p>
-        <p>Total Study Sessions: {input.length} </p>
-        {isNaN(calculateAverageTime(input)) || (
-          <>
-            <p>✅: {calculateCorrectCardsPercentage(input)}%</p>
-            <p>Average ⏱: {calculateAverageTime(input)}s</p>
-          </>
-        )}
-
-        <button onClick={handleResetStatistics}>Reset Statistics</button>
-        {/* <button>Change Password</button> */}
-        <button onClick={handleDelete} disabled={isDemoUser || isSubmitting}>
-          {isSubmitting ? 'Deleting Account...' : 'Delete Account'}
-        </button>
       </div>
+      <h2>Statistics</h2>
+      <p>Total Decks: {deckData.length}</p>
+      <p>Total Cards: {calculateTotalCards(deckData)}</p>
+      <p>Total Study Sessions: {input.length} </p>
+      {isNaN(calculateAverageTime(input)) || (
+        <>
+          <p>✅: {calculateCorrectCardsPercentage(input)}%</p>
+          <p>Average ⏱: {calculateAverageTime(input)}s</p>
+        </>
+      )}
+
+      <button onClick={handleResetStatistics}>Reset Statistics</button>
+      {/* <button>Change Password</button> */}
+      <button onClick={handleDelete} disabled={isDemoUser || isSubmitting}>
+        {isSubmitting ? 'Deleting Account...' : 'Delete Account'}
+      </button>
     </div>
   );
 };

@@ -10,8 +10,8 @@ whitespace: multiples of 16px
 
 .Vocabulazy {
   width: auto;
-  min-width: 35rem;
-  max-width: 50rem;
+  min-width: var(--width-app-min-width);
+  max-width: var(--width-app-max-width);
   height: auto;
   display: flex;
   flex-direction: column;
@@ -110,14 +110,6 @@ h1 {
 
 /* universal elements */
 /* buttons */
-
-.emoji-btn {
-  background-color: transparent;
-  align-self: center;
-  justify-self: center;
-  height: fit-content;
-  width: fit-content;
-}
 
 /* universal effects */
 .highlight {

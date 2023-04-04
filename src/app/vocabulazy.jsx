@@ -5,6 +5,7 @@ import StudyView from '../views/studyView/studyView';
 import FlashMessage from '../components/flashMessage/flashMessage-component';
 import LoginView from '../views/loginView/loginView';
 import MainView from '../views/mainView/mainView';
+import MyAccountView from '../views/myAccountView/myAccountView';
 
 import mockData from '../data/mockData.json';
 
@@ -14,7 +15,7 @@ import './vocabulazy-styles.css';
 
 function Vocabulazy() {
   const [userContext, setUserContext, toggleDemoMode] = useContext(UserContext);
-  const [view, setView] = useState('mainView');
+  const [view, setView] = useState('myAccountView');
   const [deckList, setDeckList] = useState([]);
   const [demoStudysessionList, setDemoStudysessionList] = useState([
     {
@@ -204,6 +205,19 @@ function Vocabulazy() {
           deck={deckList[studyDeck].cards}
           deckName={deckList[studyDeck].name}
           deckId={deckList[studyDeck]._id}
+          isDemoUser={isDemoUser}
+          demoStudysessionList={demoStudysessionList}
+          setDemoStudysessionList={setDemoStudysessionList}
+        />
+      );
+      break;
+
+    case 'myAccountView':
+      activeView = (
+        <MyAccountView
+          onToggleAccountPage={handleToggleAccountPage}
+          deckData={deckList}
+          handleFlash={handleFlash}
           isDemoUser={isDemoUser}
           demoStudysessionList={demoStudysessionList}
           setDemoStudysessionList={setDemoStudysessionList}

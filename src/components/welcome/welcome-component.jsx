@@ -3,8 +3,6 @@ import { UserContext } from '../../context/UserContext';
 
 import './welcome-styles.css';
 
-// NOTE: fetch auslagern, damit die myAccount Seite auch UserContext erhält
-
 const Welcome = (props) => {
   const [userContext, setUserContext] = useContext(UserContext);
 

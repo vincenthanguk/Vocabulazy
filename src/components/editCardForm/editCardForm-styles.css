@@ -57,10 +57,12 @@
   border: none;
   background-color: unset;
   color: var(--color-primary);
+  transition: color 0.3s ease-out;
 }
 
 .form-btn:hover {
   cursor: pointer;
+  color: var(--color-primary-darkish);
 }
 
 .form-submit-btn {

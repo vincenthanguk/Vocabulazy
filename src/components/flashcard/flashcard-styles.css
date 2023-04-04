@@ -1,4 +1,5 @@
 .flashcard {
+  position: relative;
   width: 13rem;
   height: 13rem;
   /* margin: 1rem; */
@@ -11,6 +12,24 @@
   border-radius: 5px;
   font-size: 1.6rem;
   padding: 5px;
+}
+
+.flashcard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease-out;
+  pointer-events: none;
+}
+
+.flashcard:hover::before {
+  /* border-color: var(--color-contrast-tertiary); */
+  border-color: var(--color-gray);
 }
 
 .deleting {
@@ -47,14 +66,16 @@
   border: none;
   background-color: unset;
   color: var(--color-secondary);
+  transition: color 0.3s ease-out;
 }
 
 .card-btn:disabled {
   background-color: unset;
 }
 
-.card-btn:hover {
+.card-btn:not([disabled]):hover {
   cursor: pointer;
+  color: var(--color-primary-darkish);
 }
 
 .edit-card-btn {

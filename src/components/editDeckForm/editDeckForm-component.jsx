@@ -153,7 +153,7 @@ function EditDeckForm(props) {
                   name="deckName"
                   id="deckName"
                   maxLength={12}
-                  defaultValue={deckName}
+                  defaultValue={initialValue === 'newDeck' ? '' : deckName}
                   onChange={(e) => setDeckName(e.target.value)}
                   ref={deckNameInput}
                   required

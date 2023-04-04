@@ -43,9 +43,7 @@ function EditCardForm(props) {
     function handleKeyDown(e) {
       if (e.key === 'Escape') {
         console.log('escape pressed');
-        const button = document.querySelector(
-          '.emoji-btn.form-cancel-edit-btn'
-        );
+        const button = document.querySelector('.form-btn.form-cancel-edit-btn');
         if (button) {
           button.click();
         }
@@ -164,6 +162,7 @@ function EditCardForm(props) {
           id="cardFront"
           value={formValue.cardFront}
           placeholder="Front"
+          maxLength={12}
           onChange={handleChange}
           ref={cardFrontInput}
           required
@@ -175,6 +174,7 @@ function EditCardForm(props) {
           id="cardBack"
           value={formValue.cardBack}
           placeholder="Back"
+          maxLength={12}
           onChange={handleChange}
           required
         />

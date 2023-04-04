@@ -11,6 +11,7 @@
 }
 
 .deck-container {
+  position: relative;
   border-radius: 2.5rem;
   background-color: #fff;
   box-shadow: 0 7px 14px rgba(0, 0, 0, 0.01), 0 2px 2px rgba(0, 0, 0, 0.25);
@@ -19,6 +20,24 @@
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease-out;
+}
+
+.deck-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 2.5rem;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.deck-container:hover::before {
+  border-color: var(--color-gray);
 }
 
 .deck-header {
@@ -84,7 +103,7 @@
   align-self: center;
   width: 100%;
   height: 100%;
-  border-radius: 0 16px 0 0;
+  border-radius: 0 2.5rem 0 0;
   border-width: unset;
   font-size: 1.8rem;
   font-weight: 800;
@@ -92,6 +111,7 @@
   padding: 0;
   text-align: center;
   margin-bottom: 0;
+  transition: font-size 0.1s ease-out;
 }
 
 .deck-study-button::after {

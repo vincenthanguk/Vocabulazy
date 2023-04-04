@@ -11,6 +11,8 @@
   --color-contrast-primary: #fd8e39;
   --color-contrast-secondary: #f3722c;
   --color-contrast-tertiary: #fdf3f1;
+
+  --color-gray: #dedede81;
   --color-text-primary: black;
   --color-text-secondary: black;
 }
@@ -120,6 +122,7 @@ button:disabled:hover {
   letter-spacing: 0.05rem;
   padding: 0;
   text-align: center;
+  transition: font-size 0.1s ease-out;
 }
 
 .button-small:hover:not(:disabled) {

@@ -46,7 +46,7 @@
   justify-self: center;
   border: none;
   background-color: unset;
-  color: var(--color-primary-dark);
+  color: var(--color-secondary);
 }
 
 .card-btn:disabled {
@@ -60,8 +60,8 @@
 .edit-card-btn {
   grid-row: 1;
   grid-column: 2;
+  justify-self: start;
   margin: 0;
-  /* HACK: better solution than negative margins? */
   padding: 0;
 }
 
@@ -70,7 +70,6 @@
   grid-column: 1;
   justify-self: start;
   margin: 0;
-  /* margin-right: -1rem; */
   padding: 0;
 }
 

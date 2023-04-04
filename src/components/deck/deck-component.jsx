@@ -160,7 +160,7 @@ function Deck(props) {
   );
 
   const deckContainer = (
-    <div className={`deck-container${isHovered ? ' glow' : ''}`}>
+    <div className={`deck-container${isHovered ? ' highlight' : ''}`}>
       <div
         className="deck-header"
         onMouseEnter={(e) => {

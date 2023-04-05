@@ -6,7 +6,7 @@ import './welcome-styles.css';
 const Welcome = (props) => {
   const [userContext, setUserContext] = useContext(UserContext);
 
-  const { toggle } = props;
+  const { setView } = props;
 
   const fetchUserDetails = useCallback(() => {
     fetch(process.env.REACT_APP_API_ENDPOINT + 'users/me', {
@@ -48,15 +48,15 @@ const Welcome = (props) => {
   return !userContext.details ? (
     'Loading user details...'
   ) : (
-    <div className="avatar-container">
-      <img
-        src={process.env.PUBLIC_URL + '/images/avatar.png'}
-        className="avatar-img"
-        alt="user-avatar"
-        onClick={toggle}
-        role="button"
-      />
-    </div>
+    // <div className="avatar-container-small">
+    <img
+      src={process.env.PUBLIC_URL + '/images/avatar.png'}
+      className="avatar-img img-small"
+      alt="user-avatar"
+      onClick={() => setView(() => 'myAccountView')}
+      role="button"
+    />
+    // </div>
   );
 };
 

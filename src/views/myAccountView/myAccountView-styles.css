@@ -39,13 +39,15 @@
   margin-bottom: 3.2rem;
 }
 
-.account-view.avatar-container {
+.avatar-container {
   width: 16rem;
   height: 16rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 1rem;
   border: 3px solid var(--color-light-gray);
+  overflow: hidden;
 }
 
 .account-view.avatar-img {

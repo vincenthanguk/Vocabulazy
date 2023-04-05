@@ -9,7 +9,7 @@ import './myAccountView-styles.css';
 
 const MyAccount = (props) => {
   const {
-    toggleAccountPage,
+    setView,
     deckData,
     handleFlash,
     isDemoUser,
@@ -46,7 +46,7 @@ const MyAccount = (props) => {
   useEffect(() => {
     function handleEscapePress(e) {
       if (e.key === 'Escape') {
-        toggleAccountPage();
+        // setView('mainView');
       }
     }
 
@@ -55,7 +55,7 @@ const MyAccount = (props) => {
     return () => {
       document.removeEventListener('keydown', handleEscapePress);
     };
-  }, [toggleAccountPage]);
+  }, [setView]);
 
   const calculateTotalCards = (decks) => {
     let cardSum = 0;
@@ -105,6 +105,7 @@ const MyAccount = (props) => {
     return newDate.toLocaleDateString();
   };
 
+  /*
   const handleDelete = async (e) => {
     try {
       // FIXME: toggle to prevent crash
@@ -139,13 +140,14 @@ const MyAccount = (props) => {
       setIsSubmitting(false);
     }
   };
+  */
 
   const handleResetStatistics = async (e) => {
     try {
       if (isDemoUser) {
         setDemoStudysessionList([]);
       } else {
-        toggleAccountPage();
+        setView('mainView');
         e.preventDefault();
         console.log('resetting stats');
         setIsSubmitting(true);
@@ -230,7 +232,12 @@ const MyAccount = (props) => {
           labelPosition={60}
         />
       </div>
-      <button className="button button-small">Back</button>
+      <button
+        className="button button-small"
+        onClick={() => setView(() => 'mainView')}
+      >
+        Back
+      </button>
       <button className="button button-small" onClick={handleResetStatistics}>
         Reset
       </button>

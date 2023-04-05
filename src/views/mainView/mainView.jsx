@@ -80,8 +80,8 @@ function MainView(props) {
       <div className="heading-subheading">Let's be Vocabulazy today</div>
       <div className="heading-username">Hi {userContext.username}!</div>
       {userContext.token ? (
-        <div className="avatar-container">
-          <Welcome className="Welcome" toggle={onToggleAccountPage} />
+        <div className="avatar-container-small">
+          <Welcome className="Welcome" setView={setView} />
         </div>
       ) : null}
       <div className="darkmode-container">

@@ -15,7 +15,7 @@ import './vocabulazy-styles.css';
 
 function Vocabulazy() {
   const [userContext, setUserContext, toggleDemoMode] = useContext(UserContext);
-  const [view, setView] = useState('mainView');
+  const [view, setView] = useState('myAccountView');
   const [deckList, setDeckList] = useState([]);
   const [demoStudysessionList, setDemoStudysessionList] = useState([
     {
@@ -215,6 +215,7 @@ function Vocabulazy() {
     case 'myAccountView':
       activeView = (
         <MyAccountView
+          setView={setView}
           onToggleAccountPage={handleToggleAccountPage}
           deckData={deckList}
           handleFlash={handleFlash}

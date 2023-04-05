@@ -73,7 +73,7 @@ h1 {
   margin-bottom: 0.9rem;
 }
 
-.avatar-container {
+.avatar-container-small {
   grid-row: 1/-1;
   grid-column: 2/3;
   justify-self: start;

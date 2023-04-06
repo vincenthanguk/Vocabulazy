@@ -108,3 +108,19 @@
   align-items: center;
   border-radius: 16px;
 }
+
+.button-correct {
+  background-color: #25a244;
+}
+
+.button-correct::after {
+  background-color: #7cc78f;
+}
+
+.button-wrong {
+  background-color: #dc2f02;
+}
+
+.button-wrong::after {
+  background-color: #e76d4e;
+}

@@ -296,7 +296,6 @@ const MyAccount = (props) => {
 
   const dataDecksZeroExcluded = excludeZeroValueData(dataDecks);
   const dataCardsZeroExcluded = excludeZeroValueData(dataCards);
-  console.log(dataCardsZeroExcluded.length);
 
   return (
     <div className="account-view-container">

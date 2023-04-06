@@ -78,19 +78,21 @@ function MainView(props) {
   const heading = (
     <div className="heading-container">
       <div className="heading-subheading">Let's be Vocabulazy today</div>
-      <div className="heading-username">Hi {userContext.username}!</div>
+      <div className="heading-username">
+        Hi {userContext.details.firstName}!
+      </div>
       {userContext.token ? (
         <div className="avatar-container-small">
           <Welcome className="Welcome" setView={setView} />
         </div>
       ) : null}
-      <div className="hamburger-container">
+      <button className="hamburger-container" aria-label="Menu">
         <FontAwesomeIcon icon={faBars} />
-      </div>
+      </button>
     </div>
   );
 
-  const loading = <div>Loading Decks...</div>;
+  const loading = <div aria-live="polite">Loading Decks...</div>;
 
   const noDecks = <div>Try adding your first deck!</div>;
 
@@ -114,6 +116,8 @@ function MainView(props) {
           onEditDeck={handleEditDeckWrapper}
           editDeckFormVisible={editingDeckIndex === i}
           onDeckEditClick={handleDeckEditClick}
+          tabIndex="0"
+          aria-label={`Deck ${deck.name}`}
         />
       </li>
     );
@@ -121,7 +125,7 @@ function MainView(props) {
 
   const mainContainer = (
     <div className="main-container">
-      <ul className="deck-list">
+      <ul className="deck-list" aria-label="Deck List">
         {deckContainers}
         <li className="list-container">
           <EditDeckForm
@@ -141,8 +145,16 @@ function MainView(props) {
 
   return (
     <div className="MainView">
-      <div className="header-main">{heading}</div>
-      {isLoading ? loading : mainContainer}
+      <div className="header-main" role="banner">
+        {heading}
+      </div>
+      {isLoading ? (
+        <div role="status" aria-live="polite">
+          {loading}
+        </div>
+      ) : (
+        <div role="main">{mainContainer}</div>
+      )}
       {!userContext.token && 'No User Token'}
     </div>
   );

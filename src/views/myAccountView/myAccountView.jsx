@@ -11,7 +11,7 @@ import './myAccountView-styles.css';
 const MyAccount = (props) => {
   const {
     setView,
-    deckData,
+    deckList,
     handleFlash,
     isDemoUser,
     demoStudysessionList,
@@ -82,8 +82,6 @@ const MyAccount = (props) => {
       cardSum += studysession.totalCards;
       correctCardSum += studysession.correctCards;
     });
-    console.log('cardSum: ', cardSum);
-    console.log('correctCardSum: ', correctCardSum);
     // inaccurate rounding with toFixed. not relevant for this use case.
     return (correctCardSum / cardSum).toFixed(2) * 100;
   };
@@ -95,18 +93,92 @@ const MyAccount = (props) => {
       cardSum += studysession.totalCards;
       wrongCardSum += studysession.wrongCards;
     });
-    console.log('cardSum: ', cardSum);
-    console.log('wrongCardSum: ', wrongCardSum);
     return wrongCardSum;
   };
+
+  const calculateCorrectCards = (sessions) => {
+    let cardSum = 0;
+    let correctCardSum = 0;
+    sessions.forEach((studysession) => {
+      cardSum += studysession.totalCards;
+      correctCardSum += studysession.correctCards;
+    });
+    return correctCardSum;
+  };
+
+  function countUniqueDecks(sessions) {
+    const uniqueDecks = new Set();
+
+    for (const session of sessions) {
+      uniqueDecks.add(session.deck);
+    }
+
+    return uniqueDecks.size;
+  }
+
+  function countCardsFromLatestSession(sessions) {
+    console.log(sessions);
+    const latestSessions = {};
+
+    for (const session of sessions) {
+      const deck = session.deck;
+
+      if (
+        !latestSessions[deck] ||
+        latestSessions[deck].timestamp < session.timestamp
+      ) {
+        latestSessions[deck] = session;
+      }
+      console.log(latestSessions);
+    }
+
+    const cardCounts = {};
+
+    for (const deck in latestSessions) {
+      const session = latestSessions[deck];
+      cardCounts[deck] = {
+        correctCards: session.correctCards,
+        wrongCards: session.wrongCards,
+      };
+    }
+
+    return cardCounts;
+  }
+
+  const latestSessionCards = countCardsFromLatestSession(demoStudysessionList);
+  console.log(
+    'Correct and wrong cards count from latest sessions:',
+    latestSessionCards
+  );
+
+  function sumCorrectCards(cards) {
+    let totalCorrectCards = 0;
+
+    for (const deck in cards) {
+      totalCorrectCards += cards[deck].correctCards;
+    }
+
+    return totalCorrectCards;
+  }
+
+  function sumWrongCards(cards) {
+    let totalWrongCards = 0;
+
+    for (const deck in cards) {
+      totalWrongCards += cards[deck].wrongCards;
+    }
+
+    return totalWrongCards;
+  }
+
+  const totalCorrectCards = sumCorrectCards(latestSessionCards);
+  const totalWrongCards = sumWrongCards(latestSessionCards);
 
   const calculateAverageTime = (sessions) => {
     let totalTime = 0;
     sessions.forEach((studysession) => {
       totalTime += studysession.totalTime;
     });
-    console.log('total time: ', totalTime);
-    console.log('# of sessions: ', sessions.length);
     return (totalTime / sessions.length).toFixed(2);
   };
 
@@ -159,7 +231,6 @@ const MyAccount = (props) => {
       } else {
         setView('mainView');
         e.preventDefault();
-        console.log('resetting stats');
         setIsSubmitting(true);
 
         await fetch(process.env.REACT_APP_API_ENDPOINT + 'studysession/', {
@@ -185,17 +256,36 @@ const MyAccount = (props) => {
   // dynamic input for demo mode
   const input = studysessions.length > 0 ? studysessions : demoStudysessionList;
 
-  const dataMockDecks = [
-    { title: 'decksStudied', value: 1, color: '#25a244' },
-    { title: 'totalDecks', value: 5, color: '#7d7e965d' },
-    { title: 'totalDecks', value: 0, color: '#7d7e965d' },
-    { title: 'totalDecks', value: -1, color: '#7d7e965d' },
+  const dataDecks = [
+    {
+      title: 'decksStudied',
+      value: countUniqueDecks(demoStudysessionList),
+      color: '#25a244',
+    },
+    {
+      title: 'totalDecks',
+      value: deckList.length - countUniqueDecks(demoStudysessionList),
+      color: '#7d7e965d',
+    },
   ];
 
-  const dataMockCards = [
-    { title: 'correctCards', value: 42, color: '#25a244' },
-    { title: 'totalCards', value: 3, color: '#7d7e965d' },
-    { title: 'wrongCards', value: 0, color: '#dc2f02' },
+  const dataCards = [
+    {
+      title: 'correctCards',
+      value: totalCorrectCards,
+      color: '#25a244',
+    },
+    {
+      title: 'wrongCards',
+      value: totalWrongCards,
+      color: '#dc2f02',
+    },
+    {
+      title: 'totalCards',
+      value:
+        calculateTotalCards(deckList) - totalCorrectCards - totalWrongCards,
+      color: '#7d7e965d',
+    },
   ];
 
   const excludeZeroValueData = (data) => {
@@ -203,9 +293,12 @@ const MyAccount = (props) => {
     return filteredData;
   };
 
+  const dataDecksZeroExcluded = excludeZeroValueData(dataDecks);
+  const dataCardsZeroExcluded = excludeZeroValueData(dataCards);
+  console.log(dataCardsZeroExcluded.length);
+
   return (
     <div className="account-view-container">
-      {/* <button onClick={toggleAccountPage}>X</button> */}
       <div className="account-view-header">
         <button
           className="return-btn"
@@ -243,22 +336,25 @@ const MyAccount = (props) => {
             <div className="data-flashcard-content">
               <div className="data-flashcard-header">Decks studied</div>
               <div className="data-flashcard-chart">
-                <PieChart
-                  data={excludeZeroValueData(dataMockDecks)}
-                  radius={35}
-                  lineWidth={20}
-                  rounded={true}
-                  paddingAngle={20}
-                  animate={true}
-                  animationDuration={500}
-                  label={({ dataEntry }) => dataEntry.value}
-                  labelStyle={(i) => ({
-                    fill: dataMockDecks[i].color,
-                    fontSize: '1.2rem',
-                  })}
-                  labelPosition={60}
-                  // viewBoxSize={[100, 100]}
-                />
+                {demoStudysessionList.length > 0 ? (
+                  <PieChart
+                    data={dataDecksZeroExcluded}
+                    radius={35}
+                    lineWidth={20}
+                    rounded={true}
+                    paddingAngle={dataDecks[1].value === 0 ? 0 : 20}
+                    animate={true}
+                    animationDuration={500}
+                    label={({ dataEntry }) => dataEntry.value}
+                    labelStyle={(i) => ({
+                      fill: dataDecksZeroExcluded[i].color,
+                      fontSize: '1.2rem',
+                    })}
+                    labelPosition={60}
+                  />
+                ) : (
+                  '0'
+                )}
               </div>
               <div className="data-flashcard-footer"></div>
             </div>
@@ -274,21 +370,25 @@ const MyAccount = (props) => {
             <div className="data-flashcard-content">
               <div className="data-flashcard-header">Cards studied</div>
               <div className="data-flashcard-chart">
-                <PieChart
-                  data={excludeZeroValueData(dataMockCards)}
-                  radius={35}
-                  lineWidth={20}
-                  rounded={true}
-                  paddingAngle={20}
-                  animate={true}
-                  animationDuration={500}
-                  label={({ dataEntry }) => dataEntry.value}
-                  labelStyle={(i) => ({
-                    fill: dataMockCards[i].color,
-                    fontSize: '1.2rem',
-                  })}
-                  labelPosition={60}
-                />
+                {demoStudysessionList.length > 0 ? (
+                  <PieChart
+                    data={dataCardsZeroExcluded}
+                    radius={35}
+                    lineWidth={20}
+                    rounded={true}
+                    paddingAngle={dataCardsZeroExcluded.length === 1 ? 0 : 20}
+                    animate={true}
+                    animationDuration={500}
+                    label={({ dataEntry }) => dataEntry.value}
+                    labelStyle={(i) => ({
+                      fill: dataCardsZeroExcluded[i].color,
+                      fontSize: '1.2rem',
+                    })}
+                    labelPosition={60}
+                  />
+                ) : (
+                  '0'
+                )}
               </div>
             </div>
           </CSSTransition>
@@ -301,7 +401,7 @@ const MyAccount = (props) => {
             unmountOnExit
           >
             <div className="data-flashcard-content">
-              <div className="data-flashcard-header">Studysessions</div>
+              <div className="data-flashcard-header">Completed Sessions</div>
               <div className="data-flashcard-chart">{input.length}</div>
             </div>
           </CSSTransition>
@@ -317,9 +417,9 @@ const MyAccount = (props) => {
               <div className="data-flashcard-header">Avg. Time</div>
               <div className="data-flashcard-chart">
                 <div>
-                  {isNaN(calculateAverageTime(input)) ||
-                    calculateAverageTime(input)}
-                  s
+                  {isNaN(calculateAverageTime(input))
+                    ? '-'
+                    : calculateAverageTime(input) + 's'}
                 </div>
               </div>
             </div>

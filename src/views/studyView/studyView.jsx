@@ -25,7 +25,7 @@ function Study(props) {
     deckName,
     deckId,
     isDemoUser,
-    demoStudysessionList,
+
     setDemoStudysessionList,
   } = props;
 
@@ -128,6 +128,7 @@ function Study(props) {
     totalTime: timerSeconds,
     user: isDemoUser ? 'demoUser' : userContext.details._id,
     deck: deckId,
+    timestamp: Math.floor(Date.now() / 1000),
   };
 
   const submitSession = async () => {

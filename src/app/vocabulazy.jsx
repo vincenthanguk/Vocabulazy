@@ -18,15 +18,76 @@ function Vocabulazy() {
   const [view, setView] = useState('myAccountView');
   const [deckList, setDeckList] = useState([]);
   const [demoStudysessionList, setDemoStudysessionList] = useState([
-    {
-      id: 'asd',
-      totalCards: 15,
-      correctCards: 15,
-      wrongCards: 0,
-      totalTime: 6,
-      user: 'u1',
-      deck: 'd1',
-    },
+    // {
+    //   id: 'asd',
+    //   totalCards: 15,
+    //   correctCards: 15,
+    //   wrongCards: 0,
+    //   totalTime: 6,
+    //   user: 'u1',
+    //   deck: 'd1',
+    //   timestamp: 1429546789,
+    // },
+    // {
+    //   id: 'bsd',
+    //   totalCards: 15,
+    //   correctCards: 11,
+    //   wrongCards: 4,
+    //   totalTime: 6,
+    //   user: 'u1',
+    //   deck: 'd1',
+    //   timestamp: 1529546789,
+    // },
+    // {
+    //   id: 'csd',
+    //   totalCards: 13,
+    //   correctCards: 10,
+    //   wrongCards: 3,
+    //   totalTime: 6,
+    //   user: 'u1',
+    //   deck: 'd2',
+    //   timestamp: 1629546789,
+    // },
+    // {
+    //   id: 'dsd',
+    //   totalCards: 13,
+    //   correctCards: 6,
+    //   wrongCards: 7,
+    //   totalTime: 6,
+    //   user: 'u1',
+    //   deck: 'd2',
+    //   timestamp: 1729546789,
+    // },
+    // {
+    //   id: 'esd',
+    //   totalCards: 13,
+    //   correctCards: 1,
+    //   wrongCards: 12,
+    //   totalTime: 6,
+    //   user: 'u1',
+    //   deck: 'd2',
+    //   timestamp: 1829546789,
+    // },
+    // {
+    //   id: 'fsd',
+    //   totalCards: 21,
+    //   correctCards: 20,
+    //   wrongCards: 1,
+    //   totalTime: 6,
+    //   user: 'u1',
+    //   deck: 'd3',
+    //   timestamp: 1929546789,
+    // },
+    // {
+    //   id: 'gsd',
+    //   totalCards: 21,
+    //   correctCards: 21,
+    //   wrongCards: 0,
+    //   totalTime: 6,
+    //   user: 'u1',
+    //   deck: 'd3',
+    //   timestamp: 2029546789,
+    // },
   ]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -217,7 +278,7 @@ function Vocabulazy() {
         <MyAccountView
           setView={setView}
           onToggleAccountPage={handleToggleAccountPage}
-          deckData={deckList}
+          deckList={deckList}
           handleFlash={handleFlash}
           isDemoUser={isDemoUser}
           demoStudysessionList={demoStudysessionList}

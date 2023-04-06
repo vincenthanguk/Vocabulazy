@@ -20,6 +20,7 @@ const MyAccount = (props) => {
 
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [avatarIsHovered, setAvatarIsHovered] = useState(false);
   const [studysessions, setStudysessions] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -307,10 +308,18 @@ const MyAccount = (props) => {
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
         <div className="profile-picture">
-          <div className="camera-btn">
+          <div
+            className={`camera-btn${avatarIsHovered ? '' : ' hidden'}`}
+            onMouseEnter={() => setAvatarIsHovered(true)}
+            onMouseLeave={() => setAvatarIsHovered(false)}
+          >
             <FontAwesomeIcon icon={faCamera} />
           </div>
-          <div className="account-view avatar-container">
+          <div
+            className="account-view avatar-container"
+            onMouseEnter={() => setAvatarIsHovered(true)}
+            onMouseLeave={() => setAvatarIsHovered(false)}
+          >
             <img
               src={process.env.PUBLIC_URL + '/images/avatar.png'}
               className="account-view avatar-img"

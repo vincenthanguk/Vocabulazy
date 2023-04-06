@@ -118,5 +118,7 @@ h1 {
 }
 
 .hidden {
+  opacity: 0;
   visibility: hidden;
+  transition: opacity 400ms, visibility 400ms;
 }

@@ -26,6 +26,13 @@
   border: 3px solid var(--color-tertiary);
   border-radius: 25%;
   font-size: 2.2rem;
+  opacity: 1;
+  visibility: visible;
+  transition: all 100ms ease-in;
+}
+
+.camera-btn:hover:not(disabled) {
+  cursor: pointer;
 }
 
 .account-view-header {

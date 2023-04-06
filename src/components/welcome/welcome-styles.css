@@ -17,7 +17,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border: 1px solid var(--color-light-gray);
+  border: 1px solid var(--color-contrast-primary);
   border-radius: inherit;
   pointer-events: none;
   z-index: 1;

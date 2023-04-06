@@ -232,92 +232,99 @@ const MyAccount = (props) => {
           {convertDateString(userContext.details.createdAt)}
         </div>
       </div>
-      <div className="data-flashcard-container">
-        <CSSTransition
-          in={isLoaded}
-          classNames="fade-one"
-          timeout={400}
-          unmountOnExit
-        >
-          <div className="data-one data-flashcard">
-            <div className="data-flashcard-header">Decks studied</div>
-            <div className="data-flashcard-chart">
-              <PieChart
-                data={excludeZeroValueData(dataMockDecks)}
-                radius={35}
-                lineWidth={20}
-                rounded={true}
-                paddingAngle={20}
-                animate={true}
-                animationDuration={500}
-                label={({ dataEntry }) => dataEntry.value}
-                labelStyle={(i) => ({
-                  fill: dataMockDecks[i].color,
-                  fontSize: '1.2rem',
-                })}
-                labelPosition={60}
-                // viewBoxSize={[100, 100]}
-              />
+      <div className="data-flashcards-container">
+        <div className="data-flashcard data-one">
+          <CSSTransition
+            in={isLoaded}
+            classNames="fade-one"
+            timeout={400}
+            unmountOnExit
+          >
+            <div className="data-flashcard-content">
+              <div className="data-flashcard-header">Decks studied</div>
+              <div className="data-flashcard-chart">
+                <PieChart
+                  data={excludeZeroValueData(dataMockDecks)}
+                  radius={35}
+                  lineWidth={20}
+                  rounded={true}
+                  paddingAngle={20}
+                  animate={true}
+                  animationDuration={500}
+                  label={({ dataEntry }) => dataEntry.value}
+                  labelStyle={(i) => ({
+                    fill: dataMockDecks[i].color,
+                    fontSize: '1.2rem',
+                  })}
+                  labelPosition={60}
+                  // viewBoxSize={[100, 100]}
+                />
+              </div>
+              <div className="data-flashcard-footer"></div>
             </div>
-            <div className="data-flashcard-footer"></div>
-          </div>
-        </CSSTransition>
-
-        <CSSTransition
-          in={isLoaded}
-          classNames="fade-two"
-          timeout={800}
-          unmountOnExit
-        >
-          <div className="data-two data-flashcard">
-            <div className="data-flashcard-header">Cards studied</div>
-            <div className="data-flashcard-chart">
-              <PieChart
-                data={excludeZeroValueData(dataMockCards)}
-                radius={35}
-                lineWidth={20}
-                rounded={true}
-                paddingAngle={20}
-                animate={true}
-                animationDuration={500}
-                label={({ dataEntry }) => dataEntry.value}
-                labelStyle={(i) => ({
-                  fill: dataMockCards[i].color,
-                  fontSize: '1.2rem',
-                })}
-                labelPosition={60}
-              />
-            </div>
-          </div>
-        </CSSTransition>
-        <CSSTransition
-          in={isLoaded}
-          classNames="fade-three"
-          timeout={1200}
-          unmountOnExit
-        >
-          <div className="data-three data-flashcard">
-            <div className="data-flashcard-header">Studysessions</div>
-            <div className="data-flashcard-chart">{input.length}</div>
-          </div>
-        </CSSTransition>
-        <CSSTransition
-          in={isLoaded}
-          classNames="fade-four"
-          timeout={1600}
-          unmountOnExit
-        >
-          <div className="data-four data-flashcard">
-            <div className="data-flashcard-header">Avg. Time</div>
-            <div className="data-flashcard-chart">
-              <div>
-                {isNaN(calculateAverageTime(input)) ||
-                  calculateAverageTime(input)}
-                s
+          </CSSTransition>
+        </div>
+        <div className="data-flashcard data-two">
+          <CSSTransition
+            in={isLoaded}
+            classNames="fade-two"
+            timeout={1000}
+            unmountOnExit
+          >
+            <div className="data-flashcard-content">
+              <div className="data-flashcard-header">Cards studied</div>
+              <div className="data-flashcard-chart">
+                <PieChart
+                  data={excludeZeroValueData(dataMockCards)}
+                  radius={35}
+                  lineWidth={20}
+                  rounded={true}
+                  paddingAngle={20}
+                  animate={true}
+                  animationDuration={500}
+                  label={({ dataEntry }) => dataEntry.value}
+                  labelStyle={(i) => ({
+                    fill: dataMockCards[i].color,
+                    fontSize: '1.2rem',
+                  })}
+                  labelPosition={60}
+                />
               </div>
             </div>
-          </div>
-        </CSSTransition>
+          </CSSTransition>
+        </div>
+        <div className="data-flashcard data-three">
+          <CSSTransition
+            in={isLoaded}
+            classNames="fade-three"
+            timeout={1600}
+            unmountOnExit
+          >
+            <div className="data-flashcard-content">
+              <div className="data-flashcard-header">Studysessions</div>
+              <div className="data-flashcard-chart">{input.length}</div>
+            </div>
+          </CSSTransition>
+        </div>
+        <div className="data-flashcard data-four">
+          <CSSTransition
+            in={isLoaded}
+            classNames="fade-four"
+            timeout={2200}
+            unmountOnExit
+          >
+            <div className="data-flashcard-content">
+              <div className="data-flashcard-header">Avg. Time</div>
+              <div className="data-flashcard-chart">
+                <div>
+                  {isNaN(calculateAverageTime(input)) ||
+                    calculateAverageTime(input)}
+                  s
+                </div>
+              </div>
+            </div>
+          </CSSTransition>
+        </div>
       </div>
       {/* </div>
       </div> */}

@@ -84,7 +84,7 @@ function MainView(props) {
           <Welcome className="Welcome" setView={setView} />
         </div>
       ) : null}
-      <div className="darkmode-container">
+      <div className="hamburger-container">
         <FontAwesomeIcon icon={faBars} />
       </div>
     </div>

@@ -1,9 +1,10 @@
 import { React, useState, useContext, useCallback, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { PieChart } from 'react-minimal-pie-chart';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 import './myAccountView-styles.css';
 
@@ -20,6 +21,15 @@ const MyAccount = (props) => {
   const [userContext, setUserContext] = useContext(UserContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [studysessions, setStudysessions] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+
+    return () => {
+      setIsLoaded(false);
+    };
+  }, []);
 
   /*
   // load statistic data when component mounts
@@ -175,16 +185,34 @@ const MyAccount = (props) => {
   // dynamic input for demo mode
   const input = studysessions.length > 0 ? studysessions : demoStudysessionList;
 
-  const dataMock = [
-    { title: 'One', value: 10, color: '#E38627' },
-    { title: 'Two', value: 15, color: '#C13C37' },
-    { title: 'Three', value: 20, color: '#6A2135' },
+  const dataMockDecks = [
+    { title: 'decksStudied', value: 1, color: '#25a244' },
+    { title: 'totalDecks', value: 5, color: '#7d7e965d' },
+    { title: 'totalDecks', value: 0, color: '#7d7e965d' },
+    { title: 'totalDecks', value: -1, color: '#7d7e965d' },
   ];
+
+  const dataMockCards = [
+    { title: 'correctCards', value: 42, color: '#25a244' },
+    { title: 'totalCards', value: 3, color: '#7d7e965d' },
+    { title: 'wrongCards', value: 0, color: '#dc2f02' },
+  ];
+
+  const excludeZeroValueData = (data) => {
+    const filteredData = data.filter((entry) => entry.value > 0);
+    return filteredData;
+  };
 
   return (
     <div className="account-view-container">
       {/* <button onClick={toggleAccountPage}>X</button> */}
       <div className="account-view-header">
+        <button
+          className="return-btn"
+          onClick={() => setView(() => 'mainView')}
+        >
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
         <div className="profile-picture">
           <div className="camera-btn">
             <FontAwesomeIcon icon={faCamera} />
@@ -204,40 +232,95 @@ const MyAccount = (props) => {
           {convertDateString(userContext.details.createdAt)}
         </div>
       </div>
-      <div className="user-stats">
-        <div className="top-stats top-stats-decks">Decks</div>
-        <div className="bottom-stats bottom-stats-decks">{deckData.length}</div>
-        <div className="top-stats top-stats-cards">Cards</div>
-        <div className="bottom-stats bottom-stats-cards">
-          {calculateTotalCards(deckData)}
-        </div>
-        <div className="top-stats top-stats-sessions">Sessions</div>
-        <div className="bottom-stats bottom-stats-sessions">{input.length}</div>
-        <div className="top-stats top-stats-time">Avg. Time</div>
-        <div className="bottom-stats bottom-stats-time">
-          {isNaN(calculateAverageTime(input)) || calculateAverageTime(input)}s
-        </div>
+      <div className="data-flashcard-container">
+        <CSSTransition
+          in={isLoaded}
+          classNames="fade-one"
+          timeout={400}
+          unmountOnExit
+        >
+          <div className="data-one data-flashcard">
+            <div className="data-flashcard-header">Decks studied</div>
+            <div className="data-flashcard-chart">
+              <PieChart
+                data={excludeZeroValueData(dataMockDecks)}
+                radius={35}
+                lineWidth={20}
+                rounded={true}
+                paddingAngle={20}
+                animate={true}
+                animationDuration={500}
+                label={({ dataEntry }) => dataEntry.value}
+                labelStyle={(i) => ({
+                  fill: dataMockDecks[i].color,
+                  fontSize: '1.2rem',
+                })}
+                labelPosition={60}
+                // viewBoxSize={[100, 100]}
+              />
+            </div>
+            <div className="data-flashcard-footer"></div>
+          </div>
+        </CSSTransition>
+
+        <CSSTransition
+          in={isLoaded}
+          classNames="fade-two"
+          timeout={800}
+          unmountOnExit
+        >
+          <div className="data-two data-flashcard">
+            <div className="data-flashcard-header">Cards studied</div>
+            <div className="data-flashcard-chart">
+              <PieChart
+                data={excludeZeroValueData(dataMockCards)}
+                radius={35}
+                lineWidth={20}
+                rounded={true}
+                paddingAngle={20}
+                animate={true}
+                animationDuration={500}
+                label={({ dataEntry }) => dataEntry.value}
+                labelStyle={(i) => ({
+                  fill: dataMockCards[i].color,
+                  fontSize: '1.2rem',
+                })}
+                labelPosition={60}
+              />
+            </div>
+          </div>
+        </CSSTransition>
+        <CSSTransition
+          in={isLoaded}
+          classNames="fade-three"
+          timeout={1200}
+          unmountOnExit
+        >
+          <div className="data-three data-flashcard">
+            <div className="data-flashcard-header">Studysessions</div>
+            <div className="data-flashcard-chart">{input.length}</div>
+          </div>
+        </CSSTransition>
+        <CSSTransition
+          in={isLoaded}
+          classNames="fade-four"
+          timeout={1600}
+          unmountOnExit
+        >
+          <div className="data-four data-flashcard">
+            <div className="data-flashcard-header">Avg. Time</div>
+            <div className="data-flashcard-chart">
+              <div>
+                {isNaN(calculateAverageTime(input)) ||
+                  calculateAverageTime(input)}
+                s
+              </div>
+            </div>
+          </div>
+        </CSSTransition>
       </div>
-      <div className="user-chart">
-        <PieChart
-          data={dataMock}
-          radius={30}
-          lineWidth={20}
-          rounded={true}
-          label={({ dataEntry }) => dataEntry.value}
-          labelStyle={(i) => ({
-            fill: dataMock[i].color,
-            fontSize: '1rem',
-          })}
-          labelPosition={60}
-        />
-      </div>
-      <button
-        className="button button-small"
-        onClick={() => setView(() => 'mainView')}
-      >
-        Back
-      </button>
+      {/* </div>
+      </div> */}
       <button className="button button-small" onClick={handleResetStatistics}>
         Reset
       </button>

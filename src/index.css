@@ -127,9 +127,9 @@ button:disabled:hover {
   letter-spacing: 0.05rem;
   padding: 0;
   text-align: center;
-  transition: font-size 0.1s ease-out;
+  transition: all 0.1s ease-out;
 }
-
+/* 
 .button-small:hover:not(:disabled) {
-  font-size: 1.5rem;
-}
+  transform: scale(1.01);
+} */

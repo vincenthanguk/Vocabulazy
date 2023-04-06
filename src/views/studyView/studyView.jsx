@@ -14,7 +14,6 @@ import {
   faChevronLeft,
   faStopwatch,
   faLayerGroup,
-  faBan,
 } from '@fortawesome/free-solid-svg-icons';
 
 import './studyView-styles.css';

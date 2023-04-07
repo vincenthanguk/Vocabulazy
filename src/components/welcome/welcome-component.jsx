@@ -1,10 +1,12 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
+import DropdownMenu from '../../components/dropdownMenu/dropdownMenu-component';
+
 import './welcome-styles.css';
 
 const Welcome = (props) => {
-  const { toggleDropdownMenu } = props;
+  const { dropdownIsOpen, setDropdownIsOpen, setView } = props;
 
   const [userContext, setUserContext] = useContext(UserContext);
 
@@ -48,13 +50,15 @@ const Welcome = (props) => {
   return !userContext.details ? (
     'Loading user details...'
   ) : (
-    <img
-      src={process.env.PUBLIC_URL + '/images/avatar.png'}
-      className="avatar-img img-small"
-      alt="user-avatar"
-      onClick={() => toggleDropdownMenu()}
-      role="button"
-    />
+    <>
+      <img
+        src={process.env.PUBLIC_URL + '/images/avatar.png'}
+        className="avatar-img img-small"
+        alt="user-avatar"
+        onMouseEnter={() => setDropdownIsOpen(true)}
+        role="button"
+      />
+    </>
   );
 };
 

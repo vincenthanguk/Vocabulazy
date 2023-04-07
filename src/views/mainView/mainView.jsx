@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Welcome from '../../components/welcome/welcome-component';
 import Deck from '../../components/deck/deck-component';
 import EditDeckForm from '../../components/editDeckForm/editDeckForm-component';
-import DropdownMenu from '../../components/dropdownMenu/dropdownMenu-component';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 import './mainView-styles.css';
 
@@ -17,12 +14,12 @@ import {
   handleEditCard,
   handleDeleteCard,
 } from '../../utils/handlers.js';
+import DropdownMenu from '../../components/dropdownMenu/dropdownMenu-component';
 
 function MainView(props) {
   const {
     setView,
     isLoading,
-    onToggleAccountPage,
     isDemoUser,
     fetchData,
     handleFlash,
@@ -35,9 +32,20 @@ function MainView(props) {
   const [editingDeckIndex, setEditingDeckIndex] = useState(null);
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
-  const toggleDropdownMenu = () => {
-    setDropdownIsOpen(!dropdownIsOpen);
-  };
+  useEffect(() => {
+    function handleKeyDown(e) {
+      // press escape to go close dropdown
+      if (e.keyCode === 27) {
+        setDropdownIsOpen(false);
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // handles click events on decks, either editing an existing deck, canceling the new deck, or adding a new deck
   const handleDeckEditClick = (i) => {
@@ -87,23 +95,33 @@ function MainView(props) {
     <div className="heading-container">
       <div className="heading-subheading">Let's be Vocabulazy today</div>
       <div className="heading-username">
-        Hi {userContext.details.firstName}!
+        Hi, {userContext.details.firstName}!
       </div>
       {userContext.token ? (
-        <div className="avatar-container-small">
-          <Welcome
-            className="Welcome"
-            toggleDropdownMenu={toggleDropdownMenu}
-          />
+        <div
+          className="avatar-hover-container"
+          onMouseLeave={() => setDropdownIsOpen(false)}
+        >
+          <div className="avatar-container-small">
+            <Welcome
+              className="Welcome"
+              dropdownIsOpen={dropdownIsOpen}
+              setDropdownIsOpen={setDropdownIsOpen}
+            />
+          </div>
         </div>
       ) : null}
-      <button className="hamburger-container" aria-label="Menu">
+      {/* <button className="hamburger-container" aria-label="Menu">
         <FontAwesomeIcon icon={faBars} />
-      </button>
+      </button> */}
     </div>
   );
 
-  const loading = <div aria-live="polite">Loading Decks...</div>;
+  const loading = (
+    <div className="loading" aria-live="polite">
+      Loading Decks...
+    </div>
+  );
 
   const noDecks = <div>Try adding your first deck!</div>;
 
@@ -156,10 +174,14 @@ function MainView(props) {
 
   return (
     <div className="MainView">
+      <DropdownMenu
+        setDropdownIsOpen={setDropdownIsOpen}
+        isOpen={dropdownIsOpen}
+        setView={setView}
+      />
       <div className="header-main" role="banner">
         {heading}
       </div>
-      <DropdownMenu isOpen={dropdownIsOpen} />
       {isLoading ? (
         <div role="status" aria-live="polite">
           {loading}

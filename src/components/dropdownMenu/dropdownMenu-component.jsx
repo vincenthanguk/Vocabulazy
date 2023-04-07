@@ -1,28 +1,48 @@
 import React from 'react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faUser,
+  faMoon,
+  faQuestionCircle,
+  faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons';
+
 import './dropdownMenu-styles.css';
 
 const DropdownMenu = (props) => {
-  const { isOpen } = props;
+  const { setDropdownIsOpen, isOpen, setView } = props;
 
   return (
     <>
       {isOpen && (
-        <div className="dropdown">
-          <ul className="dropdown-menu">
-            <li>
-              <a href="#option1">Profile</a>
-            </li>
-            <li>
-              <a href="#option2">Dark Mode</a>
-            </li>
-            <li>
-              <a href="#option3">About</a>
-            </li>
-            <li>
-              <a href="#option3">Log Out</a>
-            </li>
-          </ul>
+        <div
+          className="dropdown"
+          onMouseEnter={() => setDropdownIsOpen(true)}
+          onMouseLeave={() => setDropdownIsOpen(false)}
+        >
+          <button
+            className="dropdown-btn top-btn"
+            onClick={() => setView('myAccountView')}
+          >
+            <FontAwesomeIcon className="dropdown-icon" icon={faUser} />
+            <div className="dropdown-description">Profile</div>
+          </button>
+          <button className="dropdown-btn divider-horizontal">
+            <FontAwesomeIcon className="dropdown-icon" icon={faMoon} />
+            <div className="dropdown-description">Dark Mode</div>
+          </button>
+          <button className="dropdown-btn divider-horizontal">
+            <FontAwesomeIcon
+              className="dropdown-icon"
+              icon={faQuestionCircle}
+            />
+            <div className="dropdown-description">About</div>
+          </button>
+          <button className="dropdown-btn bottom-btn">
+            <FontAwesomeIcon className="dropdown-icon" icon={faSignOutAlt} />
+            <div className="dropdown-description">Log Out</div>
+          </button>
         </div>
       )}
     </>

@@ -23,6 +23,11 @@
   z-index: 1;
 }
 
+.avatar-dropdown {
+  position: relative;
+  width: min-content;
+}
+
 .avatar-img {
   transition: all 0.3s ease-in-out;
   width: 4rem;

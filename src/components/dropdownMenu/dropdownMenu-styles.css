@@ -1,16 +1,59 @@
 .dropdown {
   position: absolute;
-  top: 6rem;
+  top: 6.5rem;
   right: 1.6rem;
-  background-color: var(--color-gray);
-  font-size: 4rem;
-  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--color-tertiary);
   width: 16rem;
-  height: 16rem;
+  height: 20rem;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.25);
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1.2rem 2rem 11.6rem 1.2rem;
   border-radius: 16px;
+  border: 1px solid var(--color-gray);
   z-index: 2;
+}
+
+.dropdown-btn {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 4rem 1fr;
+  font-size: 1.6rem;
+  color: var(--color-primary-dark);
+  background: none;
+  outline: none;
+  border: none;
+  height: 100%;
+  width: 100%;
+}
+
+.dropdown-btn:hover:not(disabled) {
+  background-color: var(--color-gray);
+  cursor: pointer;
+}
+
+.top-btn {
+  border-radius: 16px 16px 0 0;
+}
+
+.bottom-btn {
+  border-radius: 0 0 16px 16px;
+}
+
+.dropdown-icon {
+  grid-row: 1;
+  grid-column: 1/2;
+  align-self: center;
+  justify-self: center;
+}
+
+.dropdown-description {
+  grid-row: 1;
+  grid-column: 2/3;
+  align-self: center;
+  justify-self: start;
+}
+
+.divider-horizontal {
+  border-bottom: 1px solid var(--color-gray);
 }

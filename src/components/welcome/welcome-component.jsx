@@ -4,9 +4,9 @@ import { UserContext } from '../../context/UserContext';
 import './welcome-styles.css';
 
 const Welcome = (props) => {
-  const [userContext, setUserContext] = useContext(UserContext);
+  const { toggleDropdownMenu } = props;
 
-  const { setView } = props;
+  const [userContext, setUserContext] = useContext(UserContext);
 
   const fetchUserDetails = useCallback(() => {
     fetch(process.env.REACT_APP_API_ENDPOINT + 'users/me', {
@@ -48,22 +48,14 @@ const Welcome = (props) => {
   return !userContext.details ? (
     'Loading user details...'
   ) : (
-    // <div className="avatar-container-small">
     <img
       src={process.env.PUBLIC_URL + '/images/avatar.png'}
       className="avatar-img img-small"
       alt="user-avatar"
-      onClick={() => setView(() => 'myAccountView')}
+      onClick={() => toggleDropdownMenu()}
       role="button"
     />
-    // </div>
   );
 };
 
 export default Welcome;
-
-// <div className="heading-welcome">
-//   <button className="button" onClick={toggle}>
-//     {userContext.details.firstName}
-//   </button>
-// </div>;

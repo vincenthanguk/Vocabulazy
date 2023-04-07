@@ -1,0 +1,16 @@
+.dropdown {
+  position: absolute;
+  top: 6rem;
+  right: 1.6rem;
+  background-color: var(--color-gray);
+  font-size: 4rem;
+  font-weight: 600;
+  width: 16rem;
+  height: 16rem;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.25);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.2rem 2rem 11.6rem 1.2rem;
+  border-radius: 16px;
+  z-index: 2;
+}

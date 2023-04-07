@@ -334,7 +334,7 @@ const MyAccount = (props) => {
         </div>
       </div>
       <div className="data-flashcards-container">
-        <div className="data-flashcard data-one">
+        <div className="data-one">
           <CSSTransition
             in={isLoaded}
             classNames="fade-one"
@@ -368,7 +368,7 @@ const MyAccount = (props) => {
             </div>
           </CSSTransition>
         </div>
-        <div className="data-flashcard data-two">
+        <div className="data-two">
           <CSSTransition
             in={isLoaded}
             classNames="fade-two"
@@ -401,7 +401,7 @@ const MyAccount = (props) => {
             </div>
           </CSSTransition>
         </div>
-        <div className="data-flashcard data-three">
+        <div className="data-three">
           <CSSTransition
             in={isLoaded}
             classNames="fade-three"

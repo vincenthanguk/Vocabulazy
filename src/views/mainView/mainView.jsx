@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 import Welcome from '../../components/welcome/welcome-component';
 import Deck from '../../components/deck/deck-component';
 import EditDeckForm from '../../components/editDeckForm/editDeckForm-component';
+import DropdownMenu from '../../components/dropdownMenu/dropdownMenu-component';
 
-import './mainView-styles.css';
+import { CSSTransition } from 'react-transition-group';
 
 import {
   handleAddDeck,
@@ -14,7 +15,8 @@ import {
   handleEditCard,
   handleDeleteCard,
 } from '../../utils/handlers.js';
-import DropdownMenu from '../../components/dropdownMenu/dropdownMenu-component';
+
+import './mainView-styles.css';
 
 function MainView(props) {
   const {
@@ -174,11 +176,18 @@ function MainView(props) {
 
   return (
     <div className="MainView">
-      <DropdownMenu
-        setDropdownIsOpen={setDropdownIsOpen}
-        isOpen={dropdownIsOpen}
-        setView={setView}
-      />
+      <CSSTransition
+        in={dropdownIsOpen}
+        classNames="dropdown-fade"
+        timeout={300}
+        unmountOnExit
+      >
+        <DropdownMenu
+          setDropdownIsOpen={setDropdownIsOpen}
+          isOpen={dropdownIsOpen}
+          setView={setView}
+        />
+      </CSSTransition>
       <div className="header-main" role="banner">
         {heading}
       </div>

@@ -36,6 +36,6 @@
 
 .img-small:hover:not(:disabled) {
   cursor: pointer;
-  filter: brightness(1.1);
-  -webkit-filter: brightness(1.1);
+  /* filter: brightness(1.1);
+  -webkit-filter: brightness(1.1); */
 }

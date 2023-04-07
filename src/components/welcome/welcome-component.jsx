@@ -1,12 +1,10 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
-import DropdownMenu from '../../components/dropdownMenu/dropdownMenu-component';
-
 import './welcome-styles.css';
 
 const Welcome = (props) => {
-  const { dropdownIsOpen, setDropdownIsOpen, setView } = props;
+  const { setDropdownIsOpen } = props;
 
   const [userContext, setUserContext] = useContext(UserContext);
 

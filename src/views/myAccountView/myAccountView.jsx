@@ -1,7 +1,7 @@
 import { React, useState, useContext, useCallback, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { PieChart } from 'react-minimal-pie-chart';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faChevronLeft } from '@fortawesome/free-solid-svg-icons';

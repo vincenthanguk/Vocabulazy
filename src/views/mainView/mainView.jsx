@@ -4,6 +4,7 @@ import Welcome from '../../components/welcome/welcome-component';
 import Deck from '../../components/deck/deck-component';
 import EditDeckForm from '../../components/editDeckForm/editDeckForm-component';
 import DropdownMenu from '../../components/dropdownMenu/dropdownMenu-component';
+import LoadingSpinner from '../../components/loadingSpinner/loadingSpinner-component';
 
 import { CSSTransition } from 'react-transition-group';
 
@@ -119,12 +120,6 @@ function MainView(props) {
     </div>
   );
 
-  const loading = (
-    <div className="loading" aria-live="polite">
-      Loading Decks...
-    </div>
-  );
-
   const noDecks = <div>Try adding your first deck!</div>;
 
   const deckContainers = deckList.map((deck, i) => {
@@ -193,7 +188,9 @@ function MainView(props) {
       </div>
       {isLoading ? (
         <div role="status" aria-live="polite">
-          {loading}
+          <div className="loading">
+            <LoadingSpinner />
+          </div>
         </div>
       ) : (
         <div role="main">{mainContainer}</div>

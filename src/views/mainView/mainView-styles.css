@@ -12,10 +12,11 @@
 }
 
 .loading {
-  height: 100%;
-  width: 100%;
-  min-width: var(--width-app-min-width);
-  max-width: var(--width-app-max-width);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--width-app-max-width);
+  height: var(--width-app-max-width);
 }
 
 /* .header-main {

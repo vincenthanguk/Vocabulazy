@@ -28,18 +28,18 @@ const DropdownMenu = (props) => {
             <FontAwesomeIcon className="dropdown-icon" icon={faUser} />
             <div className="dropdown-description">Profile</div>
           </button>
-          <button className="dropdown-btn divider-horizontal">
+          <button className="dropdown-btn divider-horizontal" disabled>
             <FontAwesomeIcon className="dropdown-icon" icon={faMoon} />
             <div className="dropdown-description">Dark Mode</div>
           </button>
-          <button className="dropdown-btn divider-horizontal">
+          <button className="dropdown-btn divider-horizontal" disabled>
             <FontAwesomeIcon
               className="dropdown-icon"
               icon={faQuestionCircle}
             />
             <div className="dropdown-description">About</div>
           </button>
-          <button className="dropdown-btn bottom-btn">
+          <button className="dropdown-btn bottom-btn" disabled>
             <FontAwesomeIcon className="dropdown-icon" icon={faSignOutAlt} />
             <div className="dropdown-description">Log Out</div>
           </button>

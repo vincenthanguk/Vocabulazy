@@ -35,9 +35,13 @@
   width: 100%;
 }
 
-.dropdown-btn:hover:not(disabled) {
+.dropdown-btn:hover:not([disabled]) {
   background-color: var(--color-gray);
   cursor: pointer;
+}
+
+.dropdown-btn:disabled {
+  background-color: var(--color-gray);
 }
 
 .top-btn {

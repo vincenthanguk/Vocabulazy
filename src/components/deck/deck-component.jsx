@@ -211,7 +211,7 @@ function Deck(props) {
           {editingCardIndex === 'addNewCard' || addCardBtn}
         </ul>
       )}
-      <div>
+      <div className="deck-footer">
         <button
           onClick={toggleCardsVisibility}
           className={`button button-small show-card-btn${

@@ -11,13 +11,13 @@
 }
 
 .study-card-front {
-  background-color: var(--color-tertiary);
-  color: var(--color-primary-dark);
+  background-color: var(--color-flashcard-front-bg);
+  color: var(--color-flashcard-front);
 }
 
 .study-card-back {
-  background-color: var(--color-primary-dark);
-  color: var(--color-tertiary);
+  background-color: var(--color-flashcard-back-bg);
+  color: var(--color-flashcard-back);
 }
 
 .fade-enter {

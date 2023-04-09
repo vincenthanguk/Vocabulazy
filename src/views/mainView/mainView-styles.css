@@ -3,7 +3,7 @@
 }
 
 .main-container {
-  background-color: white;
+  background-color: var(--color-background-color);
   color: rgb(20, 20, 20);
   width: 100%;
   border-radius: 0 0 16px 16px;

@@ -98,7 +98,8 @@
 .studyFlashcard-finished {
   font-size: 5rem;
   font-weight: 800;
-  color: var(--color-primary-dark);
+  background-color: var(--color-flashcard-front-bg);
+  color: var(--color-flashcard-front);
   width: 30rem;
   height: 30rem;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.25);

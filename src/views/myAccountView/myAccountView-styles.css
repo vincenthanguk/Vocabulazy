@@ -37,7 +37,7 @@
 
 .account-view-header {
   position: relative;
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-primary-dark-account-view);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -170,6 +170,7 @@
   grid-template-columns: 1fr;
   grid-template-rows: 1.2rem 2rem 11.6rem 1.2rem;
   border-radius: 16px;
+  background-color: var(--color-tertiary);
 }
 
 .data-flashcard-header {

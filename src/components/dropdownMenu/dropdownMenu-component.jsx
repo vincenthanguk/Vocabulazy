@@ -1,4 +1,6 @@
 import React from 'react';
+import { toggleDarkMode } from '../../store/themeActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -13,6 +15,27 @@ import './dropdownMenu-styles.css';
 
 const DropdownMenu = (props) => {
   const { setDropdownIsOpen, isOpen, setView } = props;
+
+  const darkMode = useSelector((state) => state.darkMode);
+  const dispatch = useDispatch();
+
+  const handleToggleDarkMode = () => {
+    dispatch(toggleDarkMode());
+  };
+
+  const lightModeButton = (
+    <>
+      <FontAwesomeIcon className="dropdown-icon" icon={faSun} />
+      <div className="dropdown-description">Light Mode</div>
+    </>
+  );
+
+  const darkModeButton = (
+    <>
+      <FontAwesomeIcon className="dropdown-icon" icon={faMoon} />
+      <div className="dropdown-description">Dark Mode</div>
+    </>
+  );
 
   return (
     <>
@@ -29,9 +52,11 @@ const DropdownMenu = (props) => {
             <FontAwesomeIcon className="dropdown-icon" icon={faUser} />
             <div className="dropdown-description">Profile</div>
           </button>
-          <button className="dropdown-btn divider-horizontal" disabled>
-            <FontAwesomeIcon className="dropdown-icon" icon={faMoon} />
-            <div className="dropdown-description">Dark Mode</div>
+          <button
+            className="dropdown-btn divider-horizontal"
+            onClick={handleToggleDarkMode}
+          >
+            {darkMode ? lightModeButton : darkModeButton}
           </button>
           <button className="dropdown-btn divider-horizontal" disabled>
             <FontAwesomeIcon

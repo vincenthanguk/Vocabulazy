@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { toggleDarkMode } from '../../store/themeActions';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Welcome from '../../components/welcome/welcome-component';
 import Deck from '../../components/deck/deck-component';
@@ -38,14 +37,9 @@ function MainView(props) {
   } = props;
 
   const [editingDeckIndex, setEditingDeckIndex] = useState(null);
-  const [dropdownIsOpen, setDropdownIsOpen] = useState(true);
+  const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
   const darkMode = useSelector((state) => state.darkMode);
-  const dispatch = useDispatch();
-
-  const handleToggleDarkMode = () => {
-    dispatch(toggleDarkMode());
-  };
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -208,7 +202,7 @@ function MainView(props) {
         <div role="main">{mainContainer}</div>
       )}
       {!userContext.token && 'No User Token'}
-      <div id="darkmode">
+      {/* <div id="darkmode">
         <input
           type="checkbox"
           className="checkbox"
@@ -220,7 +214,7 @@ function MainView(props) {
           <FontAwesomeIcon icon={faSun} />
           <div className="ball"></div>
         </label>
-      </div>
+      </div> */}
     </div>
   );
 }

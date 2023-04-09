@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700;800&family=Roboto+Mono:wght@400;600&family=Ubuntu+Mono:wght@700&display=swap');
 
 :root {
+  /* light theme */
+  --color-background-color-root: #fff;
+  --color-background-color: #fff;
+
   --color-primary: #4e73e0;
   --color-primary-shade: #678dfd;
   --color-primary-darkish: #273a70;
@@ -20,6 +24,23 @@
 
   --width-app-min-width: 35rem;
   --width-app-max-width: 50rem;
+}
+
+[data-theme='dark'] {
+  /* dark theme */
+  --color-background-color-root: #000;
+  --color-background-color: #252525;
+
+  --color-primary: #273a70;
+  --color-primary-shade: #1f2e5a;
+  --color-primary-darkish: #2f2f2f;
+  --color-primary-dark: #1f1f1f;
+
+  --color-secondary: #a4bbfe;
+  --color-tertiary: #3f3f3f;
+  --color-contrast-primary: #fd8e39;
+  --color-contrast-secondary: #f3722c;
+  --color-contrast-tertiary: #fdf3f1;
 }
 
 * {
@@ -42,7 +63,7 @@ body {
   align-items: center;
   justify-content: center;
   overflow: auto;
-  background-color: white;
+  background-color: var(--color-background-color-root);
 }
 
 h1 {

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { toggleDarkMode } from '../../store/themeActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Welcome from '../../components/welcome/welcome-component';
 import Deck from '../../components/deck/deck-component';
@@ -7,6 +9,9 @@ import DropdownMenu from '../../components/dropdownMenu/dropdownMenu-component';
 import LoadingSpinner from '../../components/loadingSpinner/loadingSpinner-component';
 
 import { CSSTransition } from 'react-transition-group';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
 import {
   handleAddDeck,
@@ -33,7 +38,14 @@ function MainView(props) {
   } = props;
 
   const [editingDeckIndex, setEditingDeckIndex] = useState(null);
-  const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
+  const [dropdownIsOpen, setDropdownIsOpen] = useState(true);
+
+  const darkMode = useSelector((state) => state.darkMode);
+  const dispatch = useDispatch();
+
+  const handleToggleDarkMode = () => {
+    dispatch(toggleDarkMode());
+  };
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -170,7 +182,7 @@ function MainView(props) {
   );
 
   return (
-    <div className="MainView">
+    <div className={`MainView${darkMode ? ' dark' : ''}`}>
       <CSSTransition
         in={dropdownIsOpen}
         classNames="dropdown-fade"
@@ -196,6 +208,19 @@ function MainView(props) {
         <div role="main">{mainContainer}</div>
       )}
       {!userContext.token && 'No User Token'}
+      <div id="darkmode">
+        <input
+          type="checkbox"
+          className="checkbox"
+          id="checkbox"
+          onClick={handleToggleDarkMode}
+        />
+        <label htmlFor="checkbox" className="label">
+          <FontAwesomeIcon icon={faMoon} />
+          <FontAwesomeIcon icon={faSun} />
+          <div className="ball"></div>
+        </label>
+      </div>
     </div>
   );
 }

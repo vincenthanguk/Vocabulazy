@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { UserContext } from '../context/UserContext';
 
 import StudyView from '../views/studyView/studyView';
@@ -17,78 +18,7 @@ function Vocabulazy() {
   const [userContext, setUserContext, toggleDemoMode] = useContext(UserContext);
   const [view, setView] = useState('mainView');
   const [deckList, setDeckList] = useState([]);
-  const [demoStudysessionList, setDemoStudysessionList] = useState([
-    // {
-    //   id: 'asd',
-    //   totalCards: 15,
-    //   correctCards: 15,
-    //   wrongCards: 0,
-    //   totalTime: 6,
-    //   user: 'u1',
-    //   deck: 'd1',
-    //   timestamp: 1429546789,
-    // },
-    // {
-    //   id: 'bsd',
-    //   totalCards: 15,
-    //   correctCards: 11,
-    //   wrongCards: 4,
-    //   totalTime: 6,
-    //   user: 'u1',
-    //   deck: 'd1',
-    //   timestamp: 1529546789,
-    // },
-    // {
-    //   id: 'csd',
-    //   totalCards: 13,
-    //   correctCards: 10,
-    //   wrongCards: 3,
-    //   totalTime: 6,
-    //   user: 'u1',
-    //   deck: 'd2',
-    //   timestamp: 1629546789,
-    // },
-    // {
-    //   id: 'dsd',
-    //   totalCards: 13,
-    //   correctCards: 6,
-    //   wrongCards: 7,
-    //   totalTime: 6,
-    //   user: 'u1',
-    //   deck: 'd2',
-    //   timestamp: 1729546789,
-    // },
-    // {
-    //   id: 'esd',
-    //   totalCards: 13,
-    //   correctCards: 1,
-    //   wrongCards: 12,
-    //   totalTime: 6,
-    //   user: 'u1',
-    //   deck: 'd2',
-    //   timestamp: 1829546789,
-    // },
-    // {
-    //   id: 'fsd',
-    //   totalCards: 21,
-    //   correctCards: 20,
-    //   wrongCards: 1,
-    //   totalTime: 6,
-    //   user: 'u1',
-    //   deck: 'd3',
-    //   timestamp: 1929546789,
-    // },
-    // {
-    //   id: 'gsd',
-    //   totalCards: 21,
-    //   correctCards: 21,
-    //   wrongCards: 0,
-    //   totalTime: 6,
-    //   user: 'u1',
-    //   deck: 'd3',
-    //   timestamp: 2029546789,
-    // },
-  ]);
+  const [demoStudysessionList, setDemoStudysessionList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [isDemoUser, setIsDemoUser] = useState(false);
@@ -98,9 +28,19 @@ function Vocabulazy() {
   const [isShowingAccountPage, setIsShowingAccountPage] = useState(false);
   const [flash, setFlash] = useState({ message: '', style: '' });
 
+  const darkMode = useSelector((state) => state.darkMode);
+
   // -------------- USER VERIFICATION + DATA FETCHING --------------
 
   const verifyUser = useVerifyUser(userContext, setUserContext);
+
+  // update css data theme
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      'data-theme',
+      darkMode ? 'dark' : 'light'
+    );
+  }, [darkMode]);
 
   useEffect(() => {
     if (userContext.username !== 'demoUser') {
@@ -292,7 +232,9 @@ function Vocabulazy() {
       break;
   }
 
-  return <div className="Vocabulazy">{activeView}</div>;
+  return (
+    <div className={`Vocabulazy${darkMode ? ' dark' : ''}`}>{activeView}</div>
+  );
 }
 
 export default Vocabulazy;

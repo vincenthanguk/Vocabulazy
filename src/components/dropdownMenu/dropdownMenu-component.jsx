@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUser,
   faMoon,
+  faSun,
   faQuestionCircle,
   faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';

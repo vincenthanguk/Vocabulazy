@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
+import { useSelector } from 'react-redux';
 
 import './deck-styles.css';
 
@@ -39,6 +40,8 @@ function Deck(props) {
   const [cardsVisible, setCardsVisible] = useState(false);
   const [editingCardIndex, setEditingCardIndex] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+
+  const darkMode = useSelector((state) => state.darkMode);
 
   useEffect(() => {
     console.log('inside cardsVisible useEffect', cardsVisible);
@@ -160,7 +163,11 @@ function Deck(props) {
   );
 
   const deckContainer = (
-    <div className={`deck-container${isHovered ? ' highlight' : ''}`}>
+    <div
+      className={`deck-container${isHovered ? ' highlight' : ''}${
+        darkMode ? ' dark' : ''
+      }`}
+    >
       <div
         className="deck-header"
         onMouseEnter={(e) => {

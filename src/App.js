@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Vocabulazy from './app/vocabulazy.jsx';
 
 function App() {

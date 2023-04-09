@@ -16,9 +16,12 @@
     "react-card-flip": "^1.2.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.8.0",
     "react-minimal-pie-chart": "^8.4.0",
+    "react-redux": "^8.0.5",
     "react-scripts": "4.0.3",
     "react-transition-group": "^4.4.5",
+    "redux": "^4.2.1",
     "uuid": "^8.3.2",
     "web-vitals": "^1.1.1"
   },

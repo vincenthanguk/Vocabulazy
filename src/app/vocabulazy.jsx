@@ -2,11 +2,12 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { UserContext } from '../context/UserContext';
 
-import StudyView from '../views/studyView/studyView';
 import FlashMessage from '../components/flashMessage/flashMessage-component';
+import StudyView from '../views/studyView/studyView';
 import LoginView from '../views/loginView/loginView';
 import MainView from '../views/mainView/mainView';
 import MyAccountView from '../views/myAccountView/myAccountView';
+import AboutView from '../views/aboutView/aboutView';
 
 import mockData from '../data/mockData.json';
 
@@ -94,7 +95,6 @@ function Vocabulazy() {
           const result = await fetchMockData('decks');
           const deckData = await result.json();
           setDeckList(deckData);
-          console.log(deckData);
         } else {
           console.log('fetching api data');
           const result = await fetch(
@@ -225,6 +225,10 @@ function Vocabulazy() {
           setDemoStudysessionList={setDemoStudysessionList}
         />
       );
+      break;
+
+    case 'aboutView':
+      activeView = <AboutView setView={setView} />;
       break;
 
     default:

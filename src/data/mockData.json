@@ -26,6 +26,27 @@
           "cardBack": "House",
           "deck": "d1",
           "user": "u1"
+        },
+        {
+          "_id": "c4",
+          "cardFront": "Auto",
+          "cardBack": "Car",
+          "deck": "d1",
+          "user": "u1"
+        },
+        {
+          "_id": "c5",
+          "cardFront": "Baum",
+          "cardBack": "Tree",
+          "deck": "d1",
+          "user": "u1"
+        },
+        {
+          "_id": "c6",
+          "cardFront": "Blume",
+          "cardBack": "Flower",
+          "deck": "d1",
+          "user": "u1"
         }
       ]
     },
@@ -46,6 +67,62 @@
           "_id": "c17",
           "cardFront": "감사합니다",
           "cardBack": "Thank you",
+          "deck": "d2",
+          "user": "u1"
+        },
+        {
+          "_id": "c18",
+          "cardFront": "실례합니다",
+          "cardBack": "Excuse me",
+          "deck": "d2",
+          "user": "u1"
+        },
+        {
+          "_id": "c19",
+          "cardFront": "네",
+          "cardBack": "Yes",
+          "deck": "d2",
+          "user": "u1"
+        },
+        {
+          "_id": "c20",
+          "cardFront": "아니요",
+          "cardBack": "No",
+          "deck": "d2",
+          "user": "u1"
+        },
+        {
+          "_id": "c21",
+          "cardFront": "좋아요",
+          "cardBack": "I like it",
+          "deck": "d2",
+          "user": "u1"
+        },
+        {
+          "_id": "c22",
+          "cardFront": "미안합니다",
+          "cardBack": "I'm sorry",
+          "deck": "d2",
+          "user": "u1"
+        },
+        {
+          "_id": "c23",
+          "cardFront": "화장실",
+          "cardBack": "Bathroom",
+          "deck": "d2",
+          "user": "u1"
+        },
+        {
+          "_id": "c24",
+          "cardFront": "친구",
+          "cardBack": "Friend",
+          "deck": "d2",
+          "user": "u1"
+        },
+        {
+          "_id": "c25",
+          "cardFront": "가게",
+          "cardBack": "Store",
           "deck": "d2",
           "user": "u1"
         }
@@ -82,6 +159,41 @@
           "_id": "c34",
           "cardFront": "对不起",
           "cardBack": "I'm sorry",
+          "deck": "d3",
+          "user": "u1"
+        },
+        {
+          "_id": "c35",
+          "cardFront": "再见",
+          "cardBack": "Goodbye",
+          "deck": "d3",
+          "user": "u1"
+        },
+        {
+          "_id": "c36",
+          "cardFront": "是",
+          "cardBack": "Yes",
+          "deck": "d3",
+          "user": "u1"
+        },
+        {
+          "_id": "c37",
+          "cardFront": "不是",
+          "cardBack": "No",
+          "deck": "d3",
+          "user": "u1"
+        },
+        {
+          "_id": "c38",
+          "cardFront": "洗手间",
+          "cardBack": "Bathroom",
+          "deck": "d3",
+          "user": "u1"
+        },
+        {
+          "_id": "c39",
+          "cardFront": "朋友",
+          "cardBack": "Friend",
           "deck": "d3",
           "user": "u1"
         }

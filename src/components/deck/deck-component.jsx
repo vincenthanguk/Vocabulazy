@@ -44,7 +44,6 @@ function Deck(props) {
   const darkMode = useSelector((state) => state.darkMode);
 
   useEffect(() => {
-    console.log('inside cardsVisible useEffect', cardsVisible);
     function handleKeyDown(e) {
       if (e.key === 'Escape' && !editingCardIndex && editingCardIndex !== 0) {
         console.log('escape pressed', editingCardIndex);
@@ -56,7 +55,6 @@ function Deck(props) {
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      console.log('cardsVisible useEffect removed');
     };
   }, [cardsVisible, editingCardIndex]);
 
@@ -91,7 +89,6 @@ function Deck(props) {
 
   // handles click events on flashcards, either editing an existing card, canceling the new card, or adding a new card.
   const handleEditClick = (i) => {
-    console.log('inside handleEditClic', i);
     if (editingCardIndex === i) {
       setEditingCardIndex(null);
     } else if (editingCardIndex === 'addNewCard ' && i === 'addNewCard') {

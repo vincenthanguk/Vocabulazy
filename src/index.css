@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700;800&family=Roboto+Mono:wght@400;600&family=Ubuntu+Mono:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;600&family=Ubuntu+Mono:wght@700&display=swap');
 
 :root {
   /* light theme */
@@ -26,8 +26,9 @@
   --color-gray: #dedede81;
   --color-light-gray: #f0f0f0f6;
   --color-dark-gray: #adaed1;
-  --color-text-primary: black;
-  --color-text-secondary: black;
+  --color-text-primary: rgb(42, 41, 41);
+  --color-text-secondary: rgb(68, 68, 68);
+  --color-text-tertiary: rgb(139, 139, 139);
 
   --width-app-min-width: 35rem;
   --width-app-max-width: 50rem;
@@ -60,6 +61,8 @@
   --color-contrast-primary: #db7b32;
   --color-contrast-secondary: #f3722c;
   --color-contrast-tertiary: #eededb;
+
+  --color-text-secondary: rgb(214, 214, 214);
 }
 
 * {

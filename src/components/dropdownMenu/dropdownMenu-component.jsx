@@ -58,7 +58,10 @@ const DropdownMenu = (props) => {
           >
             {darkMode ? lightModeButton : darkModeButton}
           </button>
-          <button className="dropdown-btn divider-horizontal" disabled>
+          <button
+            className="dropdown-btn divider-horizontal"
+            onClick={() => setView('aboutView')}
+          >
             <FontAwesomeIcon
               className="dropdown-icon"
               icon={faQuestionCircle}

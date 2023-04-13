@@ -42,7 +42,6 @@ function EditCardForm(props) {
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === 'Escape') {
-        console.log('escape pressed');
         const button = document.querySelector('.form-btn.form-cancel-edit-btn');
         if (button) {
           button.click();

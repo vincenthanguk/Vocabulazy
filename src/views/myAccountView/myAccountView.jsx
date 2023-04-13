@@ -55,18 +55,23 @@ const MyAccount = (props) => {
   }, [fetchStudysessionData]);
 */
   useEffect(() => {
-    function handleEscapePress(e) {
-      if (e.key === 'Escape') {
-        // setView('mainView');
+    function handleKeyDown(e) {
+      // press escape to go back to main
+      if (e.keyCode === 27) {
+        const buttonBack = document.querySelector('.return-btn');
+
+        if (buttonBack) {
+          buttonBack.click();
+        }
       }
     }
 
-    document.addEventListener('keydown', handleEscapePress);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', handleEscapePress);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [setView]);
+  }, []);
 
   const calculateTotalCards = (decks) => {
     let cardSum = 0;

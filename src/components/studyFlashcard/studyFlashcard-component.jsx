@@ -19,9 +19,6 @@ function StudyFlashcard(props) {
     }
   }
 
-  if (front)
-    console.log('front: ', front.length, calculateFontSize(front.length));
-
   const flashcardFront = (
     <div
       style={{ fontSize: front && calculateFontSize(front.length) }}

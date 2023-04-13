@@ -11,7 +11,6 @@ function ProgressBar(props) {
    */
 
   useEffect(() => {
-    console.log('inside progressbar useEffect', current, total);
     if (current === 0) {
       setWidth('0%');
     } else {

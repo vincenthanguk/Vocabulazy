@@ -29,10 +29,8 @@ function EditDeckForm(props) {
   }, [isAddingDeck]);
 
   useEffect(() => {
-    console.log('inside isAddingDeck useEffect', isAddingDeck);
     function handleKeyDown(e) {
       if (e.key === 'Escape') {
-        console.log('escape pressed');
         const button = document.querySelector(
           '.button.button-small.new-deck-btn.show-card-btn'
         );
@@ -46,7 +44,6 @@ function EditDeckForm(props) {
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      console.log('isAddingDeck useEffect removed');
     };
   }, [isAddingDeck]);
 
@@ -63,8 +60,6 @@ function EditDeckForm(props) {
         setIsSubmitting(true);
         if (isDemoUser) {
           const user = userContext._id;
-          console.log('demoUser saving deck');
-          console.log(userContext);
           onAddDeck(user, deckName);
           setDeckName('');
         } else {
@@ -96,12 +91,10 @@ function EditDeckForm(props) {
     } else {
       // 2) edit deck
       try {
-        console.log('editing deck submit');
         e.preventDefault();
         setIsSubmitting(true);
         // edit deck in local state in demo mode
         if (isDemoUser) {
-          console.log('editing deck submit');
           onEditDeck(deckId, deckName);
         } else {
           // make  APIpost request

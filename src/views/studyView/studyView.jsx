@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -58,9 +58,6 @@ function Study(props) {
 
   useEffect(() => {
     if (studyDeck.length === 0) {
-      console.log(`Total Cards Studied: ${correct.length} + ${wrong.length}`);
-      console.log(`Total Time Elapsed: ${timerSeconds}`);
-      console.log('deactivating timer');
       setTimerIsActive(false);
       submitSession();
       return;
@@ -68,6 +65,8 @@ function Study(props) {
       return;
     }
   }, [studyDeck]);
+
+  const isSpaceDisabled = useRef(false);
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -84,9 +83,15 @@ function Study(props) {
 
       // press space to show card back, choose correct or reset deck
       if (e.keyCode === 32) {
+        // check if space key is currently disabled
+        if (isSpaceDisabled.current) {
+          return;
+        }
+
         const buttonShow = document.querySelector('.button-show');
         const buttonCorrect = document.querySelector('.button-correct');
         const buttonReset = document.querySelector('.button-reset');
+
         if (buttonShow) {
           buttonShow.click();
         }
@@ -96,6 +101,14 @@ function Study(props) {
         if (buttonReset) {
           buttonReset.click();
         }
+
+        // disable space key
+        isSpaceDisabled.current = true;
+
+        // enable space key again after timeout
+        setTimeout(() => {
+          isSpaceDisabled.current = false;
+        }, 400);
       }
       // handle 'x' press for wrong answer
       if (e.keyCode === 88) {

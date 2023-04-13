@@ -9,9 +9,6 @@ import LoadingSpinner from '../../components/loadingSpinner/loadingSpinner-compo
 
 import { CSSTransition } from 'react-transition-group';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
-
 import {
   handleAddDeck,
   handleDeleteDeck,
